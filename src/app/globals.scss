@@ -1,0 +1,13 @@
+@use '../styles/main' as *;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  @include flex-center;
+  @include container;
+  background: $palette-1;
+  color: $writing-white;
+
+}

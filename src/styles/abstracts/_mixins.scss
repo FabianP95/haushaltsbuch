@@ -1,0 +1,13 @@
+@use './variables' as *;
+
+@mixin flex-center($direction: column) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: $direction;
+}
+
+@mixin container {
+    max-width: $container-max;
+    margin: $margin-wrapper;
+}
