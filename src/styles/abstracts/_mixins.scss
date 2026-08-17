@@ -11,3 +11,7 @@
     max-width: $container-max;
     margin: $margin-wrapper;
 }
+
+@mixin align-at-side($side: null) {
+    align-self: $side;
+}

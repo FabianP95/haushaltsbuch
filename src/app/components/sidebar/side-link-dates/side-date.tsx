@@ -1,7 +1,13 @@
+import { Dates } from "@/app/interfaces/interfaces";
 
-
-export default function SideDate() {
+export default function SideDate(props: Dates) {
   return (
-    <li></li>
+    <section>
+      <h3>{props.title}</h3>
+      <ul>
+        <li></li>
+
+      </ul>
+    </section>
   );
 }

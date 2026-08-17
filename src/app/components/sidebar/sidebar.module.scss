@@ -1,0 +1,7 @@
+@use '../../../styles/main' as *;
+
+.aside {
+    @include align-at-side(flex-start);
+    background-color: $palette-4;
+    flex: 1; 
+}

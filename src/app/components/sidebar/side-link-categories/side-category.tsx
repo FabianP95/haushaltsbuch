@@ -1,7 +1,10 @@
+import { Categories } from "@/app/interfaces/interfaces";
 
-
-export default function SideCategory() {
+export default function SideCategory(props:Categories) {
   return (
-    <li></li>
+    <section>
+      <h3>{props.title}</h3>
+      <ul></ul>
+    </section>
   );
 }
