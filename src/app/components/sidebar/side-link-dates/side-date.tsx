@@ -1,12 +1,18 @@
 import { Dates } from "@/app/interfaces/interfaces";
 
-export default function SideDate(props: Dates) {
+//type any for testing
+export default function SideDate(props: any) {
+  const items = props.year || props.month || [];
+
   return (
+
     <section>
       <h3>{props.title}</h3>
       <ul>
-        <li></li>
+        {items.map((item: any, index: any) => (
 
+          <li key={index}>{item}</li>
+        ))}
       </ul>
     </section>
   );

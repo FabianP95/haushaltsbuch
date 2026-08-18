@@ -2,6 +2,9 @@
 
 .aside {
     @include align-at-side(flex-start);
+    @include flex-center();
     background-color: $palette-4;
-    flex: 1; 
+    flex: 1;
+    padding: 20px;
+
 }
