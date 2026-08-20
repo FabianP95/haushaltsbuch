@@ -1,6 +1,6 @@
 export type TransactionType = 'Ausgabe' | 'Einnahme';
 
-export type RecurrenceInterval = 'monatlich' | 'jeden zweiten Monat' | 'quartalsweise' | 'järhlich';
+export type RecurrenceInterval = 'monatlich' | 'jeden zweiten Monat' | 'quartalsweise' | 'jährlich';
 
 // Eingabetyp fürs Anlegen einer Transaktion (ohne generierte Felder)
 export type NewTransaction = Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>;
