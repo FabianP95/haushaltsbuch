@@ -1,0 +1,64 @@
+@use '../../../../styles/main' as *;
+
+.groupCard {
+  background-color: white;
+  border-radius: 2px;
+  border: 1px solid black;
+  box-shadow: transparent;
+  overflow: hidden;
+}
+
+.groupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background-color: #fafafa;
+  border-bottom: 1px solid black;
+  border-left: 5px solid #4a90d9; // Wird dynamisch via inline style überschrieben
+}
+
+.groupTitleInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.groupIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+}
+
+.groupName {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: black;
+}
+
+.groupCount {
+  font-size: 0.8rem;
+  color: grey;
+}
+
+.groupTotal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.groupTotalLabel {
+  font-size: 0.75rem;
+  color: grey;
+}
+
+.groupTotalAmount {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: black;
+}

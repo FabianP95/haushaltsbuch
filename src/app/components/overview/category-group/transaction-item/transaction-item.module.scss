@@ -1,0 +1,72 @@
+@use '../../../../../styles/main' as *;
+
+.transactionItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid black;
+  transition: background-color 0.15s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.itemLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.itemMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.itemTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.itemDescription {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: black;
+}
+
+.itemDetails {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.itemDate {
+  font-size: 0.8rem;
+  color: grey;
+}
+
+.recurringBadge {
+  font-size: 0.75rem;
+  color: #2b6cb0;
+  background-color: #ebf8ff;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.itemRight {
+  display: flex;
+  align-items: center;
+}
+
+.itemAmount {
+  font-weight: 700;
+  font-size: 1rem;
+  color: red;
+}

@@ -5,16 +5,13 @@ export type RecurrenceInterval = 'monatlich' | 'jeden zweiten Monat' | 'quartals
 // Eingabetyp fürs Anlegen einer Transaktion (ohne generierte Felder)
 export type NewTransaction = Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>;
 
-export type NewCategory = Omit<Category, 'id' | 'isDefault' | 'createdAt'>;
+
 
 export interface Category {
     id: string;
     name: string;
-    icon?: string; // Emoji oder Icon-Key fürs UI
-    color?: string; // Hex-Farbe für Diagramme/Badges
-    isDefault: boolean; // true = Grundstock-Kategorie, vom System angelegt
-    parentId?: string; // optionale Ober-/Unterkategorie-Beziehung
-    createdAt: string;
+    icon: string; 
+    color: string; 
 }
 
 export interface Transaction {
@@ -54,7 +51,6 @@ export interface ForecastEntry {
 export interface Categories {
     title: string
     category?: string
-
 }
 
 export interface Dates {
@@ -63,4 +59,31 @@ export interface Dates {
     month?: string
 }
 
+export interface ExpenseOverviewProps {
+    categories?: Category[];
+    transactions?: Transaction[];
+}
+
+
+export interface TransactionItemProps {
+    transaction: Transaction;
+    categoryMap: Map<string, Category>;
+}
+
+export interface CategoryGroup {
+  category: Category;
+  transactions: Transaction[];
+  totalAmount: number;
+}
+
+export interface CategoryFilterBarProps {
+    categories: Category[];
+    selectedCategoryId: string;
+    onSelectCategory: (id: string) => void;
+}
+
+export interface CategoryGroupCardProps {
+    group: CategoryGroup;
+    categoryMap: Map<string, Category>;
+}
 

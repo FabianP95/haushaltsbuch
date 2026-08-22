@@ -1,0 +1,111 @@
+@use '../../../../styles/main' as *;
+
+
+.header {
+    @include flex-center(row);
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background-color: $palette-1;
+    padding: 1.25rem 1.5rem;
+    border-radius: $radius-m;
+}
+
+.heading {
+    min-width: 150px;
+}
+
+.title {
+    margin: 0;
+    font-size: $text-size-bg;
+    font-weight: 700;
+    color: $writing-white;
+}
+
+.subtitle {
+    margin: 0.25rem 0 0 0;
+    font-size: $text-size-m;
+    color: $writing-white;
+}
+
+.totalBadge {
+    @include flex-center();
+    width: fit-content;
+    min-width: 150px;
+    align-items: flex-start;
+
+    padding: 0.5rem 1rem;
+    border-radius: $radius-m;
+}
+
+.totalLabel {
+    font-size: $text-size-m;
+    letter-spacing: 0.5px;
+    color: $writing-white;
+    font-weight: 600;
+}
+
+.totalAmount {
+    font-size: $text-size-l;
+    font-weight: 400;
+    font-family: $font-text;
+    color: $writing-black;
+}
+
+.totalLabelIncome {
+    font-size: $text-size-m;
+    letter-spacing: 0.5px;
+    color: $writing-white;
+    font-weight: 600;
+}
+
+.totalAmountIncome {
+    font-size: $text-size-l;
+    font-weight: 400;
+    font-family: $font-text;
+    color: $writing-white;
+}
+
+.totalLabelExpense {
+    font-size: $text-size-m;
+    letter-spacing: 0.5px;
+    color: $writing-white;
+    font-weight: 600;
+}
+
+.totalAmountExpense {
+    font-size: $text-size-l;
+    font-weight: 400;
+    font-family: $font-number;
+    color: $writing-black;
+}
+
+.negativeContainer {
+    outline: 2px solid $failed;
+    background: linear-gradient(135deg, #802e27 0%, #581e19 100%);
+}
+
+.positiveContainer {
+    outline: 2px solid $success;
+    background: linear-gradient(135deg, #2d563e 0%, #1e3e2c 100%);
+}
+
+.incomeContainer {
+    outline: 2px solid $success;
+    background: linear-gradient(135deg, #2d563e 0%, #1e3e2c 100%);
+}
+
+.expenseContainer {
+    outline: 2px solid $failed;
+    background: linear-gradient(135deg, #802e27 0%, #581e19 100%);
+}
+
+
+.negative {
+    color: $failed;
+}
+
+
+.positive {
+    color: $success;
+}

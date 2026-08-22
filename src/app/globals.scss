@@ -5,9 +5,8 @@
 }
 
 body {
-  @include flex-center;
   @include container;
   background: $palette-1;
-  color: $writing-white;
   min-height: 100vh;
+  font-family: $font-text;
 }

@@ -4,7 +4,9 @@
     @include align-at-side(flex-start);
     @include flex-center();
     background-color: $palette-4;
-    flex: 1;
+    min-width: fit-content;
     padding: 20px;
+    height: 100vh;
+    justify-content: start;
 
 }

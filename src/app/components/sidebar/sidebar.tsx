@@ -1,6 +1,5 @@
 'use client';
 import SideDate from "./side-link-dates/side-date";
-import SideCategory from "./side-link-categories/side-category";
 import styles from './sidebar.module.scss';
 
 export default function Sidebar() {
@@ -25,7 +24,7 @@ export default function Sidebar() {
                 month={timeVar.months}
             />
 
-            <SideCategory timeVar={timeVar} />
+           
         </aside>
     )
 }

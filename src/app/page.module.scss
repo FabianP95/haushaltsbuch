@@ -1,0 +1,10 @@
+@use '../styles/main' as *;
+
+.container {
+    @include flex-center(row);
+}
+
+.mainView {
+    width: 100%;
+    flex: 1;
+}
