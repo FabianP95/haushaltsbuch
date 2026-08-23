@@ -1,6 +1,7 @@
 @use '../../../../styles/main' as *;
 
 
+
 .header {
     @include flex-center(row);
     justify-content: space-between;
@@ -33,39 +34,12 @@
     width: fit-content;
     min-width: 150px;
     align-items: flex-start;
-
     padding: 0.5rem 1rem;
     border-radius: $radius-m;
 }
 
-.totalLabel {
-    font-size: $text-size-m;
-    letter-spacing: 0.5px;
-    color: $writing-white;
-    font-weight: 600;
-}
-
-.totalAmount {
-    font-size: $text-size-l;
-    font-weight: 400;
-    font-family: $font-text;
-    color: $writing-black;
-}
-
-.totalLabelIncome {
-    font-size: $text-size-m;
-    letter-spacing: 0.5px;
-    color: $writing-white;
-    font-weight: 600;
-}
-
-.totalAmountIncome {
-    font-size: $text-size-l;
-    font-weight: 400;
-    font-family: $font-text;
-    color: $writing-white;
-}
-
+.totalLabel,
+.totalLabelIncome,
 .totalLabelExpense {
     font-size: $text-size-m;
     letter-spacing: 0.5px;
@@ -73,39 +47,48 @@
     font-weight: 600;
 }
 
+.totalAmount,
+.totalAmountIncome,
 .totalAmountExpense {
     font-size: $text-size-l;
     font-weight: 400;
     font-family: $font-number;
-    color: $writing-black;
 }
 
+// dynamisch: Gesamt wechselt je nach Vorzeichen
 .negativeContainer {
-    outline: 2px solid $failed;
+    outline: 2px solid $failed-border;
     background: linear-gradient(135deg, #802e27 0%, #581e19 100%);
 }
 
 .positiveContainer {
-    outline: 2px solid $success;
+    outline: 2px solid $success-border;
     background: linear-gradient(135deg, #2d563e 0%, #1e3e2c 100%);
 }
 
+.totalAmount.positive {
+    color: $success-text;
+}
+
+.totalAmount.negative {
+    color: $failed-text;
+}
+
+// statisch: Einnahmen immer grün, Ausgaben immer rot
 .incomeContainer {
-    outline: 2px solid $success;
+    outline: 2px solid $success-border;
     background: linear-gradient(135deg, #2d563e 0%, #1e3e2c 100%);
+}
+
+.totalAmountIncome {
+    color: $success-text;
 }
 
 .expenseContainer {
-    outline: 2px solid $failed;
+    outline: 2px solid $failed-border;
     background: linear-gradient(135deg, #802e27 0%, #581e19 100%);
 }
 
-
-.negative {
-    color: $failed;
-}
-
-
-.positive {
-    color: $success;
+.totalAmountExpense {
+    color: $failed-text;
 }
