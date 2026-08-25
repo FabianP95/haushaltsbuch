@@ -1,3 +1,38 @@
+# Haushaltsbuch
+
+Dieses Projekt ist die Umsetzung eines digitalen Haushaltsbuchs mit Next.js und React. Einnahmen und Ausgaben werden übersichtlich nach Kategorien dargestellt, damit der aktuelle Kontostand und die finanzielle Entwicklung schnell erfasst werden können.
+
+## Funktionen
+
+- Übersicht über Einnahmen, Ausgaben, Kontostand und Transaktionen
+- Gruppierung der Buchungen nach Kategorien
+- Filterung der Übersicht nach einzelnen Kategorien
+- Responsive Oberfläche für die tägliche Nutzung
+
+Die Anwendung verwendet derzeit Beispieldaten aus `src/app/data/testdata.ts`. Die Funktion zum Hinzufügen neuer Buchungen wird im weiteren Projektverlauf ergänzt.
+
+## Entwicklung starten
+
+Abhängigkeiten installieren:
+
+```bash
+npm install
+```
+
+Entwicklungsserver starten:
+
+```bash
+npm run dev
+```
+
+Anschließend ist die Anwendung unter [http://localhost:3000](http://localhost:3000) erreichbar.
+
+## Verfügbare Skripte
+
+- `npm run dev` startet den Entwicklungsserver.
+- `npm run build` erstellt einen Produktions-Build.
+- `npm run start` startet die Anwendung im Produktionsmodus.
+- `npm run lint` prüft den Code mit ESLint.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
