@@ -59,9 +59,17 @@ export interface Dates {
     month?: string
 }
 
+export interface FinanceSummary {
+    totalTransactions: number;
+    totalExpenseSum: number;
+    totalIncomeSum: number;
+    currentBalance: number;
+}
+
 export interface ExpenseOverviewProps {
     categories?: Category[];
     transactions?: Transaction[];
+    onSummaryChange?: (summary: FinanceSummary) => void;
 }
 
 

@@ -1,0 +1,103 @@
+@use '../../../styles/main' as *; 
+
+.addEntry {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+    max-width: 420px;
+    padding: $padding-lg;
+    background-color: $palette-1;
+    border: 1px solid $palette-2;
+    border-radius: $radius-m;
+    font-family: $font-text;
+    color: $palette-5;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    flex: 1;
+
+    label {
+        font-size: $text-size-sm;
+        color: $palette-4;
+    }
+
+    input,
+    select {
+        padding: $padding-sm;
+        background-color: $palette-2;
+        border: 1px solid $palette-3;
+        border-radius: $radius-sm;
+        color: $palette-5;
+        font-family: $font-text;
+        font-size: $text-size-m;
+
+        &:focus-visible {
+            outline: 2px solid $palette-4;
+            outline-offset: 1px;
+        }
+    }
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+
+    @media (min-width: 480px) {
+        flex-direction: row;
+    }
+}
+
+.amountWrapper {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+    background-color: $palette-2;
+    border: 1px solid $palette-3;
+    border-radius: $radius-sm;
+    padding: 0 $padding-sm;
+
+    &:focus-within {
+        outline: 2px solid $palette-4;
+        outline-offset: 1px;
+    }
+}
+
+.amountInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: $padding-sm 0;
+    font-family: $font-number;
+    font-size: $text-size-l;
+    color: $palette-5;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.currency {
+    font-family: $font-number;
+    color: $palette-4;
+}
+
+.submitButton {
+    padding: $padding-sm $padding-md;
+    background-color: $palette-3;
+    color: $writing-white;
+    border: none;
+    border-radius: $radius-sm;
+    font-family: $font-text;
+    font-size: $text-size-m;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+        background-color: $palette-4;
+        color: $palette-1;
+    }
+}

@@ -2,48 +2,39 @@
 
 .groupCard {
   background-color: white;
-  border-radius: 2px;
-  border: 1px solid black;
-  box-shadow: transparent;
-  overflow: hidden;
+  padding: $space-sm;
 }
 
 .groupHeader {
-  display: flex;
+  @include flex-center(row);
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.25rem;
-  background-color: #fafafa;
-  border-bottom: 1px solid black;
-  border-left: 5px solid #4a90d9; // Wird dynamisch via inline style überschrieben
+  padding: $space-md;
+  border-left: 4px solid ;
+  border-radius: $radius-sm;
 }
 
 .groupTitleInfo {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
+  @include flex-center(row);
+  gap: $space-md;
 }
 
 .groupIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+  @include flex-center(row);
+  @include icon-size(30,30);
   border-radius: 50%;
-  font-size: 1.2rem;
+  font-size: $text-size-l;
 }
 
 .groupName {
   margin: 0;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: black;
+  font-size: $text-size-m;
+  font-weight: bold;
+  color: $writing-black;
 }
 
 .groupCount {
-  font-size: 0.8rem;
-  color: grey;
+  font-size: $text-size-m;
+  color: $writing-muted;
 }
 
 .groupTotal {

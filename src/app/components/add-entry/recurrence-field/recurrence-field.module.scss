@@ -1,0 +1,56 @@
+@use '../../../../styles/main' as *; // Pfad anpassen
+
+.recurringSection {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+    padding-top: $space-xs;
+    border-top: 1px solid $palette-2;
+}
+
+.checkboxRow {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+    font-size: $text-size-sm;
+    color: $palette-4;
+    cursor: pointer;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+
+    @media (min-width: 480px) {
+        flex-direction: row;
+    }
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    flex: 1;
+
+    label {
+        font-size: $text-size-sm;
+        color: $palette-4;
+    }
+
+    input,
+    select {
+        padding: $padding-sm;
+        background-color: $palette-2;
+        border: 1px solid $palette-3;
+        border-radius: $radius-sm;
+        color: $palette-5;
+        font-family: $font-text;
+        font-size: $text-size-m;
+
+        &:focus-visible {
+            outline: 2px solid $palette-4;
+            outline-offset: 1px;
+        }
+    }
+}

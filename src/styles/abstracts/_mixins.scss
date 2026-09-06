@@ -15,3 +15,45 @@
 @mixin align-at-side($side: null) {
     align-self: $side;
 }
+
+@mixin shape-container($pad: $padding-sm, $mrg: $space-xs, $brd-r: $radius-sm) {
+    padding: $pad;
+    border-radius: $brd-r;
+}
+
+@mixin hover-underline($color: $palette-1, $height: $outline-sm, $duration: 0.3s) {
+    text-decoration: none;
+    background-image: linear-gradient($color, $color);
+    background-repeat: no-repeat;
+    background-size: 0% $height;
+    background-position: 0 100%;
+    transition: background-size $duration ease-in-out;
+    padding-bottom: $height;
+
+    &:hover {
+        background-size: 100% $height;
+    }
+}
+
+
+@mixin icon-size($height, $width) {
+    height: $height;
+    width: $width;
+}
+
+
+@mixin custom-scrollbar($bar-color,
+    $border-color: transparent,
+    $track-color: transparent,
+) {
+    scrollbar-color: $bar-color $track-color;
+
+    &::-webkit-scrollbar-track {
+        background-color: $track-color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $bar-color;
+
+    }
+}

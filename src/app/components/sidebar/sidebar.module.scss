@@ -3,10 +3,14 @@
 .aside {
     @include align-at-side(flex-start);
     @include flex-center();
+    @include shape-container();
     background-color: $palette-4;
     min-width: fit-content;
-    padding: 20px;
+    padding: $padding-md;
     height: 100vh;
     justify-content: start;
-
+    margin: 0;
+    gap: $space-md;
+    border-radius: 0;
+    margin-right: $space-sm;
 }

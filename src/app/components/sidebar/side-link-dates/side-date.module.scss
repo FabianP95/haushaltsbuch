@@ -1,0 +1,26 @@
+@use '../../../../styles/main' as *;
+
+.listContainer {
+
+}
+
+.listHeader {
+    margin: $space-sm;
+    text-decoration: 3px underline;
+    text-decoration-color: $palette-5;
+}
+
+
+.list {
+    @include flex-center();
+    padding: 0;
+    gap: $space-sm;
+}
+
+
+.listItem {
+    @include hover-underline($palette-5);
+    list-style: none;
+    cursor: pointer;
+    text-decoration: 1px solid $palette-1;
+}

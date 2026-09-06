@@ -1,0 +1,42 @@
+@use '../../../../styles/main' as *; // Pfad anpassen
+
+.typeToggle {
+    display: flex;
+    border: 1px solid $palette-3;
+    border-radius: $radius-sm;
+    overflow: hidden;
+}
+
+.typeOption {
+    flex: 1;
+    padding: $padding-sm $padding-md;
+    background: transparent;
+    border: none;
+    color: $palette-4;
+    font-family: $font-text;
+    font-size: $text-size-m;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+        background-color: $palette-2;
+    }
+}
+
+.typeOptionActiveExpense {
+    background-color: $failed;
+    color: $writing-white;
+
+    &:hover {
+        background-color: $failed;
+    }
+}
+
+.typeOptionActiveIncome {
+    background-color: $success;
+    color: $writing-white;
+
+    &:hover {
+        background-color: $success;
+    }
+}

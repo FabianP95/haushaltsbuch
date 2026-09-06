@@ -1,38 +1,31 @@
 @use '../../../../styles/main' as *;
 
 .filterBar {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  @include flex-center(row);
+  @include shape-container();
+  justify-content: start;
+  gap: $space-md;
   background-color: white;
-  padding: 0.85rem 1.25rem;
-  border-radius: 2px;
-  border: 1px solid black;
-  box-shadow: transparent;
+  padding: $padding-md;
+ 
+  border: 1px solid $palette-1;
+ 
 }
 
 .filterLabel {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: $text-size-m;
+  font-weight: bold;
   color: black;
   white-space: nowrap;
 }
 
 .filterSelect {
-  flex: 1;
   max-width: 320px;
+  @include shape-container();
   padding: 0.5rem 0.85rem;
-  font-size: 0.9rem;
-  border-radius: 2px;
-  border: 1px solid black;
+  font-size: $text-size-m;
+  border: 1px solid $palette-3;
   background-color: transparent;
-  color: black;
   outline: none;
   cursor: pointer;
-  transition: border-color 0.2s ease;
-
-  &:focus {
-    border-color: #4a90d9;
-    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
-  }
 }
