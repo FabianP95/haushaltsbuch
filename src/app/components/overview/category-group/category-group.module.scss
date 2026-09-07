@@ -3,24 +3,32 @@
 .groupCard {
   background-color: white;
   padding: $space-sm;
+  @include shape-container();
 }
 
 .groupHeader {
   @include flex-center(row);
   justify-content: space-between;
   padding: $space-md;
-  border-left: 4px solid ;
-  border-radius: $radius-sm;
+  border-left: 4px solid;
+  cursor: pointer;
+}
+
+.groupInfo{
+  @include flex-center(row);
+  gap: $space-lg;
 }
 
 .groupTitleInfo {
   @include flex-center(row);
   gap: $space-md;
+  min-width: 180px;
+  justify-content: start
 }
 
 .groupIcon {
   @include flex-center(row);
-  @include icon-size(30,30);
+  @include icon-size(30, 30);
   border-radius: 50%;
   font-size: $text-size-l;
 }
@@ -40,16 +48,40 @@
 .groupTotal {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 .groupTotalLabel {
-  font-size: 0.75rem;
-  color: grey;
+  font-size: $text-size-m;
+  color: $writing-muted;
 }
 
 .groupTotalAmount {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: black;
+  font-size: $text-size-m;
+  font-weight: bold;
+  color: $writing-black;
+}
+
+.chevron {
+  @include icon-size(30,30);
+  margin-left: $space-md;
+}
+
+
+
+.transactionListWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+
+  &.open {
+    grid-template-rows: 1fr;
+  }
+}
+
+.transactionList {
+  overflow: hidden;
+  margin-left: $space-lg;
+  padding-left: $space-md;
+  border-left: 2px solid $palette-4;
 }

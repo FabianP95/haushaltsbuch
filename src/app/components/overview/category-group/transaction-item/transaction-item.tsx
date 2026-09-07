@@ -7,7 +7,7 @@ export function TransactionItem({
     categoryMap,
 }: TransactionItemProps) {
     const category = categoryMap.get(transaction.categoryId);
-  
+
 
     // Datum schön formatieren (ISO YYYY-MM-DD -> DD.MM.YYYY)
     const formattedDate = new Date(transaction.date).toLocaleDateString('de-DE', {
@@ -15,6 +15,8 @@ export function TransactionItem({
         month: '2-digit',
         year: 'numeric',
     });
+
+    const isIncome = transaction.type === 'Einnahme';
 
     return (
         <article className={styles.transactionItem}>
@@ -37,7 +39,9 @@ export function TransactionItem({
             </div>
 
             <div className={styles.itemRight}>
-                <span className={styles.itemAmount}>-{formatCurrency(transaction.amount)}</span>
+                <span className={isIncome ? styles.itemAmountPositiv : styles.itemAmountNegativ}>
+                    {isIncome ? '' : '-'}{formatCurrency(transaction.amount)}
+                </span>
             </div>
         </article>
     );
