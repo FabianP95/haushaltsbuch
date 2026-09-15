@@ -1,34 +1,32 @@
-@use '../../../styles/main' as *; 
+@use '../../../styles/main' as *;
 
 .addEntry {
-    display: flex;
-    flex-direction: column;
+    @include flex-center();
+    align-items: normal;
     gap: $space-md;
     max-width: 420px;
     padding: $padding-lg;
-    background-color: $palette-1;
-    border: 1px solid $palette-2;
+    background-color: $palette-3;
     border-radius: $radius-m;
     font-family: $font-text;
-    color: $palette-5;
 }
 
 .field {
-    display: flex;
-    flex-direction: column;
+    @include flex-center();
+    align-items: normal;
     gap: $space-xs;
     flex: 1;
 
     label {
-        font-size: $text-size-sm;
-        color: $palette-4;
+        font-size: $text-size-m;
+        color: $palette-5;
     }
 
     input,
     select {
         padding: $padding-sm;
         background-color: $palette-2;
-        border: 1px solid $palette-3;
+        border: none;
         border-radius: $radius-sm;
         color: $palette-5;
         font-family: $font-text;
@@ -52,18 +50,11 @@
 }
 
 .amountWrapper {
-    display: flex;
-    align-items: center;
-    gap: $space-xs;
-    background-color: $palette-2;
-    border: 1px solid $palette-3;
+    @include flex-center(row);
+    background-color: transparent;
+    border: none;
     border-radius: $radius-sm;
-    padding: 0 $padding-sm;
-
-    &:focus-within {
-        outline: 2px solid $palette-4;
-        outline-offset: 1px;
-    }
+    gap: $space-sm;
 }
 
 .amountInput {
@@ -81,8 +72,8 @@
 }
 
 .currency {
-    font-family: $font-number;
-    color: $palette-4;
+    font-size: $text-size-l;
+    color: $palette-5;
 }
 
 .submitButton {

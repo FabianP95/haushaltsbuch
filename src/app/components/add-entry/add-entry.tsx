@@ -1,5 +1,5 @@
 "use client"
-import { useState, FormEvent } from 'react';
+import { useState, SubmitEvent } from 'react';
 import type { NewTransaction, TransactionType, RecurrenceInterval, Category } from '../../interfaces/interfaces'; 
 import { TypeToggle } from './toggle/toggle'; 
 import { RecurrenceFields } from './recurrence-field/recurrence-field'; 
@@ -21,7 +21,7 @@ export default function AddEntry() {
     const [recurrenceInterval, setRecurrenceInterval] = useState<RecurrenceInterval>('monatlich');
     const [recurrenceEndDate, setRecurrenceEndDate] = useState('');
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = (e: SubmitEvent) => {
         e.preventDefault();
 
         const parsedAmount = Number(amount);
@@ -58,8 +58,8 @@ export default function AddEntry() {
                         type="number"
                         inputMode="decimal"
                         min="0"
-                        step="0.01"
-                        placeholder="0,00"
+                        step="0.1"
+                        placeholder="0,0"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                         className={styles.amountInput}
@@ -79,7 +79,7 @@ export default function AddEntry() {
                         required
                     >
                         {testCategories.map((c:any) => (
-                            <option key={c.id} value={c.id}>{c.icon} {c.name}</option>
+                            <option key={c.id} value={c.id}>{c.name}</option>
                         ))}
                     </select>
                 </div>

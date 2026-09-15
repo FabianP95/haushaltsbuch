@@ -1,19 +1,19 @@
 @use '../../../../styles/main' as *; // Pfad anpassen
 
 .recurringSection {
-    display: flex;
-    flex-direction: column;
+    @include flex-center();
+    align-items: start;
     gap: $space-sm;
     padding-top: $space-xs;
-    border-top: 1px solid $palette-2;
+    border-top: 1px solid $palette-1;
 }
 
 .checkboxRow {
     display: flex;
     align-items: center;
     gap: $space-xs;
-    font-size: $text-size-sm;
-    color: $palette-4;
+    font-size: $text-size-m;
+     color: $palette-5;
     cursor: pointer;
 }
 
@@ -28,14 +28,13 @@
 }
 
 .field {
-    display: flex;
-    flex-direction: column;
+    @include flex-center();
+    align-items: normal;
     gap: $space-xs;
-    flex: 1;
-
+    
     label {
-        font-size: $text-size-sm;
-        color: $palette-4;
+        font-size: $text-size-m;
+        color: $palette-5;
     }
 
     input,
