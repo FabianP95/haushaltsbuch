@@ -1,14 +1,43 @@
 "use client"
 import { useState, SubmitEvent } from 'react';
-import type { NewTransaction, TransactionType, RecurrenceInterval, Category } from '../../interfaces/interfaces'; 
-import { TypeToggle } from './toggle/toggle'; 
-import { RecurrenceFields } from './recurrence-field/recurrence-field'; 
+import type { NewTransaction, TransactionType, RecurrenceInterval, Category } from '../../interfaces/interfaces';
+import { TypeToggle } from './toggle/toggle';
+import { RecurrenceFields } from './recurrence-field/recurrence-field';
+import { ErrorMessage } from './error-msg/error-msg';
 import { testCategories } from '@/app/data/testdata';
 import styles from './add-entry.module.scss';
 
-function onAdd(params:any) {
+type EntryErrors = Record<string, string>;
+
+
+function onAdd(params: any) {
     console.log(params);
-    
+
+}
+
+function checkEntry(transaction: NewTransaction): EntryErrors {
+    const errors: EntryErrors = {};
+
+    if (!transaction.amount || transaction.amount <= 0) {
+        errors.amount = 'Bitte einen gültigen Betrag angeben';
+    }
+
+    if (!transaction.categoryId) {
+        errors.categoryId = 'Bitte eine Kategorie auswählen';
+    }
+
+    if (!transaction.date) {
+        errors.date = 'Bitte ein Datum angeben';
+    }
+
+    if (
+        transaction.isRecurring != false &&
+        transaction.recurrenceEndDate &&
+        transaction.recurrenceEndDate < transaction.date
+    ) {
+        errors.recurrenceEndDate = 'Bitte ein korrektes Intervall angeben';
+    }
+    return errors;
 }
 
 export default function AddEntry() {
@@ -20,16 +49,22 @@ export default function AddEntry() {
     const [isRecurring, setIsRecurring] = useState(false);
     const [recurrenceInterval, setRecurrenceInterval] = useState<RecurrenceInterval>('monatlich');
     const [recurrenceEndDate, setRecurrenceEndDate] = useState('');
+    const [errors, setErrors] = useState<EntryErrors>({});
+
+    const clearError = (field: string) => {
+        setErrors((prev) => {
+            const next = { ...prev };
+            delete next[field];
+            return next;
+        });
+    };
 
     const handleSubmit = (e: SubmitEvent) => {
         e.preventDefault();
 
-        const parsedAmount = Number(amount);
-        if (!parsedAmount || parsedAmount <= 0 || !categoryId) return;
-
         const newTransaction: NewTransaction = {
             type,
-            amount: parsedAmount,
+            amount: Number(amount),
             categoryId,
             description: description || undefined,
             date,
@@ -38,16 +73,26 @@ export default function AddEntry() {
             recurrenceEndDate: isRecurring && recurrenceEndDate ? recurrenceEndDate : undefined,
         };
 
+
+        const validationErrors = checkEntry(newTransaction);
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        setErrors({});
         onAdd(newTransaction);
 
         setAmount('');
         setDescription('');
         setIsRecurring(false);
         setRecurrenceEndDate('');
+
     };
 
     return (
-        <form className={styles.addEntry} onSubmit={handleSubmit}>
+        <form className={styles.addEntry} onSubmit={handleSubmit} noValidate>
             <TypeToggle value={type} onChange={setType} />
 
             <div className={styles.field}>
@@ -57,16 +102,17 @@ export default function AddEntry() {
                         id="amount"
                         type="number"
                         inputMode="decimal"
-                        min="0"
-                        step="0.1"
+                        step="0.5"
                         placeholder="0,0"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                         className={styles.amountInput}
-                        required
                     />
                     <span className={styles.currency}>€</span>
                 </div>
+                {errors.amount && (
+                    <ErrorMessage key={errors.amount} text={errors.amount} onExpire={() => clearError('amount')} />
+                )}
             </div>
 
             <div className={styles.row}>
@@ -76,12 +122,15 @@ export default function AddEntry() {
                         id="category"
                         value={categoryId}
                         onChange={(e) => setCategoryId(e.target.value)}
-                        required
+
                     >
-                        {testCategories.map((c:any) => (
+                        {testCategories.map((c: any) => (
                             <option key={c.id} value={c.id}>{c.name}</option>
                         ))}
                     </select>
+                    {errors.categoryId && (
+                        <ErrorMessage key={errors.categoryId} text={errors.categoryId} onExpire={() => clearError('categoryId')} />
+                    )}
                 </div>
 
                 <div className={styles.field}>
@@ -91,10 +140,15 @@ export default function AddEntry() {
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        required
                     />
+
+                    {errors.date && (
+                        <ErrorMessage key={errors.date} text={errors.date} onExpire={() => clearError('date')} />
+                    )}
                 </div>
+
             </div>
+
 
             <div className={styles.field}>
                 <label htmlFor="description">Beschreibung (optional)</label>
@@ -117,6 +171,9 @@ export default function AddEntry() {
                 onIntervalChange={setRecurrenceInterval}
                 onEndDateChange={setRecurrenceEndDate}
             />
+            {errors.recurrenceEndDate && (
+                <ErrorMessage key={errors.recurrenceEndDate} text={errors.recurrenceEndDate} onExpire={() => clearError('recurrenceEndDate')} />
+            )}
 
             <button type="submit" className={styles.submitButton}>
                 Buchung hinzufügen

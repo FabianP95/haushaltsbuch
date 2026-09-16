@@ -40,13 +40,11 @@
 }
 
 .row {
-    display: flex;
-    flex-direction: column;
+    @include flex-center(row);
+    align-items: start;
     gap: $space-md;
 
-    @media (min-width: 480px) {
-        flex-direction: row;
-    }
+    
 }
 
 .amountWrapper {

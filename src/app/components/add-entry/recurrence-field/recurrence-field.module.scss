@@ -1,4 +1,4 @@
-@use '../../../../styles/main' as *; // Pfad anpassen
+@use '../../../../styles/main' as *; 
 
 .recurringSection {
     @include flex-center();

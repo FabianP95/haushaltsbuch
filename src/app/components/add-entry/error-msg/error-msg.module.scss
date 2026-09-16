@@ -1,0 +1,20 @@
+@use '../../../../styles/main' as *;
+
+
+.errorText {
+    width: fit-content;
+    color: $failed-text;
+}
+
+.errorTextVisible {
+    animation: fadeOutError 2s forwards;
+}
+
+@keyframes fadeOutError {
+    0%, 70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
