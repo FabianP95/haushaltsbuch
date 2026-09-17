@@ -20,11 +20,11 @@
     border: 1px solid transparent;
     border-radius: $radius-sm;
     padding: $padding-sm;
-    transition: transform 0.3s ease;
+    @include hover-scale();
 
     &:hover {
         border: 1px solid $palette-1;
-        transform: scale(1.08);
+
     }
 }
 

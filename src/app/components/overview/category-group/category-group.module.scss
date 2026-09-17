@@ -11,10 +11,9 @@
   justify-content: space-between;
   padding: $space-md;
   border-left: 4px solid;
-  cursor: pointer;
 }
 
-.groupInfo{
+.groupInfo {
   @include flex-center(row);
   gap: $space-lg;
 }
@@ -63,7 +62,7 @@
 }
 
 .chevron {
-  @include icon-size(30,30);
+  @include icon-size(30, 30);
   margin-left: $space-md;
 }
 
@@ -84,4 +83,13 @@
   margin-left: $space-lg;
   padding-left: $space-md;
   border-left: 2px solid $palette-4;
+}
+
+.addBtn {
+  @include no-style-btn();
+  @include hover-scale();
+}
+
+.btnImg {
+  @include icon-size(30,30);
 }

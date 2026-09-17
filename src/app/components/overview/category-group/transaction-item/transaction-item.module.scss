@@ -63,10 +63,20 @@
 .itemRight {
   display: flex;
   align-items: center;
+  gap: $space-sm;
 }
 
 .itemAmount {
   font-weight: 700;
   font-size: 1rem;
   color: red;
+}
+
+.workOnBtn {
+  @include no-style-btn();
+  @include hover-scale();
+}
+
+.btnImg {
+  @include icon-size(20,20);
 }

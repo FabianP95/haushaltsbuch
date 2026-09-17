@@ -42,6 +42,12 @@ export function TransactionItem({
                 <span className={isIncome ? styles.itemAmountPositiv : styles.itemAmountNegativ}>
                     {isIncome ? '' : '-'}{formatCurrency(transaction.amount)}
                 </span>
+                <button className={styles.workOnBtn} onClick={() => console.log(1)}>
+                    <img className={styles.btnImg} src="/assets/icons/edit.svg" alt="edit this entry" />
+                </button>
+                <button className={styles.workOnBtn} onClick={() => console.log(2)}>
+                    <img className={styles.btnImg} src="/assets/icons/delete.svg" alt="delete this entry" />
+                </button>
             </div>
         </article>
     );

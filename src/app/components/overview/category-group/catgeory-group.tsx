@@ -4,6 +4,11 @@ import { TransactionItem } from './transaction-item/transaction-item';
 import { formatCurrency } from '@/utils/currency';
 import styles from './category-group.module.scss';
 
+function addEntryToCategorie() {
+
+}
+
+
 export function CategoryGroupCard({
     group,
     categoryMap,
@@ -21,8 +26,8 @@ export function CategoryGroupCard({
             <div
                 className={styles.groupHeader}
                 style={{ borderLeftColor: group.category.color }}
-                onClick={() => setIsOpen((prev) => !prev)}
-                aria-expanded={isOpen}
+
+
             >
                 <div className={styles.groupInfo}>
                     <div className={styles.groupTitleInfo}>
@@ -43,11 +48,20 @@ export function CategoryGroupCard({
                         </span>
                     </div>
                 </div>
-                <img
-                    src={isOpen ? '/assets/icons/expand_up.svg' : '/assets/icons/expand_down.svg'}
-                    alt={isOpen ? 'Zuklappen' : 'Aufklappen'}
-                    className={styles.chevron}
-                />
+                <div>
+                    <button className={styles.addBtn} onClick={() => addEntryToCategorie()}>
+                        <img className={styles.btnImg} src="/assets/icons/add.svg" alt="add an entry in this category" />
+                    </button>
+                    <button className={styles.addBtn} onClick={() => setIsOpen((prev) => !prev)} aria-expanded={isOpen}>
+                        <img
+                            src={isOpen ? '/assets/icons/expand_up.svg' : '/assets/icons/expand_down.svg'}
+                            alt={isOpen ? 'Zuklappen' : 'Aufklappen'}
+                            className={styles.chevron}
+                        />
+                    </button>
+
+                </div>
+
             </div>
 
             <div className={`${styles.transactionListWrapper} ${isOpen ? styles.open : ''}`}>
