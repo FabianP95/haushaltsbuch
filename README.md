@@ -1,71 +1,79 @@
 # Haushaltsbuch
 
-Dieses Projekt ist die Umsetzung eines digitalen Haushaltsbuchs mit Next.js und React. Einnahmen und Ausgaben werden übersichtlich nach Kategorien dargestellt, damit der aktuelle Kontostand und die finanzielle Entwicklung schnell erfasst werden können.
+## Projektüberblick
 
-## Funktionen
+Ein digitales Haushaltsbuch als Webanwendung. Die Oberfläche zeigt Einnahmen und Ausgaben anhand von Kategorien und berechnet Kennzahlen wie Einnahmen, Ausgaben und Kontostand. Das Projekt basiert auf Next.js mit React, TypeScript und Sass.
 
-- Übersicht über Einnahmen, Ausgaben, Kontostand und Transaktionen
-- Gruppierung der Buchungen nach Kategorien
-- Filterung der Übersicht nach einzelnen Kategorien
-- Responsive Oberfläche für die tägliche Nutzung
+Der aktuelle Stand ist ein Frontend-Prototyp: Die Übersicht verwendet Beispieldaten aus `src/app/data/testdata.ts`. Das Formular zum Hinzufügen einer Buchung ist vorhanden und prüft Eingaben, speichert die Buchung aber noch nicht in der Übersicht oder dauerhaft. Es gibt derzeit keine erkennbare Datenbank- oder Backend-Anbindung.
 
-Die Anwendung verwendet derzeit Beispieldaten aus `src/app/data/testdata.ts`. Die Funktion zum Hinzufügen neuer Buchungen wird im weiteren Projektverlauf ergänzt.
+## Projektstruktur
 
-## Entwicklung starten
+```text
+haushaltsbuch/
+├── public/
+│   ├── assets/icons/        Öffentliche Icons und Bilddateien
+│   └── fonts/               Lokal abgelegte Schriftdateien
+├── src/
+│   ├── app/
+│   │   ├── components/      UI-Bausteine der Anwendung
+│   │   ├── data/             Beispieldaten für Kategorien und Buchungen
+│   │   ├── interfaces/       TypeScript-Datentypen und Props
+│   │   ├── styles/           SCSS-Teilstile und zentrale Stildefinitionen
+│   │   ├── globals.scss      Globale SCSS-Einstiegsdatei
+│   │   ├── layout.tsx        Root-Layout und Metadaten
+│   │   ├── page.tsx          Startseite und Zusammensetzung der Hauptansicht
+│   │   └── page.module.scss  Layout-Stile der Startseite
+│   └── utils/
+│       └── currency.ts       Hilfsfunktionen für Währungswerte
+├── package.json              Abhängigkeiten und npm-Skripte
+├── next.config.ts            Next.js-Konfiguration
+├── tsconfig.json             TypeScript-Konfiguration
+└── eslint.config.mjs         ESLint-Konfiguration
+```
 
-Abhängigkeiten installieren:
+## Wo liegt welche Funktion?
+
+- `src/app/page.tsx`: setzt Sidebar, Navbar, Buchungsübersicht und Formular zusammen; hält die zusammengefassten Finanzkennzahlen im Seitenzustand.
+- `src/app/components/overview/expense-overview.tsx`: filtert Buchungen nach Kategorie, gruppiert sie und berechnet Summen und Kontostand.
+- `src/app/components/overview/category-group/`: Darstellung einer Kategoriegruppe und einzelner Buchungen.
+- `src/app/components/overview/filterbar/`: Auswahl der anzuzeigenden Kategorie.
+- `src/app/components/navbar/`: Kopfbereich mit Kennzahlen; `overview-header/` enthält den Header der Übersicht.
+- `src/app/components/sidebar/`: Seitenleiste und Datumsnavigation.
+- `src/app/components/add-entry/`: Formular zum Anlegen einer Buchung, Eingabevalidierung, Umschaltung zwischen Einnahme und Ausgabe sowie Felder für Wiederholungen.
+- `src/app/data/testdata.ts`: Testkategorien und Testbuchungen, die aktuell als Standarddaten der Übersicht dienen.
+- `src/app/interfaces/interfaces.ts`: gemeinsame Typen, unter anderem für Kategorien, Buchungen, Filter und Finanzübersicht.
+- `src/app/styles/`, `src/app/globals.scss` und `*.module.scss`: globale und komponentenbezogene Sass-Stile.
+- `src/utils/currency.ts`: Währungsformatierung bzw. zugehörige Hilfsfunktionen.
+
+## Aktueller Funktionsstand
+
+- Die Startseite zeigt die Finanzübersicht mit Kategorien, Beispielbuchungen und Kennzahlen.
+- Einnahmen und Ausgaben werden im Datentyp unterschieden; wiederkehrende Intervalle sind modelliert.
+- Die Übersicht lässt sich nach Kategorie filtern und aktualisiert die angezeigten Summen.
+- Das Formular unterstützt Buchungsart, Betrag, Kategorie, Datum, optionale Beschreibung und Wiederholung.
+- Formularvalidierung ist vorhanden. Beim Absenden wird die Buchung aktuell lediglich in der Konsole ausgegeben; es gibt noch keinen gemeinsamen Datenfluss zurück zur Übersicht.
+- Datenhaltung ist derzeit auf statische Beispieldaten und lokalen React-Zustand beschränkt.
+
+## Entwicklung
+
+Abhängigkeiten installieren und den Entwicklungsserver starten:
 
 ```bash
 npm install
-```
-
-Entwicklungsserver starten:
-
-```bash
 npm run dev
 ```
 
-Anschließend ist die Anwendung unter [http://localhost:3000](http://localhost:3000) erreichbar.
+Die Anwendung ist anschließend unter [http://localhost:3000](http://localhost:3000) erreichbar.
 
-## Verfügbare Skripte
+Verfügbare Skripte:
 
-- `npm run dev` startet den Entwicklungsserver.
-- `npm run build` erstellt einen Produktions-Build.
-- `npm run start` startet die Anwendung im Produktionsmodus.
-- `npm run lint` prüft den Code mit ESLint.
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+- `npm run dev`: startet den Entwicklungsserver.
+- `npm run build`: erstellt einen Produktions-Build.
+- `npm run start`: startet die Anwendung im Produktionsmodus.
+- `npm run lint`: prüft den Code mit ESLint.
 
-## Getting Started
+## Weitere To-dos / Ziele
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Daten sollen in einem eigenen Backend gespeichert werden
+- Daten sollen entweder nach Jahren oder Monaten angezeigt werden können
+- Daten sollen für einen bestimmten Zeitraum als graphisches Element dargestellt werden können, per Klick auf den Diagramm Button
