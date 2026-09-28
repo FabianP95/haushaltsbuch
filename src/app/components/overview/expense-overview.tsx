@@ -1,10 +1,9 @@
 'use client';
-import { useState, useMemo, useEffect } from 'react';
+import { useMemo, useEffect } from 'react';
 import { Category, ExpenseOverviewProps, CategoryGroup } from '@/app/interfaces/interfaces';
 import { testCategories, testTransactions } from '@/app/data/testdata';
 import { CategoryGroupCard } from './category-group/catgeory-group';
 import { CategoryFilterBar } from './filterbar/filterbar';
-import { OverviewHeader } from '../navbar/overview-header/overview-header'
 import styles from './expense-overview.module.scss';
 
 
@@ -12,10 +11,10 @@ import styles from './expense-overview.module.scss';
 export default function ExpenseOverview({
     categories = testCategories,
     transactions = testTransactions,
+    selectedCategoryId,
+    onSelectCategory,
     onSummaryChange
 }: ExpenseOverviewProps) {
-
-    const [selectedCategoryId, setSelectedCategoryId] = useState<string>('all');
 
     const expenseTransactions = useMemo(() => {
         return transactions.filter((t) => t.type === 'Ausgabe');
@@ -117,7 +116,8 @@ export default function ExpenseOverview({
             <CategoryFilterBar
                 categories={categories}
                 selectedCategoryId={selectedCategoryId}
-                onSelectCategory={setSelectedCategoryId}
+
+                onSelectCategory={onSelectCategory}
             />
 
             <main className={styles.content}>

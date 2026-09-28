@@ -1,9 +1,11 @@
 'use client';
-import { useState, useCallback } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 import styles from './page.module.scss'
 
+import { getAllData } from './data/data';
 import { FinanceSummary } from './interfaces/interfaces';
+import { Data } from './interfaces/interfaces';
 
 import ExpenseOverview from "./components/overview/expense-overview";
 import AddEntry from './components/add-entry/add-entry';
@@ -12,18 +14,59 @@ import Navbar from './components/navbar/navbar';
 
 export default function Home() {
 
-  const [summary, setSummary] = useState<FinanceSummary>({
-    totalTransactions: 0,
-    totalExpenseSum: 0,
-    totalIncomeSum: 0,
-    currentBalance: 0
-  })
+ 
+  const [data, setData] = useState<Data | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  const handleSummaryChange = useCallback((summaryValue: FinanceSummary) => {
-    setSummary(summaryValue);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('all');
+
+  useEffect(() => {
+    
+    async function loadData() {
+      try {
+        const dbData = await getAllData();
+        setData(dbData);
+      } catch {
+       
+        setLoadError('Daten konnten nicht geladen werden.');
+      }
+    }
+    loadData();
   }, []);
 
+  
+  const summary = useMemo<FinanceSummary>(() => {
+    const transactions = data?.transactions ?? [];
 
+    
+    const filteredTransactions = selectedCategoryId === 'all'
+      ? transactions
+      : transactions.filter((t) => t.categoryId === selectedCategoryId);
+
+    const totalExpenseSum = filteredTransactions
+      .filter((t) => t.type === 'Ausgabe')
+      .reduce((sum, t) => sum + t.amount, 0);
+
+    const totalIncomeSum = filteredTransactions
+      .filter((t) => t.type === 'Einnahme')
+      .reduce((sum, t) => sum + t.amount, 0);
+
+    return {
+      totalTransactions: filteredTransactions.length,
+      totalExpenseSum,
+      totalIncomeSum,
+      currentBalance: totalIncomeSum - totalExpenseSum
+    };
+  }, [data, selectedCategoryId]);
+
+  
+  if (loadError) {
+    return <p>{loadError}</p>;
+  }
+
+  if (!data) {
+    return <p>Daten werden geladen …</p>;
+  }
 
   return (
     <div className={styles.container}>
@@ -37,7 +80,13 @@ export default function Home() {
           currentBalance={summary.currentBalance} />
 
         <div className={styles.mainView}>
-          <ExpenseOverview onSummaryChange={handleSummaryChange}/>
+
+          
+          <ExpenseOverview
+            categories={data.categories}
+            transactions={data.transactions}
+            selectedCategoryId={selectedCategoryId}
+            onSelectCategory={setSelectedCategoryId} />
           <AddEntry />
         </div>
       </div>

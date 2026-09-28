@@ -5,7 +5,10 @@ export type RecurrenceInterval = 'monatlich' | 'jeden zweiten Monat' | 'quartals
 // Eingabetyp fürs Anlegen einer Transaktion (ohne generierte Felder)
 export type NewTransaction = Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>;
 
-
+export interface Data {
+    categories?: Category[];
+    transactions?: Transaction[];
+}
 
 export interface Category {
     id: string;
@@ -69,6 +72,10 @@ export interface FinanceSummary {
 export interface ExpenseOverviewProps {
     categories?: Category[];
     transactions?: Transaction[];
+    
+    selectedCategoryId: string;
+   
+    onSelectCategory: (id: string) => void;
     onSummaryChange?: (summary: FinanceSummary) => void;
 }
 
