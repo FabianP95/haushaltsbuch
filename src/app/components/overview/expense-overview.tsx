@@ -61,7 +61,8 @@ export default function ExpenseOverview({
             const filteredTransactions = transactions.filter((t) => t.categoryId === selectedCategoryId);
             return filteredTransactions.length;
         }
-    }, [selectedCategoryId]);
+    
+    }, [transactions, selectedCategoryId]);
 
     useEffect(() => {
         onSummaryChange?.({

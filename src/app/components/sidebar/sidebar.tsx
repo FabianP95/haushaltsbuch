@@ -3,7 +3,7 @@ import SideDate from "./side-link-dates/side-date";
 import styles from './sidebar.module.scss';
 
 export default function Sidebar() {
-    let timeVar = {
+    const timeVar = {
         title: 'Jahr',
         month: 'Monat',
         years: [2026, 2025, 2024],

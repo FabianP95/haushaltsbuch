@@ -1,5 +1,7 @@
 import { TransactionItemProps } from '@/app/interfaces/interfaces';
 import styles from './transaction-item.module.scss';
+// Next.js image component: optimizes and lazy-loads images instead of a plain <img>
+import Image from 'next/image';
 import { formatCurrency } from '@/utils/currency';
 
 export function TransactionItem({
@@ -43,10 +45,10 @@ export function TransactionItem({
                     {isIncome ? '' : '-'}{formatCurrency(transaction.amount)}
                 </span>
                 <button className={styles.workOnBtn} onClick={() => console.log(1)}>
-                    <img className={styles.btnImg} src="/assets/icons/edit.svg" alt="edit this entry" />
+                    <Image className={styles.btnImg} src="/assets/icons/edit.svg" alt="edit this entry" width={20} height={20} />
                 </button>
                 <button className={styles.workOnBtn} onClick={() => console.log(2)}>
-                    <img className={styles.btnImg} src="/assets/icons/delete.svg" alt="delete this entry" />
+                    <Image className={styles.btnImg} src="/assets/icons/delete.svg" alt="delete this entry" width={20} height={20} />
                 </button>
             </div>
         </article>

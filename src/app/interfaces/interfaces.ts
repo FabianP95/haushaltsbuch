@@ -108,4 +108,11 @@ export interface AddEntryProps {
 }
 
 
+export interface SideDateProps {
+    title: string;
+    year?: number[];
+    month?: string[];
+}
+
+
 

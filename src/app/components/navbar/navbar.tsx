@@ -1,4 +1,5 @@
 import styles from './navbar.module.scss'
+import Image from 'next/image';
 import { OverviewHeader } from './overview-header/overview-header';
 import { FinanceSummary } from '@/app/interfaces/interfaces';
 
@@ -19,7 +20,7 @@ export default function Navbar({
         currentBalance={currentBalance} 
       />
       <div>
-        <button className={styles.diaBtn}>Diagramm <img className={styles.navIcon} src="/assets/icons/bar_chart.svg" alt="chart icon" /></button>
+        <button className={styles.diaBtn}>Diagramm <Image className={styles.navIcon} src="/assets/icons/bar_chart.svg" alt="chart icon" width={30} height={30} /></button>
       </div>
     </div>
   );

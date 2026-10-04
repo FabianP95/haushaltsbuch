@@ -1,4 +1,6 @@
 import { useState } from 'react';
+// Next.js image component: optimizes and lazy-loads images instead of a plain <img>
+import Image from 'next/image';
 import { CategoryGroupCardProps } from '@/app/interfaces/interfaces';
 import { TransactionItem } from './transaction-item/transaction-item';
 import { formatCurrency } from '@/utils/currency';
@@ -50,13 +52,15 @@ export function CategoryGroupCard({
                 </div>
                 <div>
                     <button className={styles.addBtn} onClick={() => addEntryToCategorie()}>
-                        <img className={styles.btnImg} src="/assets/icons/add.svg" alt="add an entry in this category" />
+                        <Image className={styles.btnImg} src="/assets/icons/add.svg" alt="add an entry in this category" width={30} height={30} />
                     </button>
                     <button className={styles.addBtn} onClick={() => setIsOpen((prev) => !prev)} aria-expanded={isOpen}>
-                        <img
+                        <Image
                             src={isOpen ? '/assets/icons/expand_up.svg' : '/assets/icons/expand_down.svg'}
                             alt={isOpen ? 'Zuklappen' : 'Aufklappen'}
                             className={styles.chevron}
+                            width={30}
+                            height={30}
                         />
                     </button>
 
