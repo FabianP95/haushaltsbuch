@@ -3,8 +3,8 @@ import { useState, useMemo, useEffect } from 'react';
 
 import styles from './page.module.scss'
 
-import { getAllData } from './data/data';
-import { FinanceSummary } from './interfaces/interfaces';
+import { getAllData, createTransaction } from './data/data';
+import { FinanceSummary, NewTransaction } from './interfaces/interfaces';
 import { Data } from './interfaces/interfaces';
 
 import ExpenseOverview from "./components/overview/expense-overview";
@@ -33,6 +33,13 @@ export default function Home() {
     }
     loadData();
   }, []);
+
+  
+  async function handleAddTransaction(newTransaction: NewTransaction) {
+    const created = await createTransaction(newTransaction);
+   
+    setData((prev) => prev && { ...prev, transactions: [...(prev.transactions ?? []), created] });
+  }
 
   
   const summary = useMemo<FinanceSummary>(() => {
@@ -87,7 +94,7 @@ export default function Home() {
             transactions={data.transactions}
             selectedCategoryId={selectedCategoryId}
             onSelectCategory={setSelectedCategoryId} />
-          <AddEntry />
+          <AddEntry onAdd={handleAddTransaction} />
         </div>
       </div>
 

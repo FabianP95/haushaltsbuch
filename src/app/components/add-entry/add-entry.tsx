@@ -1,6 +1,6 @@
 "use client"
 import { useState, SubmitEvent } from 'react';
-import type { NewTransaction, TransactionType, RecurrenceInterval, Category } from '../../interfaces/interfaces';
+import type { NewTransaction, TransactionType, RecurrenceInterval, Category, AddEntryProps } from '../../interfaces/interfaces';
 import { TypeToggle } from './toggle/toggle';
 import { RecurrenceFields } from './recurrence-field/recurrence-field';
 import { ErrorMessage } from './error-msg/error-msg';
@@ -8,12 +8,6 @@ import { testCategories } from '@/app/data/testdata';
 import styles from './add-entry.module.scss';
 
 type EntryErrors = Record<string, string>;
-
-
-function onAdd(params: any) {
-    console.log(params);
-
-}
 
 function checkEntry(transaction: NewTransaction): EntryErrors {
     const errors: EntryErrors = {};
@@ -40,7 +34,8 @@ function checkEntry(transaction: NewTransaction): EntryErrors {
     return errors;
 }
 
-export default function AddEntry() {
+
+export default function AddEntry({ onAdd }: AddEntryProps) {
     const [type, setType] = useState<TransactionType>('Ausgabe');
     const [amount, setAmount] = useState('');
     const [categoryId, setCategoryId] = useState(testCategories[0]?.id ?? '');
@@ -124,7 +119,7 @@ export default function AddEntry() {
                         onChange={(e) => setCategoryId(e.target.value)}
 
                     >
-                        {testCategories.map((c: any) => (
+                        {testCategories.map((c: Category) => (
                             <option key={c.id} value={c.id}>{c.name}</option>
                         ))}
                     </select>

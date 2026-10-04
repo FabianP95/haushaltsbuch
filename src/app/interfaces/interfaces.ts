@@ -103,4 +103,9 @@ export interface CategoryGroupCardProps {
 }
 
 
+export interface AddEntryProps {
+    onAdd: (transaction: NewTransaction) => void;
+}
+
+
 
