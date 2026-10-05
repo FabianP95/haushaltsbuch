@@ -6,11 +6,17 @@ import { TransactionItem } from './transaction-item/transaction-item';
 import { formatCurrency } from '@/utils/currency';
 import styles from './category-group.module.scss';
 
+/** Placeholder for adding an entry directly to a category (not implemented yet). */
 function addEntryToCategorie() {
 
 }
 
 
+/**
+ * Collapsible card showing a category with its net sum and its transactions.
+ * @param props - The category group and a map to look up categories by id
+ * @returns The category card
+ */
 export function CategoryGroupCard({
     group,
     categoryMap,

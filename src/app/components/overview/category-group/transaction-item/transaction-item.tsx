@@ -4,6 +4,11 @@ import styles from './transaction-item.module.scss';
 import Image from 'next/image';
 import { formatCurrency } from '@/utils/currency';
 
+/**
+ * Single transaction row with description, date, recurrence badge, amount and action buttons.
+ * @param props - The transaction and a map to look up its category
+ * @returns The transaction row
+ */
 export function TransactionItem({
     transaction,
     categoryMap,

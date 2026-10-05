@@ -2,7 +2,7 @@ export type TransactionType = 'Ausgabe' | 'Einnahme';
 
 export type RecurrenceInterval = 'monatlich' | 'jeden zweiten Monat' | 'quartalsweise' | 'jährlich';
 
-// Eingabetyp fürs Anlegen einer Transaktion (ohne generierte Felder)
+
 export type NewTransaction = Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>;
 
 export interface Data {
@@ -13,39 +13,39 @@ export interface Data {
 export interface Category {
     id: string;
     name: string;
-    icon: string; 
-    color: string; 
+    icon: string;
+    color: string;
 }
 
 export interface Transaction {
     id: string;
     type: TransactionType;
-    amount: number; // immer positiv; Vorzeichen ergibt sich aus `type`
+    amount: number;
     categoryId: string;
     description?: string;
     date: string;
 
-    // Wiederkehrende Ausgaben/Einnahmen
+
 
     isRecurring: boolean;
     recurrenceInterval?: RecurrenceInterval;
-    recurrenceEndDate?: string; // optional, falls befristet
-    recurrenceParentId?: string; // gesetzt bei automatisch generierten Instanzen
+    recurrenceEndDate?: string;
+    recurrenceParentId?: string;
 
     createdAt: string;
     updatedAt: string;
 }
 
 export interface TransactionFilter {
-    from?: string; // ISO-Datum, inklusive
-    to?: string; // ISO-Datum, inklusive
+    from?: string;
+    to?: string;
     categoryId?: string;
     type?: TransactionType;
 }
 
 export interface ForecastEntry {
-    month: string; // "YYYY-MM"
-    categoryId?: string; // undefined = Gesamtsumme des Monats
+    month: string;
+    categoryId?: string;
     expectedIncome: number;
     expectedExpense: number;
     basis: 'wiederkehrend' | 'vergangener Durchschnitt' | 'Zusammengefasst';
@@ -72,11 +72,10 @@ export interface FinanceSummary {
 export interface ExpenseOverviewProps {
     categories?: Category[];
     transactions?: Transaction[];
-    
+
     selectedCategoryId: string;
-   
+
     onSelectCategory: (id: string) => void;
-    onSummaryChange?: (summary: FinanceSummary) => void;
 }
 
 
@@ -86,9 +85,9 @@ export interface TransactionItemProps {
 }
 
 export interface CategoryGroup {
-  category: Category;
-  transactions: Transaction[];
-  totalAmount: number;
+    category: Category;
+    transactions: Transaction[];
+    totalAmount: number;
 }
 
 export interface CategoryFilterBarProps {
@@ -108,10 +107,30 @@ export interface AddEntryProps {
 }
 
 
+
+export interface SelectedPeriod {
+    year: number;
+    month: number | null;
+}
+
+
+export interface SideDateOption {
+    value: number | null;
+    label: string;
+}
+
 export interface SideDateProps {
     title: string;
-    year?: number[];
-    month?: string[];
+    options: SideDateOption[];
+    selectedValue: number | null;
+    onSelect: (value: number | null) => void;
+}
+
+
+export interface SidebarProps {
+    years: number[];
+    selectedPeriod: SelectedPeriod;
+    onSelectPeriod: (period: SelectedPeriod) => void;
 }
 
 

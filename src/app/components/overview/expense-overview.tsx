@@ -1,97 +1,53 @@
 'use client';
-import { useMemo, useEffect } from 'react';
-import { Category, ExpenseOverviewProps, CategoryGroup } from '@/app/interfaces/interfaces';
-import { testCategories, testTransactions } from '@/app/data/testdata';
+import { useMemo } from 'react';
+import { Category, ExpenseOverviewProps, CategoryGroup, Transaction } from '@/app/interfaces/interfaces';
 import { CategoryGroupCard } from './category-group/catgeory-group';
 import { CategoryFilterBar } from './filterbar/filterbar';
 import styles from './expense-overview.module.scss';
 
 
+const EMPTY_CATEGORIES: Category[] = [];
+const EMPTY_TRANSACTIONS: Transaction[] = [];
 
+
+const UNCATEGORIZED: Category = {
+    id: 'uncategorized',
+    name: 'Ohne Kategorie',
+    icon: '❓',
+    color: '#888888',
+};
+
+/**
+ * Overview with category filter bar and the transactions grouped by category.
+ * @param props - Categories, transactions, selected category and the select callback
+ * @returns The overview area
+ */
 export default function ExpenseOverview({
-    categories = testCategories,
-    transactions = testTransactions,
+    categories,
+    transactions,
     selectedCategoryId,
-    onSelectCategory,
-    onSummaryChange
+    onSelectCategory
 }: ExpenseOverviewProps) {
-
-    const expenseTransactions = useMemo(() => {
-        return transactions.filter((t) => t.type === 'Ausgabe');
-    }, [transactions]);
-
-    const filteredExpenses = useMemo(() => {
-        if (selectedCategoryId === 'all') {
-            return expenseTransactions;
-        }
-        return expenseTransactions.filter((t) => t.categoryId === selectedCategoryId);
-    }, [expenseTransactions, selectedCategoryId]);
-
-    const totalExpenseSum = useMemo(() => {
-        return filteredExpenses.reduce((sum, t) => sum + t.amount, 0);
-    }, [filteredExpenses]);
-
-
-    const incomeTransactions = useMemo(() => {
-        return transactions.filter((t) => t.type === 'Einnahme');
-    }, [transactions])
-
-    const filteredIncomes = useMemo(() => {
-        if (selectedCategoryId === 'all') {
-            return incomeTransactions;
-        }
-        return incomeTransactions.filter((t) => t.categoryId === selectedCategoryId);
-    }, [incomeTransactions, selectedCategoryId]);
-
-    const totalIncomeSum = useMemo(() => {
-        return filteredIncomes.reduce((sum, t) => sum + t.amount, 0);
-    }, [filteredIncomes]);
-
-
-    const currentBalance = useMemo(() => {
-        return (totalIncomeSum - totalExpenseSum);
-    }, [totalExpenseSum, totalIncomeSum]);
-
-
-    const totalTransactions = useMemo(() => {
-        if (selectedCategoryId === 'all') {
-            return transactions.length
-        }
-        else {
-            const filteredTransactions = transactions.filter((t) => t.categoryId === selectedCategoryId);
-            return filteredTransactions.length;
-        }
     
-    }, [transactions, selectedCategoryId]);
-
-    useEffect(() => {
-        onSummaryChange?.({
-            totalTransactions,
-            totalExpenseSum,
-            totalIncomeSum,
-            currentBalance,
-        });
-    }, [totalTransactions, totalExpenseSum, totalIncomeSum, currentBalance, onSummaryChange]);
-
-
-
+    const safeCategories = categories ?? EMPTY_CATEGORIES;
+    const safeTransactions = transactions ?? EMPTY_TRANSACTIONS;
 
     const categoryMap = useMemo(() => {
         const map = new Map<string, Category>();
-        categories.forEach((category) => map.set(category.id, category));
+        safeCategories.forEach((category) => map.set(category.id, category));
         return map;
-    }, [categories]);
+    }, [safeCategories]);
 
 
     const groupedData = useMemo(() => {
 
         const groups: CategoryGroup[] = [];
 
-        categories.forEach((category) => {
+        safeCategories.forEach((category) => {
             if (selectedCategoryId !== 'all' && category.id !== selectedCategoryId) {
                 return
             }
-            const groupTransactions = transactions.filter(
+            const groupTransactions = safeTransactions.filter(
                 (t) => t.categoryId === category.id
             );
 
@@ -106,16 +62,36 @@ export default function ExpenseOverview({
             });
         });
 
+        
+        const orphanedTransactions = safeTransactions.filter((t) => !categoryMap.has(t.categoryId));
+        if (selectedCategoryId === 'all' && orphanedTransactions.length > 0) {
+            groups.push({
+                category: UNCATEGORIZED,
+                transactions: orphanedTransactions,
+                totalAmount: orphanedTransactions.reduce((sum, t) => sum + t.amount, 0),
+            });
+        }
+
         return groups;
 
 
-    }, [categories, transactions, selectedCategoryId]);
+    }, [safeCategories, safeTransactions, selectedCategoryId, categoryMap]);
+
+    
+    const isUnknownCategorySelected = selectedCategoryId !== 'all' && !categoryMap.has(selectedCategoryId);
+
+    
+    const emptyMessage = safeCategories.length === 0
+        ? 'Keine Kategorien vorhanden.'
+        : isUnknownCategorySelected
+            ? 'Die gewählte Kategorie wurde nicht gefunden.'
+            : 'Keine Buchungen im gewählten Zeitraum gefunden.';
 
 
     return (
         <div className={styles.overviewContainer}>
             <CategoryFilterBar
-                categories={categories}
+                categories={safeCategories}
                 selectedCategoryId={selectedCategoryId}
 
                 onSelectCategory={onSelectCategory}
@@ -124,7 +100,7 @@ export default function ExpenseOverview({
             <main className={styles.content}>
                 {groupedData.length === 0 ? (
                     <div className={styles.emptyState}>
-                        <p>Keine Ausgaben gefunden.</p>
+                        <p>{emptyMessage}</p>
                     </div>
                 ) : (
                     groupedData.map((group) => (
@@ -139,6 +115,3 @@ export default function ExpenseOverview({
         </div>
     );
 }
-
-
-

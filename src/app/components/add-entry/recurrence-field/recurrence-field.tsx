@@ -13,6 +13,11 @@ interface RecurrenceFieldsProps {
     onEndDateChange: (value: string) => void;
 }
 
+/**
+ * Checkbox for recurring entries; shows interval and end date inputs when checked.
+ * @param props - Recurrence state values and their change callbacks
+ * @returns The recurrence fields
+ */
 export function RecurrenceFields({
     isRecurring,
     interval,

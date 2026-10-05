@@ -2,6 +2,11 @@ import { describe, it, expect } from 'vitest';
 import { formatCurrency } from '../utils/currency';
 
 
+/**
+ * Replaces special whitespace characters with a normal space so the expected strings are easy to compare.
+ * @param value - String to normalize
+ * @returns The string with normalized spaces
+ */
 const normalize = (value: string) => value.replace(/ /g, ' ');
 
 describe('formatCurrency', () => {

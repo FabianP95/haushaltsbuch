@@ -6,6 +6,11 @@ interface TypeToggleProps {
     onChange: (type: TransactionType) => void;
 }
 
+/**
+ * Toggle to switch between the transaction types "Ausgabe" and "Einnahme".
+ * @param props - The current type and the change callback
+ * @returns The toggle buttons
+ */
 export function TypeToggle({ value, onChange }: TypeToggleProps) {
     return (
         <div className={styles.typeToggle} role="radiogroup" aria-label="Art der Buchung">

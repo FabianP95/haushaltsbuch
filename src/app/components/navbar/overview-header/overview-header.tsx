@@ -1,6 +1,11 @@
 import styles from './overview-header.module.scss';
 import { formatCurrency } from '@/utils/currency';
 
+/**
+ * Header showing the number of transactions and the balance, income and expense totals.
+ * @param props - Transaction count and the summed amounts
+ * @returns The overview header
+ */
 export function OverviewHeader({
     totalTransactions,
     totalExpenseSum,

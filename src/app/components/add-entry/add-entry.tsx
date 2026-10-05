@@ -9,6 +9,11 @@ import styles from './add-entry.module.scss';
 
 type EntryErrors = Record<string, string>;
 
+/**
+ * Validates a new transaction before it is saved.
+ * @param transaction - The transaction built from the form values
+ * @returns An object with one error message per invalid field (empty if valid)
+ */
 function checkEntry(transaction: NewTransaction): EntryErrors {
     const errors: EntryErrors = {};
 
@@ -35,6 +40,11 @@ function checkEntry(transaction: NewTransaction): EntryErrors {
 }
 
 
+/**
+ * Form for creating a new income or expense entry, including validation.
+ * @param props - `onAdd` is called with the validated transaction
+ * @returns The entry form
+ */
 export default function AddEntry({ onAdd }: AddEntryProps) {
     const [type, setType] = useState<TransactionType>('Ausgabe');
     const [amount, setAmount] = useState('');
@@ -46,6 +56,10 @@ export default function AddEntry({ onAdd }: AddEntryProps) {
     const [recurrenceEndDate, setRecurrenceEndDate] = useState('');
     const [errors, setErrors] = useState<EntryErrors>({});
 
+    /**
+     * Removes the error message of a single form field.
+     * @param field - Name of the field whose error should disappear
+     */
     const clearError = (field: string) => {
         setErrors((prev) => {
             const next = { ...prev };
@@ -54,6 +68,10 @@ export default function AddEntry({ onAdd }: AddEntryProps) {
         });
     };
 
+    /**
+     * Builds the transaction from the form state, validates it and passes it to `onAdd`.
+     * @param e - The form submit event
+     */
     const handleSubmit = (e: SubmitEvent) => {
         e.preventDefault();
 

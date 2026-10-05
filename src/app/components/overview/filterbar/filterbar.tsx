@@ -2,6 +2,11 @@ import { CategoryFilterBarProps } from '@/app/interfaces/interfaces';
 import styles from './filterbar.module.scss';
 
 
+/**
+ * Dropdown to filter the overview by category.
+ * @param props - Categories, the selected category id and the select callback
+ * @returns The filter bar
+ */
 export function CategoryFilterBar({
     categories,
     selectedCategoryId,

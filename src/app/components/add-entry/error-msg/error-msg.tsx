@@ -7,6 +7,11 @@ type Message = {
 }; 
 
 
+/**
+ * Shows an error text and calls `onExpire` after 2 seconds so the parent can remove it.
+ * @param props - The message `text` and the `onExpire` callback
+ * @returns The error message element
+ */
 export function ErrorMessage({ text, onExpire }: Message) {
     useEffect(() => {
         const timer = setTimeout(onExpire, 2000);

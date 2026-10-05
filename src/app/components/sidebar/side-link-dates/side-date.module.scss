@@ -1,7 +1,7 @@
 @use '../../../../styles/main' as *;
 
 .listContainer {
-
+    @include flex-center();
 }
 
 .listHeader {
@@ -19,8 +19,25 @@
 
 
 .listItem {
-    @include hover-underline($palette-5);
     list-style: none;
-    cursor: pointer;
-    text-decoration: 1px solid $palette-1;
+}
+
+
+.listButton {
+    @include no-style-btn;
+    @include hover-underline($palette-5);
+    font: inherit;
+    color: inherit;
+
+
+    &:focus-visible {
+        outline: $outline-sm solid $palette-1;
+        outline-offset: $space-xs;
+    }
+}
+
+
+.active {
+    background-size: 100% $outline-sm;
+    font-weight: bold;
 }

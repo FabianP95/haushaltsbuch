@@ -3,6 +3,11 @@ import Image from 'next/image';
 import { OverviewHeader } from './overview-header/overview-header';
 import { FinanceSummary } from '@/app/interfaces/interfaces';
 
+/**
+ * Top bar with the finance summary and the chart button.
+ * @param props - Transaction count, expense sum, income sum and balance
+ * @returns The navbar
+ */
 export default function Navbar({
   totalTransactions,
   totalExpenseSum,
