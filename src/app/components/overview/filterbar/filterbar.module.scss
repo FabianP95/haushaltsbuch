@@ -24,8 +24,35 @@
   @include shape-container();
   padding: 0.5rem 0.85rem;
   font-size: $text-size-m;
-  border: 1px solid $palette-3;
+  border: 1px solid $palette-1;
   background-color: transparent;
   outline: none;
   cursor: pointer;
+}
+
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  @include shape-container();
+  padding: 0.5rem 0.85rem;
+  font-size: $text-size-m;
+  border: 1px solid $palette-3;
+  background-color: transparent;
+  outline: none;
+
+
+  &:focus-visible {
+    border-color: $palette-1;
+  }
+}
+
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }

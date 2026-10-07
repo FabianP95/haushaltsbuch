@@ -1,9 +1,10 @@
 'use client';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Category, ExpenseOverviewProps, CategoryGroup, Transaction } from '@/app/interfaces/interfaces';
 import { CategoryGroupCard } from './category-group/catgeory-group';
 import { CategoryFilterBar } from './filterbar/filterbar';
 import styles from './expense-overview.module.scss';
+import { matchesSearch } from '@/utils/search';
 
 
 const EMPTY_CATEGORIES: Category[] = [];
@@ -28,9 +29,18 @@ export default function ExpenseOverview({
     selectedCategoryId,
     onSelectCategory
 }: ExpenseOverviewProps) {
+
     
+    const [searchTerm, setSearchTerm] = useState('');
+
     const safeCategories = categories ?? EMPTY_CATEGORIES;
     const safeTransactions = transactions ?? EMPTY_TRANSACTIONS;
+
+    
+    const searchedTransactions = useMemo(
+        () => safeTransactions.filter((t) => matchesSearch(t, searchTerm)),
+        [safeTransactions, searchTerm]
+    );
 
     const categoryMap = useMemo(() => {
         const map = new Map<string, Category>();
@@ -47,7 +57,7 @@ export default function ExpenseOverview({
             if (selectedCategoryId !== 'all' && category.id !== selectedCategoryId) {
                 return
             }
-            const groupTransactions = safeTransactions.filter(
+            const groupTransactions = searchedTransactions.filter(
                 (t) => t.categoryId === category.id
             );
 
@@ -63,7 +73,7 @@ export default function ExpenseOverview({
         });
 
         
-        const orphanedTransactions = safeTransactions.filter((t) => !categoryMap.has(t.categoryId));
+        const orphanedTransactions = searchedTransactions.filter((t) => !categoryMap.has(t.categoryId));
         if (selectedCategoryId === 'all' && orphanedTransactions.length > 0) {
             groups.push({
                 category: UNCATEGORIZED,
@@ -75,7 +85,7 @@ export default function ExpenseOverview({
         return groups;
 
 
-    }, [safeCategories, safeTransactions, selectedCategoryId, categoryMap]);
+    }, [safeCategories, searchedTransactions, selectedCategoryId, categoryMap]);
 
     
     const isUnknownCategorySelected = selectedCategoryId !== 'all' && !categoryMap.has(selectedCategoryId);
@@ -85,7 +95,10 @@ export default function ExpenseOverview({
         ? 'Keine Kategorien vorhanden.'
         : isUnknownCategorySelected
             ? 'Die gewählte Kategorie wurde nicht gefunden.'
-            : 'Keine Buchungen im gewählten Zeitraum gefunden.';
+           
+            : searchTerm.trim() !== '' && safeTransactions.length > 0
+                ? `Keine Buchungen zur Suche „${searchTerm.trim()}“ gefunden.`
+                : 'Keine Buchungen im gewählten Zeitraum gefunden.';
 
 
     return (
@@ -93,8 +106,9 @@ export default function ExpenseOverview({
             <CategoryFilterBar
                 categories={safeCategories}
                 selectedCategoryId={selectedCategoryId}
-
                 onSelectCategory={onSelectCategory}
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
             />
 
             <main className={styles.content}>

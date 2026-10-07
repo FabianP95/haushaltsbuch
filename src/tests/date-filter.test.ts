@@ -130,7 +130,7 @@ describe('getMonthName', () => {
 describe('getMonthOptions', () => {
 
   it('returns exactly MONTHS_PER_YEAR options', () => {
-    expect(getMonthOptions()).toHaveLength(12)
+    expect(getMonthOptions()).toHaveLength(MONTHS_PER_YEAR)
   });
 
 

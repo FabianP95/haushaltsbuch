@@ -94,6 +94,8 @@ export interface CategoryFilterBarProps {
     categories: Category[];
     selectedCategoryId: string;
     onSelectCategory: (id: string) => void;
+    searchTerm: string;
+    onSearchChange: (term: string) => void;
 }
 
 export interface CategoryGroupCardProps {
