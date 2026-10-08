@@ -74,6 +74,35 @@
     color: $palette-5;
 }
 
+
+.formTitle {
+    margin: 0;
+    font-size: $text-size-l;
+    color: $palette-5;
+}
+
+
+.buttonRow {
+    @include flex-center(row);
+    gap: $space-sm;
+}
+
+.cancelButton {
+    padding: $padding-sm $padding-md;
+    background-color: transparent;
+    color: $palette-5;
+    border: 1px solid $palette-4;
+    border-radius: $radius-sm;
+    font-family: $font-text;
+    font-size: $text-size-m;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $palette-4;
+        color: $palette-1;
+    }
+}
+
 .submitButton {
     padding: $padding-sm $padding-md;
     background-color: $palette-3;

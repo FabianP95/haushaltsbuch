@@ -1,10 +1,9 @@
 "use client"
-import { useState, SubmitEvent } from 'react';
+import { useState, useEffect, useRef, SubmitEvent } from 'react';
 import type { NewTransaction, TransactionType, RecurrenceInterval, Category, AddEntryProps } from '../../interfaces/interfaces';
 import { TypeToggle } from './toggle/toggle';
 import { RecurrenceFields } from './recurrence-field/recurrence-field';
 import { ErrorMessage } from './error-msg/error-msg';
-import { testCategories } from '@/app/data/testdata';
 import styles from './add-entry.module.scss';
 
 type EntryErrors = Record<string, string>;
@@ -41,20 +40,48 @@ function checkEntry(transaction: NewTransaction): EntryErrors {
 
 
 /**
- * Form for creating a new income or expense entry, including validation.
- * @param props - `onAdd` is called with the validated transaction
+ * Form for creating a new or editing an existing income/expense entry, including validation.
+ * The parent remounts it via `key` when the preset changes, so the initial `useState` values are always fresh.
+ * @param props - Categories, the transaction to edit (or `null`), an optional preset category and the callbacks
  * @returns The entry form
  */
-export default function AddEntry({ onAdd }: AddEntryProps) {
-    const [type, setType] = useState<TransactionType>('Ausgabe');
-    const [amount, setAmount] = useState('');
-    const [categoryId, setCategoryId] = useState(testCategories[0]?.id ?? '');
-    const [description, setDescription] = useState('');
-    const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
-    const [isRecurring, setIsRecurring] = useState(false);
-    const [recurrenceInterval, setRecurrenceInterval] = useState<RecurrenceInterval>('monatlich');
-    const [recurrenceEndDate, setRecurrenceEndDate] = useState('');
+export default function AddEntry({
+    categories,
+    editingTransaction,
+    presetCategoryId,
+    onAdd,
+    onUpdate,
+    onCancel,
+}: AddEntryProps) {
+    const isEditMode = editingTransaction !== null;
+
+    
+    const initialCategoryId = editingTransaction?.categoryId
+        ?? (categories.some((c) => c.id === presetCategoryId) ? presetCategoryId : undefined)
+        ?? categories[0]?.id
+        ?? '';
+
+    
+    const [type, setType] = useState<TransactionType>(editingTransaction?.type ?? 'Ausgabe');
+    const [amount, setAmount] = useState(editingTransaction ? String(editingTransaction.amount) : '');
+    const [categoryId, setCategoryId] = useState(initialCategoryId);
+    const [description, setDescription] = useState(editingTransaction?.description ?? '');
+    const [date, setDate] = useState(() => editingTransaction?.date ?? new Date().toISOString().slice(0, 10));
+    const [isRecurring, setIsRecurring] = useState(editingTransaction?.isRecurring ?? false);
+    const [recurrenceInterval, setRecurrenceInterval] = useState<RecurrenceInterval>(editingTransaction?.recurrenceInterval ?? 'monatlich');
+    const [recurrenceEndDate, setRecurrenceEndDate] = useState(editingTransaction?.recurrenceEndDate ?? '');
     const [errors, setErrors] = useState<EntryErrors>({});
+
+    
+    const formRef = useRef<HTMLFormElement>(null);
+    const amountRef = useRef<HTMLInputElement>(null);
+
+   
+    useEffect(() => {
+        if (!editingTransaction && !presetCategoryId) return;
+        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        amountRef.current?.focus({ preventScroll: true });
+    }, [editingTransaction, presetCategoryId]);
 
     /**
      * Removes the error message of a single form field.
@@ -95,6 +122,12 @@ export default function AddEntry({ onAdd }: AddEntryProps) {
         }
 
         setErrors({});
+
+        if (editingTransaction) {
+            onUpdate({ ...editingTransaction, ...newTransaction });
+            return;
+        }
+
         onAdd(newTransaction);
 
         setAmount('');
@@ -105,13 +138,16 @@ export default function AddEntry({ onAdd }: AddEntryProps) {
     };
 
     return (
-        <form className={styles.addEntry} onSubmit={handleSubmit} noValidate>
+        <form ref={formRef} className={styles.addEntry} onSubmit={handleSubmit} noValidate>
+           
+            <h2 className={styles.formTitle}>{isEditMode ? 'Buchung bearbeiten' : 'Neue Buchung'}</h2>
             <TypeToggle value={type} onChange={setType} />
 
             <div className={styles.field}>
                 <label htmlFor="amount">Betrag</label>
                 <div className={styles.amountWrapper}>
                     <input
+                        ref={amountRef}
                         id="amount"
                         type="number"
                         inputMode="decimal"
@@ -137,7 +173,7 @@ export default function AddEntry({ onAdd }: AddEntryProps) {
                         onChange={(e) => setCategoryId(e.target.value)}
 
                     >
-                        {testCategories.map((c: Category) => (
+                        {categories.map((c: Category) => (
                             <option key={c.id} value={c.id}>{c.name}</option>
                         ))}
                     </select>
@@ -188,9 +224,16 @@ export default function AddEntry({ onAdd }: AddEntryProps) {
                 <ErrorMessage key={errors.recurrenceEndDate} text={errors.recurrenceEndDate} onExpire={() => clearError('recurrenceEndDate')} />
             )}
 
-            <button type="submit" className={styles.submitButton}>
-                Buchung hinzufügen
-            </button>
+            <div className={styles.buttonRow}>
+                <button type="submit" className={styles.submitButton}>
+                    {isEditMode ? 'Änderungen speichern' : 'Buchung hinzufügen'}
+                </button>
+                {(isEditMode || presetCategoryId) && (
+                    <button type="button" className={styles.cancelButton} onClick={onCancel}>
+                        Abbrechen
+                    </button>
+                )}
+            </div>
         </form>
     );
 }

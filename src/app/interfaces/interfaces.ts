@@ -72,16 +72,19 @@ export interface FinanceSummary {
 export interface ExpenseOverviewProps {
     categories?: Category[];
     transactions?: Transaction[];
-
     selectedCategoryId: string;
-
     onSelectCategory: (id: string) => void;
+    onEditTransaction: (transaction: Transaction) => void;
+    onDeleteTransaction: (transaction: Transaction) => void;
+    onAddToCategory: (categoryId: string) => void;
 }
 
 
 export interface TransactionItemProps {
     transaction: Transaction;
     categoryMap: Map<string, Category>;
+    onEdit: (transaction: Transaction) => void;
+    onDelete: (transaction: Transaction) => void;
 }
 
 export interface CategoryGroup {
@@ -101,11 +104,26 @@ export interface CategoryFilterBarProps {
 export interface CategoryGroupCardProps {
     group: CategoryGroup;
     categoryMap: Map<string, Category>;
+    onEditTransaction: (transaction: Transaction) => void;
+    onDeleteTransaction: (transaction: Transaction) => void;
+    onAddToCategory: (categoryId: string) => void;
+}
+
+
+export interface FormPreset {
+    version: number;
+    editingTransaction: Transaction | null;
+    categoryId?: string;
 }
 
 
 export interface AddEntryProps {
+    categories: Category[];
+    editingTransaction: Transaction | null;
+    presetCategoryId?: string;
     onAdd: (transaction: NewTransaction) => void;
+    onUpdate: (transaction: Transaction) => void;
+    onCancel: () => void;
 }
 
 

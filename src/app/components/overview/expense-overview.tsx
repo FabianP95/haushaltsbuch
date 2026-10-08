@@ -27,7 +27,10 @@ export default function ExpenseOverview({
     categories,
     transactions,
     selectedCategoryId,
-    onSelectCategory
+    onSelectCategory,
+    onEditTransaction,
+    onDeleteTransaction,
+    onAddToCategory
 }: ExpenseOverviewProps) {
 
     
@@ -122,6 +125,9 @@ export default function ExpenseOverview({
                             key={group.category.id}
                             group={group}
                             categoryMap={categoryMap}
+                            onEditTransaction={onEditTransaction}
+                            onDeleteTransaction={onDeleteTransaction}
+                            onAddToCategory={onAddToCategory}
                         />
                     ))
                 )}

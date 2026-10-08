@@ -6,12 +6,6 @@ import { TransactionItem } from './transaction-item/transaction-item';
 import { formatCurrency } from '@/utils/currency';
 import styles from './category-group.module.scss';
 
-/** Placeholder for adding an entry directly to a category (not implemented yet). */
-function addEntryToCategorie() {
-
-}
-
-
 /**
  * Collapsible card showing a category with its net sum and its transactions.
  * @param props - The category group and a map to look up categories by id
@@ -20,6 +14,9 @@ function addEntryToCategorie() {
 export function CategoryGroupCard({
     group,
     categoryMap,
+    onEditTransaction,
+    onDeleteTransaction,
+    onAddToCategory,
 }: CategoryGroupCardProps) {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -57,8 +54,8 @@ export function CategoryGroupCard({
                     </div>
                 </div>
                 <div>
-                    <button className={styles.addBtn} onClick={() => addEntryToCategorie()}>
-                        <Image className={styles.btnImg} src="/assets/icons/add.svg" alt="add an entry in this category" width={30} height={30} />
+                    <button className={styles.addBtn} onClick={() => onAddToCategory(group.category.id)}>
+                        <Image className={styles.btnImg} src="/assets/icons/add.svg" alt={`Neue Buchung in ${group.category.name} anlegen`} width={30} height={30} />
                     </button>
                     <button className={styles.addBtn} onClick={() => setIsOpen((prev) => !prev)} aria-expanded={isOpen}>
                         <Image
@@ -84,6 +81,8 @@ export function CategoryGroupCard({
                                 key={tx.id}
                                 transaction={tx}
                                 categoryMap={categoryMap}
+                                onEdit={onEditTransaction}
+                                onDelete={onDeleteTransaction}
                             />
                         ))
                     )}

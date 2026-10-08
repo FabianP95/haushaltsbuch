@@ -12,11 +12,13 @@ import { formatCurrency } from '@/utils/currency';
 export function TransactionItem({
     transaction,
     categoryMap,
+    onEdit,
+    onDelete,
 }: TransactionItemProps) {
     const category = categoryMap.get(transaction.categoryId);
 
 
-    // Datum schön formatieren (ISO YYYY-MM-DD -> DD.MM.YYYY)
+
     const formattedDate = new Date(transaction.date).toLocaleDateString('de-DE', {
         day: '2-digit',
         month: '2-digit',
@@ -49,11 +51,13 @@ export function TransactionItem({
                 <span className={isIncome ? styles.itemAmountPositiv : styles.itemAmountNegativ}>
                     {isIncome ? '' : '-'}{formatCurrency(transaction.amount)}
                 </span>
-                <button className={styles.workOnBtn} onClick={() => console.log(1)}>
-                    <Image className={styles.btnImg} src="/assets/icons/edit.svg" alt="edit this entry" width={20} height={20} />
+
+                <button className={styles.workOnBtn} onClick={() => onEdit(transaction)}>
+                    <Image src="/assets/icons/edit.svg" alt="Buchung bearbeiten" width={20} height={20} />
                 </button>
-                <button className={styles.workOnBtn} onClick={() => console.log(2)}>
-                    <Image className={styles.btnImg} src="/assets/icons/delete.svg" alt="delete this entry" width={20} height={20} />
+
+                <button className={styles.workOnBtn} onClick={() => onDelete(transaction)}>
+                    <Image src="/assets/icons/delete.svg" alt="Buchung löschen" width={20} height={20} />
                 </button>
             </div>
         </article>
