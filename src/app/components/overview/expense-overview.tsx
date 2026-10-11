@@ -1,10 +1,12 @@
 'use client';
 import { useMemo, useState } from 'react';
-import { Category, ExpenseOverviewProps, CategoryGroup, Transaction } from '@/app/interfaces/interfaces';
+import { Category, ExpenseOverviewProps, CategoryGroup, Transaction, TransactionSortOption } from '@/app/interfaces/interfaces';
 import { CategoryGroupCard } from './category-group/catgeory-group';
 import { CategoryFilterBar } from './filterbar/filterbar';
 import styles from './expense-overview.module.scss';
 import { matchesSearch } from '@/utils/search';
+import { DEFAULT_SORT_OPTION, sortTransactions } from '@/utils/sort';
+import { getBudgetLimit, getBudgetUsage, getCategoryExpenses } from '@/utils/category';
 
 
 const EMPTY_CATEGORIES: Category[] = [];
@@ -27,14 +29,18 @@ export default function ExpenseOverview({
     categories,
     transactions,
     selectedCategoryId,
+    selectedPeriod,
     onSelectCategory,
     onEditTransaction,
     onDeleteTransaction,
-    onAddToCategory
+    onAddToCategory,
+    onUpdateCategory
 }: ExpenseOverviewProps) {
 
     
     const [searchTerm, setSearchTerm] = useState('');
+    
+    const [sortOption, setSortOption] = useState<TransactionSortOption>(DEFAULT_SORT_OPTION);
 
     const safeCategories = categories ?? EMPTY_CATEGORIES;
     const safeTransactions = transactions ?? EMPTY_TRANSACTIONS;
@@ -43,6 +49,12 @@ export default function ExpenseOverview({
     const searchedTransactions = useMemo(
         () => safeTransactions.filter((t) => matchesSearch(t, searchTerm)),
         [safeTransactions, searchTerm]
+    );
+
+    
+    const sortedTransactions = useMemo(
+        () => sortTransactions(searchedTransactions, sortOption),
+        [searchedTransactions, sortOption]
     );
 
     const categoryMap = useMemo(() => {
@@ -60,7 +72,7 @@ export default function ExpenseOverview({
             if (selectedCategoryId !== 'all' && category.id !== selectedCategoryId) {
                 return
             }
-            const groupTransactions = searchedTransactions.filter(
+            const groupTransactions = sortedTransactions.filter(
                 (t) => t.categoryId === category.id
             );
 
@@ -68,27 +80,37 @@ export default function ExpenseOverview({
 
             const totalAmount = groupTransactions.reduce((sum, t) => sum + t.amount, 0);
 
+            
+            const budgetUsage = category.monthlyBudget === undefined
+                ? null
+                : getBudgetUsage(
+                    getCategoryExpenses(safeTransactions, category.id),
+                    getBudgetLimit(category.monthlyBudget, selectedPeriod)
+                );
+
             groups.push({
                 category,
                 transactions: groupTransactions,
                 totalAmount,
+                budgetUsage,
             });
         });
 
         
-        const orphanedTransactions = searchedTransactions.filter((t) => !categoryMap.has(t.categoryId));
+        const orphanedTransactions = sortedTransactions.filter((t) => !categoryMap.has(t.categoryId));
         if (selectedCategoryId === 'all' && orphanedTransactions.length > 0) {
             groups.push({
                 category: UNCATEGORIZED,
                 transactions: orphanedTransactions,
                 totalAmount: orphanedTransactions.reduce((sum, t) => sum + t.amount, 0),
+                budgetUsage: null,
             });
         }
 
         return groups;
 
 
-    }, [safeCategories, searchedTransactions, selectedCategoryId, categoryMap]);
+    }, [safeCategories, sortedTransactions, safeTransactions, selectedCategoryId, selectedPeriod, categoryMap]);
 
     
     const isUnknownCategorySelected = selectedCategoryId !== 'all' && !categoryMap.has(selectedCategoryId);
@@ -112,6 +134,8 @@ export default function ExpenseOverview({
                 onSelectCategory={onSelectCategory}
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
+                sortOption={sortOption}
+                onSortChange={setSortOption}
             />
 
             <main className={styles.content}>
@@ -128,6 +152,7 @@ export default function ExpenseOverview({
                             onEditTransaction={onEditTransaction}
                             onDeleteTransaction={onDeleteTransaction}
                             onAddToCategory={onAddToCategory}
+                            onUpdateCategory={onUpdateCategory}
                         />
                     ))
                 )}

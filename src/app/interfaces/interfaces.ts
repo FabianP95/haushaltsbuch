@@ -5,6 +5,15 @@ export type RecurrenceInterval = 'monatlich' | 'jeden zweiten Monat' | 'quartals
 
 export type NewTransaction = Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>;
 
+
+export type NewCategory = Omit<Category, 'id'>;
+
+
+export type TransactionSortOption = 'date-desc' | 'date-asc' | 'amount-desc' | 'amount-asc';
+
+
+export type BudgetStatus = 'ok' | 'warning' | 'exceeded';
+
 export interface Data {
     categories?: Category[];
     transactions?: Transaction[];
@@ -15,6 +24,7 @@ export interface Category {
     name: string;
     icon: string;
     color: string;
+    monthlyBudget?: number;
 }
 
 export interface Transaction {
@@ -73,10 +83,12 @@ export interface ExpenseOverviewProps {
     categories?: Category[];
     transactions?: Transaction[];
     selectedCategoryId: string;
+    selectedPeriod: SelectedPeriod;
     onSelectCategory: (id: string) => void;
     onEditTransaction: (transaction: Transaction) => void;
     onDeleteTransaction: (transaction: Transaction) => void;
     onAddToCategory: (categoryId: string) => void;
+    onUpdateCategory: (category: Category) => void;
 }
 
 
@@ -91,6 +103,32 @@ export interface CategoryGroup {
     category: Category;
     transactions: Transaction[];
     totalAmount: number;
+    budgetUsage: BudgetUsage | null;
+}
+
+export interface BudgetUsage {
+    spent: number;
+    limit: number;
+    percent: number;
+    status: BudgetStatus;
+}
+
+export interface SortOptionItem {
+    value: TransactionSortOption;
+    label: string;
+}
+
+export interface CategoryIconOption {
+    icon: string;
+    label: string;
+}
+
+export interface CategoryManagerProps {
+    categories: Category[];
+    transactions: Transaction[];
+    onCreate: (category: NewCategory) => void;
+    onUpdate: (category: Category) => void;
+    onDelete: (categoryId: string, targetCategoryId: string | null) => void;
 }
 
 export interface CategoryFilterBarProps {
@@ -99,6 +137,8 @@ export interface CategoryFilterBarProps {
     onSelectCategory: (id: string) => void;
     searchTerm: string;
     onSearchChange: (term: string) => void;
+    sortOption: TransactionSortOption;
+    onSortChange: (option: TransactionSortOption) => void;
 }
 
 export interface CategoryGroupCardProps {
@@ -107,6 +147,7 @@ export interface CategoryGroupCardProps {
     onEditTransaction: (transaction: Transaction) => void;
     onDeleteTransaction: (transaction: Transaction) => void;
     onAddToCategory: (categoryId: string) => void;
+    onUpdateCategory: (category: Category) => void;
 }
 
 

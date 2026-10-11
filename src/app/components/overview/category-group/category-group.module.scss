@@ -93,3 +93,111 @@
 .btnImg {
   @include icon-size(30,30);
 }
+
+
+
+.budget {
+  @include flex-center();
+  align-items: stretch;
+  gap: $space-xs;
+  padding: 0 $space-md $space-sm;
+}
+
+.budgetText {
+  @include flex-center(row);
+  justify-content: space-between;
+  font-size: $text-size-sm;
+  color: $writing-muted;
+}
+
+.budgetOverText {
+  color: $failed;
+}
+
+.budgetTrack {
+  height: 8px;
+  background-color: $palette-5;
+  border-radius: $radius-sm;
+  overflow: hidden;
+}
+
+.budgetFill {
+  height: 100%;
+  border-radius: $radius-sm;
+  transition: width 0.3s ease;
+}
+
+.budgetOk {
+  background-color: $success;
+}
+
+.budgetWarning {
+  background-color: $warning;
+}
+
+
+.budgetExceeded {
+  background-color: $failed;
+}
+
+
+
+.budgetBtn {
+  @include flex-center(row);
+  @include hover-scale();
+  gap: $space-xs;
+  padding: $space-xs $padding-sm;
+  background-color: transparent;
+  border: 1px solid $palette-3;
+  border-radius: $radius-sm;
+  color: $writing-black;
+  font-size: $text-size-m;
+  cursor: pointer;
+}
+
+.budgetBtnImg {
+  @include icon-size(20, 20);
+}
+
+
+.budgetForm {
+  @include flex-center(row);
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: $space-sm;
+  padding: 0 $space-md $space-sm;
+  font-size: $text-size-m;
+
+  input {
+    flex: 1;
+    min-width: 160px;
+    padding: $space-xs $padding-sm;
+    border: 1px solid $palette-3;
+    border-radius: $radius-sm;
+    font-size: $text-size-m;
+  }
+}
+
+.budgetSaveBtn,
+.budgetCancelBtn {
+  padding: $space-xs $padding-sm;
+  border-radius: $radius-sm;
+  font-size: $text-size-m;
+  cursor: pointer;
+}
+
+.budgetSaveBtn {
+  background-color: $palette-3;
+  color: $writing-white;
+  border: none;
+
+  &:hover {
+    background-color: $palette-2;
+  }
+}
+
+.budgetCancelBtn {
+  background-color: transparent;
+  color: $writing-black;
+  border: 1px solid $palette-3;
+}

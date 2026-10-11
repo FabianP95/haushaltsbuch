@@ -1,0 +1,243 @@
+@use '../../../styles/main' as *;
+
+.manager {
+    @include flex-center();
+    align-items: stretch;
+    max-width: 420px;
+    background-color: $palette-3;
+    border-radius: $radius-m;
+    font-family: $font-text;
+    color: $palette-5;
+}
+
+.toggleButton {
+    @include flex-center(row);
+    justify-content: space-between;
+    width: 100%;
+    padding: $padding-md $padding-lg;
+    background: none;
+    border: none;
+    border-radius: $radius-m;
+    color: $palette-5;
+    font-family: $font-text;
+    font-size: $text-size-l;
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: 2px solid $palette-4;
+        outline-offset: -2px;
+    }
+}
+
+.content {
+    @include flex-center();
+    align-items: stretch;
+    gap: $space-md;
+    padding: 0 $padding-lg $padding-lg;
+}
+
+
+.categoryList {
+    @include flex-center();
+    justify-content: start;
+    align-items: stretch;
+    gap: 4px;
+    max-height: 220px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+
+    @include custom-scrollbar($bar-color: $palette-4);
+}
+
+.categoryItem {
+    @include flex-center(row);
+    justify-content: space-between;
+    gap: $space-sm;
+    padding: $padding-sm;
+    background-color: $palette-2;
+    border-left: 4px solid;
+    border-radius: $radius-sm;
+}
+
+.categoryName {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.categoryBudget {
+    font-family: $font-number;
+    font-size: $text-size-sm;
+    color: $palette-4;
+}
+
+.editButton {
+    padding: $space-xs $padding-sm;
+    background: transparent;
+    border: 1px solid $palette-4;
+    border-radius: $radius-sm;
+    color: $palette-5;
+    font-family: $font-text;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $palette-4;
+        color: $palette-1;
+    }
+}
+
+.form {
+    @include flex-center();
+    align-items: stretch;
+    gap: $space-md;
+}
+
+.formTitle {
+    margin: 0;
+    font-size: $text-size-m;
+}
+
+.field {
+    @include flex-center();
+    align-items: normal;
+    gap: $space-xs;
+    flex: 1;
+
+    label {
+        font-size: $text-size-m;
+    }
+
+    input,
+    select {
+        padding: $padding-sm;
+        background-color: $palette-2;
+        border: none;
+        border-radius: $radius-sm;
+        color: $palette-5;
+        font-family: $font-text;
+        font-size: $text-size-m;
+
+        &:focus-visible {
+            outline: 2px solid $palette-4;
+            outline-offset: 1px;
+        }
+    }
+}
+
+.row {
+    @include flex-center(row);
+    align-items: start;
+    gap: $space-md;
+}
+
+
+.field .colorInput {
+    height: 2.4rem;
+    padding: $space-xs;
+    cursor: pointer;
+}
+
+.iconFieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+
+    legend {
+        margin-bottom: $space-xs;
+        font-size: $text-size-m;
+    }
+}
+
+.iconGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(2.4rem, 1fr));
+    gap: $space-xs;
+}
+
+.iconButton {
+    aspect-ratio: 1;
+    background-color: $palette-2;
+    border: 2px solid transparent;
+    border-radius: $radius-sm;
+    font-size: $text-size-l;
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: 2px solid $palette-4;
+        outline-offset: 1px;
+    }
+}
+
+.iconSelected {
+    border-color: $palette-5;
+    background-color: $palette-1;
+}
+
+.hint {
+    margin: 0;
+    font-size: $text-size-sm;
+    color: $failed-text;
+}
+
+.buttonRow {
+    @include flex-center(row);
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: $space-sm;
+}
+
+.submitButton,
+.cancelButton,
+.deleteButton {
+    padding: $padding-sm $padding-md;
+    border-radius: $radius-sm;
+    font-family: $font-text;
+    font-size: $text-size-m;
+    cursor: pointer;
+}
+
+.submitButton {
+    background-color: $palette-2;
+    color: $writing-white;
+    border: none;
+
+    &:hover {
+        background-color: $palette-4;
+        color: $palette-1;
+    }
+}
+
+.cancelButton {
+    background-color: transparent;
+    color: $palette-5;
+    border: 1px solid $palette-4;
+
+    &:hover {
+        background-color: $palette-4;
+        color: $palette-1;
+    }
+}
+
+.deleteButton {
+    background-color: transparent;
+    color: $failed-text;
+    border: 1px solid $failed-border;
+
+    &:hover:not(:disabled) {
+        background-color: $failed;
+        color: $writing-white;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.chevron {
+    @include icon-size(30, 30);
+}

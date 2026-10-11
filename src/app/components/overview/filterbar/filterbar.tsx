@@ -1,10 +1,11 @@
 import { CategoryFilterBarProps } from '@/app/interfaces/interfaces';
 import styles from './filterbar.module.scss';
+import { SORT_OPTIONS, isSortOption } from '@/utils/sort';
 
 
 /**
- * Dropdown to filter the overview by category plus a search field for amount / description.
- * @param props - Categories, the selected category id, the search term and their callbacks
+ * Dropdown to filter the overview by category, a search field for amount / description and a sort dropdown.
+ * @param props - Categories, the selected category id, the search term, the sort option and their callbacks
  * @returns The filter bar
  */
 export function CategoryFilterBar({
@@ -13,6 +14,8 @@ export function CategoryFilterBar({
     onSelectCategory,
     searchTerm,
     onSearchChange,
+    sortOption,
+    onSortChange,
 }: CategoryFilterBarProps) {
     return (
         <div className={styles.filterBar}>
@@ -48,6 +51,24 @@ export function CategoryFilterBar({
                 value={searchTerm}
                 onChange={(e) => onSearchChange(e.target.value)}
             />
+
+            {/* Visually hidden label so screen readers announce what the dropdown does */}
+            <label htmlFor="sort-select" className={styles.visuallyHidden}>
+                Buchungen sortieren
+            </label>
+            <select
+                id="sort-select"
+                className={styles.filterSelect}
+                value={sortOption}
+                // Type guard turns the plain string from the <select> into the union type
+                onChange={(e) => isSortOption(e.target.value) && onSortChange(e.target.value)}
+            >
+                {SORT_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                        {option.label}
+                    </option>
+                ))}
+            </select>
         </div>
     );
 }

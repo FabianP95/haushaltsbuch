@@ -1,6 +1,6 @@
 // import { API } from "./config";
 import { STORAGE_KEY } from './config';
-import { Data, NewTransaction, Transaction } from '@/app/interfaces/interfaces';
+import { Category, Data, NewCategory, NewTransaction, Transaction } from '@/app/interfaces/interfaces';
 import { testCategories, testTransactions } from '@/app/data/testdata';
 
 
@@ -132,4 +132,55 @@ export async function deleteTransaction(id: string): Promise<void> {
     
     const transactions = (data.transactions ?? []).filter((t) => t.id !== id);
     writeStorage({ ...data, transactions });
+}
+
+
+/**
+ * Creates a category with a generated id and stores it.
+ * @param newCategory - Category data without id
+ * @returns The newly created category
+ */
+export async function createCategory(newCategory: NewCategory): Promise<Category> {
+    const category: Category = { ...newCategory, id: crypto.randomUUID() };
+    const data = getCurrentData();
+    writeStorage({ ...data, categories: [...(data.categories ?? []), category] });
+    return category;
+}
+
+
+/**
+ * Replaces a stored category (matched by id).
+ * @param category - The changed category
+ * @returns The updated category
+ */
+export async function updateCategory(category: Category): Promise<Category> {
+    const data = getCurrentData();
+    const categories = (data.categories ?? []).map((c) => (c.id === category.id ? category : c));
+    writeStorage({ ...data, categories });
+    return category;
+}
+
+
+/**
+ * Deletes a category and moves its transactions to another category, so no transaction is left without a category.
+ * @param id - Id of the category to delete
+ * @param targetCategoryId - Category that receives the transactions, `null` if the category has no transactions
+ * @throws If the category still has transactions but no valid target category is given
+ */
+export async function deleteCategory(id: string, targetCategoryId: string | null): Promise<void> {
+    const data = getCurrentData();
+    const categories = (data.categories ?? []).filter((c) => c.id !== id);
+    const hasTransactions = (data.transactions ?? []).some((t) => t.categoryId === id);
+
+    
+    if (hasTransactions && !categories.some((c) => c.id === targetCategoryId)) {
+        throw new Error('Kategorie mit Buchungen braucht eine Zielkategorie.');
+    }
+
+    const now = new Date().toISOString();
+    const transactions = (data.transactions ?? []).map((t) =>
+        t.categoryId === id && targetCategoryId ? { ...t, categoryId: targetCategoryId, updatedAt: now } : t
+    );
+
+    writeStorage({ ...data, categories, transactions });
 }

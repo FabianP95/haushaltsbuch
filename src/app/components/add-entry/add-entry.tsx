@@ -11,16 +11,18 @@ type EntryErrors = Record<string, string>;
 /**
  * Validates a new transaction before it is saved.
  * @param transaction - The transaction built from the form values
+ * @param categories - Current categories, the chosen category must still exist
  * @returns An object with one error message per invalid field (empty if valid)
  */
-function checkEntry(transaction: NewTransaction): EntryErrors {
+function checkEntry(transaction: NewTransaction, categories: Category[]): EntryErrors {
     const errors: EntryErrors = {};
 
     if (!transaction.amount || transaction.amount <= 0) {
         errors.amount = 'Bitte einen gültigen Betrag angeben';
     }
 
-    if (!transaction.categoryId) {
+    
+    if (!categories.some((c) => c.id === transaction.categoryId)) {
         errors.categoryId = 'Bitte eine Kategorie auswählen';
     }
 
@@ -114,7 +116,7 @@ export default function AddEntry({
         };
 
 
-        const validationErrors = checkEntry(newTransaction);
+        const validationErrors = checkEntry(newTransaction, categories);
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
