@@ -10,6 +10,11 @@
     margin: $space-sm 0 $space-sm 0;
 }
 
+.viewButtons {
+    @include flex-center(row);
+    gap: $space-sm;
+}
+
 .diaBtn {
     @include flex-center(row);
     cursor: pointer;
@@ -26,6 +31,11 @@
         border: 1px solid $palette-1;
 
     }
+}
+
+
+.activeBtn {
+    border: 1px solid $palette-1;
 }
 
 

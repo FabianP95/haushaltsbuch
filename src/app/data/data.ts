@@ -1,4 +1,3 @@
-// import { API } from "./config";
 import { STORAGE_KEY } from './config';
 import { Category, Data, NewCategory, NewTransaction, Transaction } from '@/app/interfaces/interfaces';
 import { testCategories, testTransactions } from '@/app/data/testdata';
@@ -74,14 +73,6 @@ function getCurrentData(): Data {
 export async function getAllData(): Promise<Data> {
     return getCurrentData();
 
-    // const response = await fetch(API, { method: 'GET' });
-    //
-    // // fetch only rejects on network errors, not on 404/500 -> check status first
-    // if (!response.ok) {
-    //     throw new Error(`Failed to load data (status ${response.status})`);
-    // }
-    //
-    // return await response.json() as Data;
 }
 
 

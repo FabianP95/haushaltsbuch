@@ -10,6 +10,13 @@ export const BUDGET_EXCEEDED_RATIO = 1;
 
 export const CATEGORY_NAME_MAX_LENGTH = 30;
 
+export const UNCATEGORIZED: Category = {
+    id: 'uncategorized',
+    name: 'Ohne Kategorie',
+    icon: '❓',
+    color: '#888888',
+};
+
 
 export const CATEGORY_ICONS: CategoryIconOption[] = [
     { icon: '🏠', label: 'Haus' },

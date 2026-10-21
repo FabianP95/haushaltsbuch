@@ -1,0 +1,15 @@
+@use '../../../../styles/main' as *;
+
+
+.nodeName {
+  font-size: $text-size-sm;
+  font-weight: bold;
+  fill: $writing-black;
+}
+
+
+.nodeValue {
+  font-family: $font-number;
+  font-weight: normal;
+  fill: $writing-muted;
+}

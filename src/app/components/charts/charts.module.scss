@@ -1,0 +1,82 @@
+@use '../../../styles/main' as *;
+
+
+.chartsContainer {
+  --chart-income: #{$success};
+  --chart-expense: #{$failed};
+  --chart-budget: #{$palette-2};
+  --chart-link: #{$palette-3};
+
+  @include flex-center();
+  @include shape-container();
+  align-items: stretch;
+  justify-content: start;
+  background-color: $palette-5;
+  flex: 1;
+  min-height: 0;
+  padding: $padding-xl;
+  gap: $space-md;
+  margin-right: $space-sm;
+  overflow-y: auto;
+  @include custom-scrollbar($bar-color: $palette-3);
+}
+
+
+.chartSwitcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-sm;
+}
+
+
+.chartButton {
+  @include no-style-btn;
+  @include shape-container($pad: $padding-sm $padding-md);
+  font: inherit;
+  background-color: white;
+  border: 1px solid $palette-3;
+
+  &:hover {
+    border-color: $palette-1;
+  }
+
+  &:focus-visible {
+    outline: $outline-sm solid $palette-1;
+    outline-offset: $space-xs;
+  }
+}
+
+
+.activeChartButton {
+  background-color: $palette-2;
+  border-color: $palette-2;
+  color: $writing-white;
+  font-weight: bold;
+}
+
+
+.chartCard {
+  @include shape-container($pad: $padding-md);
+  background-color: white;
+  border: 1px solid $palette-1;
+}
+
+
+.chartTitle {
+  margin: 0 0 $space-md;
+  font-size: $text-size-l;
+  color: $writing-black;
+}
+
+
+.emptyState {
+  @include flex-center();
+  padding: $padding-xl;
+  background-color: $palette-4;
+  border-radius: $radius-sm;
+  color: $writing-muted;
+
+  p {
+    margin: 0;
+  }
+}

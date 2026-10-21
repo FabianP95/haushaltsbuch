@@ -179,7 +179,6 @@ export default function CategoryManager({
                             )}
                         </div>
 
-                        {/* fieldset + legend groups the icon buttons under one label for screen readers */}
                         <fieldset className={styles.iconFieldset}>
                             <legend>Icon</legend>
                             <div className={styles.iconGrid}>

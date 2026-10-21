@@ -1,6 +1,5 @@
 import { TransactionItemProps } from '@/app/interfaces/interfaces';
 import styles from './transaction-item.module.scss';
-// Next.js image component: optimizes and lazy-loads images instead of a plain <img>
 import Image from 'next/image';
 import { formatCurrency } from '@/utils/currency';
 

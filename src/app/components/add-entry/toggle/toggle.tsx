@@ -1,5 +1,5 @@
 import styles from './toogle.module.scss';
-import type { TransactionType } from '../../../interfaces/interfaces'; // Pfad anpassen
+import type { TransactionType } from '../../../interfaces/interfaces';
 
 interface TypeToggleProps {
     value: TransactionType;

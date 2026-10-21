@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatCurrency } from '../utils/currency';
+import { formatCurrency, formatCurrencyShort } from '../utils/currency';
 
 
 /**
@@ -29,5 +29,12 @@ describe('formatCurrency', () => {
 
   it('formats negative values with a minus sign', () => {
     expect(normalize(formatCurrency(-5))).toBe('-5,00 €');
+  });
+});
+
+
+describe('formatCurrencyShort', () => {
+  it('rounds to whole euros without decimals', () => {
+    expect(normalize(formatCurrencyShort(1234.56))).toBe('1.235 €');
   });
 });

@@ -52,7 +52,6 @@ export function CategoryFilterBar({
                 onChange={(e) => onSearchChange(e.target.value)}
             />
 
-            {/* Visually hidden label so screen readers announce what the dropdown does */}
             <label htmlFor="sort-select" className={styles.visuallyHidden}>
                 Buchungen sortieren
             </label>
@@ -60,7 +59,6 @@ export function CategoryFilterBar({
                 id="sort-select"
                 className={styles.filterSelect}
                 value={sortOption}
-                // Type guard turns the plain string from the <select> into the union type
                 onChange={(e) => isSortOption(e.target.value) && onSortChange(e.target.value)}
             >
                 {SORT_OPTIONS.map((option) => (

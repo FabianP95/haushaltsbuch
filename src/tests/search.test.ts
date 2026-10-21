@@ -21,7 +21,6 @@ import { matchesSearch } from '../utils/search';
  */
 
 
-// TODO: makeTransaction factory (see date-filter.test.ts)
 function makeTransaction(overrides: Partial<Transaction>): Transaction {
   return {
     id: 'test-id',

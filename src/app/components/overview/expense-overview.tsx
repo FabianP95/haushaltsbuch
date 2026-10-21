@@ -6,19 +6,12 @@ import { CategoryFilterBar } from './filterbar/filterbar';
 import styles from './expense-overview.module.scss';
 import { matchesSearch } from '@/utils/search';
 import { DEFAULT_SORT_OPTION, sortTransactions } from '@/utils/sort';
-import { getBudgetLimit, getBudgetUsage, getCategoryExpenses } from '@/utils/category';
+import { UNCATEGORIZED, getBudgetLimit, getBudgetUsage, getCategoryExpenses } from '@/utils/category';
 
 
 const EMPTY_CATEGORIES: Category[] = [];
 const EMPTY_TRANSACTIONS: Transaction[] = [];
 
-
-const UNCATEGORIZED: Category = {
-    id: 'uncategorized',
-    name: 'Ohne Kategorie',
-    icon: '❓',
-    color: '#888888',
-};
 
 /**
  * Overview with category filter bar and the transactions grouped by category.

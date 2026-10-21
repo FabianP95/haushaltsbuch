@@ -107,7 +107,6 @@ export const testCategories: Category[] = [
 ];
 
 export const testTransactions: Transaction[] = [
-  // Standard-Ausgabe, alle Felder gesetzt, nicht wiederkehrend
   {
     id: 'tx-1',
     type: 'Ausgabe',
@@ -119,7 +118,6 @@ export const testTransactions: Transaction[] = [
     createdAt: '2025-08-01T09:12:00Z',
     updatedAt: '2025-08-01T09:12:00Z',
   },
-  // Ausgabe ohne description (optionales Feld fehlt)
   {
     id: 'tx-2',
     type: 'Ausgabe',
@@ -130,7 +128,6 @@ export const testTransactions: Transaction[] = [
     createdAt: '2025-08-03T18:40:00Z',
     updatedAt: '2025-08-03T18:40:00Z',
   },
-  // Wiederkehrende Ausgabe, monatlich, ohne Enddatum
   {
     id: 'tx-3',
     type: 'Ausgabe',
@@ -143,7 +140,6 @@ export const testTransactions: Transaction[] = [
     createdAt: '2025-08-01T00:00:00Z',
     updatedAt: '2025-08-01T00:00:00Z',
   },
-  // Automatisch generierte Instanz der Miete (recurrenceParentId gesetzt)
   {
     id: 'tx-3b',
     type: 'Ausgabe',
@@ -155,7 +151,6 @@ export const testTransactions: Transaction[] = [
     createdAt: '2025-09-01T00:00:00Z',
     updatedAt: '2025-09-01T00:00:00Z',
   },
-  // Wiederkehrend, quartalsweise, mit Enddatum
   {
     id: 'tx-4',
     type: 'Ausgabe',
@@ -169,7 +164,6 @@ export const testTransactions: Transaction[] = [
     createdAt: '2025-08-05T00:00:00Z',
     updatedAt: '2025-08-05T00:00:00Z',
   },
-  // Wiederkehrend, jeden zweiten Monat
   {
     id: 'tx-5',
     type: 'Ausgabe',

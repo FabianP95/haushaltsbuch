@@ -1,6 +1,5 @@
 import { SelectedPeriod, SideDateOption, Transaction } from '@/app/interfaces/interfaces';
 
-// Number of months shown in the sidebar (always the full year)
 export const MONTHS_PER_YEAR = 12;
 
 /**
@@ -11,6 +10,25 @@ export const MONTHS_PER_YEAR = 12;
 export function getYearAndMonth(date: string): { year: number; month: number } {
     const [year, month] = date.split('-').map(Number);
     return { year, month };
+}
+
+/**
+ * Reads the day of the month directly from the ISO string "YYYY-MM-DD".
+ * @param date - ISO date string, e.g. "2026-03-15"
+ * @returns The day of the month, e.g. 15
+ */
+export function getDayOfMonth(date: string): number {
+    return Number(date.split('-')[2]);
+}
+
+/**
+ * Returns how many days a month has, leap years included.
+ * @param year - Full year, e.g. 2026
+ * @param month - 1-based month number (1-12)
+ * @returns Number of days, e.g. 28, 29, 30 or 31
+ */
+export function getDaysInMonth(year: number, month: number): number {
+    return new Date(year, month, 0).getDate();
 }
 
 /**
@@ -32,6 +50,24 @@ export function getAvailableYears(transactions: Transaction[], currentYear: numb
  */
 export function getMonthName(monthNumber: number): string {
     return new Date(2000, monthNumber - 1, 1).toLocaleDateString('de-DE', { month: 'long' });
+}
+
+/**
+ * Returns the short German month name, e.g. 3 -> "März", 10 -> "Okt.".
+ * @param monthNumber - 1-based month number (1-12)
+ * @returns The abbreviated month name in German
+ */
+export function getShortMonthName(monthNumber: number): string {
+    return new Date(2000, monthNumber - 1, 1).toLocaleDateString('de-DE', { month: 'short' });
+}
+
+/**
+ * Builds a readable label for the selected period, e.g. "Mai 2026" or "2026" for the whole year.
+ * @param period - Selected year and month (`month: null` means the whole year)
+ * @returns The period label
+ */
+export function getPeriodLabel(period: SelectedPeriod): string {
+    return period.month === null ? String(period.year) : `${getMonthName(period.month)} ${period.year}`;
 }
 
 /**

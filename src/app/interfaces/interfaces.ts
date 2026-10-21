@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type TransactionType = 'Ausgabe' | 'Einnahme';
 
 export type RecurrenceInterval = 'monatlich' | 'jeden zweiten Monat' | 'quartalsweise' | 'jährlich';
@@ -196,3 +198,139 @@ export interface SidebarProps {
 
 
 
+
+
+export type MainView = 'list' | 'charts';
+
+
+export interface MainViewOption {
+    value: MainView;
+    label: string;
+    icon: string;
+}
+
+
+export interface NavbarProps extends FinanceSummary {
+    activeView: MainView;
+    onSelectView: (view: MainView) => void;
+}
+
+
+export type ChartType = 'bar' | 'pie' | 'sankey' | 'line';
+
+
+export interface ChartTypeOption {
+    value: ChartType;
+    label: string;
+}
+
+
+export interface ChartSwitcherProps {
+    activeChart: ChartType;
+    onSelectChart: (chart: ChartType) => void;
+}
+
+
+export interface MonthlyTotal {
+    month: number;
+    label: string;
+    income: number;
+    expense: number;
+}
+
+
+export interface CategoryTotal {
+    categoryId: string;
+    name: string;
+    color: string;
+    amount: number;
+    ratio: number;
+}
+
+
+export interface MoneyFlowNode {
+    name: string;
+    color: string;
+}
+
+
+export interface MoneyFlowLink {
+    source: number;
+    target: number;
+    value: number;
+}
+
+
+export interface MoneyFlowData {
+    nodes: MoneyFlowNode[];
+    links: MoneyFlowLink[];
+}
+
+
+export interface ChartsProps {
+    categories: Category[];
+    transactions: Transaction[];
+    selectedPeriod: SelectedPeriod;
+    selectedCategoryId: string;
+    onSelectCategory: (categoryId: string) => void;
+}
+
+
+export interface ChartCardProps {
+    title: string;
+    isEmpty: boolean;
+    emptyMessage: string;
+    children: ReactNode;
+}
+
+
+export interface MonthlyBarChartProps {
+    data: MonthlyTotal[];
+}
+
+
+export interface CategoryPieChartProps {
+    data: CategoryTotal[];
+    total: number;
+    onSelectCategory: (categoryId: string) => void;
+}
+
+
+export interface CategoryLegendProps {
+    data: CategoryTotal[];
+    onSelectCategory: (categoryId: string) => void;
+}
+
+
+export interface MoneyFlowSankeyProps {
+    data: MoneyFlowData;
+}
+
+
+export interface CategoryTimelinePoint {
+    label: string;
+    values: Record<string, number>;
+}
+
+
+export interface CategoryTimeline {
+    points: CategoryTimelinePoint[];
+    series: CategoryTotal[];
+}
+
+
+export type TimelineMode = TransactionType | 'balance';
+
+
+export interface CategoryLineChartProps {
+    transactions: Transaction[];
+    categories: Category[];
+    period: SelectedPeriod;
+}
+
+
+export interface CategoryLineLegendProps {
+    series: CategoryTotal[];
+    highlightedId: string | null;
+    onHighlight: (categoryId: string | null) => void;
+}

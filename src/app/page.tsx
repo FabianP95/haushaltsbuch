@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react';
 import styles from './page.module.scss'
 
 import { getAllData, createTransaction, updateTransaction, deleteTransaction, createCategory, updateCategory, deleteCategory } from './data/data';
-import { Category, FinanceSummary, FormPreset, NewCategory, NewTransaction, SelectedPeriod, Transaction } from './interfaces/interfaces';
+import { Category, FinanceSummary, FormPreset, MainView, NewCategory, NewTransaction, SelectedPeriod, Transaction } from './interfaces/interfaces';
 import { Data } from './interfaces/interfaces';
 import { filterTransactions, getAvailableYears } from '@/utils/date-filter';
 
@@ -13,6 +13,7 @@ import AddEntry from './components/add-entry/add-entry';
 import Sidebar from "./components/sidebar/sidebar";
 import Navbar from './components/navbar/navbar';
 import CategoryManager from './components/category-manager/category-manager';
+import Charts from './components/charts/charts';
 
 /**
  * Main page: loads the data, holds the filter state and composes sidebar, navbar, overview and entry form.
@@ -31,6 +32,8 @@ export default function Home() {
   });
 
   const [formPreset, setFormPreset] = useState<FormPreset>({ version: 0, editingTransaction: null });
+
+  const [activeView, setActiveView] = useState<MainView>('list');
 
   useEffect(() => {
 
@@ -171,6 +174,17 @@ export default function Home() {
 
 
 
+  /**
+   * Called from the pie chart: sets the category filter and shows the matching transactions.
+   * @param categoryId - Id of the clicked category
+   */
+  function handleChartCategorySelect(categoryId: string) {
+    setSelectedCategoryId(categoryId);
+    setActiveView('list');
+  }
+
+
+
   function resetForm() {
     setFormPreset((prev) => ({ version: prev.version + 1, editingTransaction: null }));
   }
@@ -227,21 +241,32 @@ export default function Home() {
           totalTransactions={summary.totalTransactions}
           totalExpenseSum={summary.totalExpenseSum}
           totalIncomeSum={summary.totalIncomeSum}
-          currentBalance={summary.currentBalance} />
+          currentBalance={summary.currentBalance}
+          activeView={activeView}
+          onSelectView={setActiveView} />
 
         <div className={styles.mainView}>
 
 
-          <ExpenseOverview
-            categories={data.categories}
-            transactions={filteredTransactions}
-            selectedCategoryId={selectedCategoryId}
-            selectedPeriod={selectedPeriod}
-            onSelectCategory={setSelectedCategoryId}
-            onEditTransaction={handleEditTransaction}
-            onDeleteTransaction={handleDeleteTransaction}
-            onAddToCategory={handleAddToCategory}
-            onUpdateCategory={handleUpdateCategory} />
+          {activeView === 'list' ? (
+            <ExpenseOverview
+              categories={data.categories}
+              transactions={filteredTransactions}
+              selectedCategoryId={selectedCategoryId}
+              selectedPeriod={selectedPeriod}
+              onSelectCategory={setSelectedCategoryId}
+              onEditTransaction={handleEditTransaction}
+              onDeleteTransaction={handleDeleteTransaction}
+              onAddToCategory={handleAddToCategory}
+              onUpdateCategory={handleUpdateCategory} />
+          ) : (
+            <Charts
+              categories={data.categories ?? []}
+              transactions={data.transactions ?? []}
+              selectedPeriod={selectedPeriod}
+              selectedCategoryId={selectedCategoryId}
+              onSelectCategory={handleChartCategorySelect} />
+          )}
 
 
           <div className={styles.sideColumn}>

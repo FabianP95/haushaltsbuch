@@ -112,7 +112,7 @@ export function CategoryGroupCard({
                     </button>
                     <button className={styles.addBtn} onClick={() => setIsOpen((prev) => !prev)} aria-expanded={isOpen}>
                         <Image
-                            src={isOpen ? '/assets/icons/expand_up.svg' : '/assets/icons/expand_down_dark.svg'}
+                            src={isOpen ? '/assets/icons/expand_up_dark.svg' : '/assets/icons/expand_down_dark.svg'}
                             alt={isOpen ? 'Zuklappen' : 'Aufklappen'}
                             className={styles.chevron}
                             width={30}

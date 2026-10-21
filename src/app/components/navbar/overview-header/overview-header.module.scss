@@ -55,7 +55,6 @@
     font-family: $font-number;
 }
 
-// dynamisch: Gesamt wechselt je nach Vorzeichen
 .negativeContainer {
     outline: 2px solid $failed-border;
     background: linear-gradient(135deg, #802e27 0%, #581e19 100%);
@@ -74,7 +73,6 @@
     color: $failed-text;
 }
 
-// statisch: Einnahmen immer grün, Ausgaben immer rot
 .incomeContainer {
     outline: 2px solid $success-border;
     background: linear-gradient(135deg, #2d563e 0%, #1e3e2c 100%);

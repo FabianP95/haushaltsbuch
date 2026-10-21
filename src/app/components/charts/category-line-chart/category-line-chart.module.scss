@@ -1,0 +1,112 @@
+@use '../../../../styles/main' as *;
+
+
+.lineChartContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+
+.typeSwitcher {
+  display: flex;
+  gap: $space-sm;
+}
+
+
+.typeButton {
+  @include no-style-btn;
+  padding: $space-xs $space-sm;
+  border: 1px solid $palette-3;
+  border-radius: $radius-sm;
+  font: inherit;
+  font-size: $text-size-sm;
+  background-color: white;
+
+  &:hover {
+    border-color: $palette-1;
+  }
+
+  &:focus-visible {
+    outline: $outline-sm solid $palette-1;
+  }
+}
+
+
+.activeTypeButton {
+  background-color: $palette-2;
+  border-color: $palette-2;
+  color: $writing-white;
+  font-weight: bold;
+}
+
+
+.lineLayout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-lg;
+}
+
+
+.chartWrapper {
+  flex: 3 1 360px;
+  min-width: 0;
+}
+
+
+.legend {
+  flex: 1 1 200px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+
+.legendItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-xs $space-sm;
+  border-radius: $radius-sm;
+  cursor: default;
+
+  &:focus-visible {
+    outline: $outline-sm solid $palette-1;
+  }
+}
+
+
+.highlightedItem {
+  background-color: $palette-5;
+  font-weight: bold;
+}
+
+
+.legendColor {
+  @include icon-size(12px, 12px);
+  border-radius: 50%;
+}
+
+
+.legendAmount {
+  font-family: $font-number;
+  text-align: right;
+}
+
+
+.emptyState {
+  @include flex-center();
+  padding: $padding-xl;
+  background-color: $palette-4;
+  border-radius: $radius-sm;
+  color: $writing-muted;
+
+  p {
+    margin: 0;
+  }
+}
