@@ -77,9 +77,6 @@ export function CategoryGroupCard({
             >
                 <div className={styles.groupInfo}>
                     <div className={styles.groupTitleInfo}>
-                        <span className={styles.groupIcon} style={{ backgroundColor: `${group.category.color}20` }}>
-                            {group.category.icon}
-                        </span>
                         <div>
                             <h3 className={styles.groupName}>{group.category.name}</h3>
                             <span className={styles.groupCount}>

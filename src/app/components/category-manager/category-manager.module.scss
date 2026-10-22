@@ -141,42 +141,6 @@
     cursor: pointer;
 }
 
-.iconFieldset {
-    margin: 0;
-    padding: 0;
-    border: none;
-
-    legend {
-        margin-bottom: $space-xs;
-        font-size: $text-size-m;
-    }
-}
-
-.iconGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(2.4rem, 1fr));
-    gap: $space-xs;
-}
-
-.iconButton {
-    aspect-ratio: 1;
-    background-color: $palette-2;
-    border: 2px solid transparent;
-    border-radius: $radius-sm;
-    font-size: $text-size-l;
-    cursor: pointer;
-
-    &:focus-visible {
-        outline: 2px solid $palette-4;
-        outline-offset: 1px;
-    }
-}
-
-.iconSelected {
-    border-color: $palette-5;
-    background-color: $palette-1;
-}
-
 .hint {
     margin: 0;
     font-size: $text-size-sm;

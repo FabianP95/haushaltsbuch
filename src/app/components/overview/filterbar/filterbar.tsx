@@ -32,7 +32,6 @@ export function CategoryFilterBar({
                 {categories.map((category) => {
                     return (
                         <option key={category.id} value={category.id}>
-                            {category.icon ? `${category.icon} ` : ''}
                             {category.name}
                         </option>
                     );

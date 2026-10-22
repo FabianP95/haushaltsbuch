@@ -35,9 +35,9 @@ function makeTransaction(overrides: Partial<Transaction>): Transaction {
 }
 
 const categories: Category[] = [
-  { id: 'food', name: 'Lebensmittel', icon: '🛒', color: '#3B6D11' },
-  { id: 'home', name: 'Wohnen', icon: '🏠', color: '#185FA5' },
-  { id: 'salary', name: 'Gehalt', icon: '💶', color: '#04342C' },
+  { id: 'food', name: 'Lebensmittel', color: '#3B6D11' },
+  { id: 'home', name: 'Wohnen', color: '#185FA5' },
+  { id: 'salary', name: 'Gehalt', color: '#04342C' },
 ];
 
 /**

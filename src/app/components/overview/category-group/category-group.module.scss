@@ -25,13 +25,6 @@
   justify-content: start
 }
 
-.groupIcon {
-  @include flex-center(row);
-  @include icon-size(30, 30);
-  border-radius: 50%;
-  font-size: $text-size-l;
-}
-
 .groupName {
   margin: 0;
   font-size: $text-size-m;

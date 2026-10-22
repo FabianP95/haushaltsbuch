@@ -24,7 +24,6 @@ export interface Data {
 export interface Category {
     id: string;
     name: string;
-    icon: string;
     color: string;
     monthlyBudget?: number;
 }
@@ -117,11 +116,6 @@ export interface BudgetUsage {
 
 export interface SortOptionItem {
     value: TransactionSortOption;
-    label: string;
-}
-
-export interface CategoryIconOption {
-    icon: string;
     label: string;
 }
 

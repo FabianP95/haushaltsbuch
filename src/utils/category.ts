@@ -1,4 +1,4 @@
-import { BudgetUsage, Category, CategoryIconOption, NewCategory, SelectedPeriod, Transaction } from '@/app/interfaces/interfaces';
+import { BudgetUsage, Category, NewCategory, SelectedPeriod, Transaction } from '@/app/interfaces/interfaces';
 import { MONTHS_PER_YEAR } from './date-filter';
 
 
@@ -13,33 +13,8 @@ export const CATEGORY_NAME_MAX_LENGTH = 30;
 export const UNCATEGORIZED: Category = {
     id: 'uncategorized',
     name: 'Ohne Kategorie',
-    icon: '❓',
     color: '#888888',
 };
-
-
-export const CATEGORY_ICONS: CategoryIconOption[] = [
-    { icon: '🏠', label: 'Haus' },
-    { icon: '🛒', label: 'Einkaufswagen' },
-    { icon: '🎮', label: 'Spiele' },
-    { icon: '🚗', label: 'Auto' },
-    { icon: '🏥', label: 'Krankenhaus' },
-    { icon: '🛡️', label: 'Schild' },
-    { icon: '🐷', label: 'Sparschwein' },
-    { icon: '📚', label: 'Bücher' },
-    { icon: '🛍️', label: 'Einkaufstüten' },
-    { icon: '🧴', label: 'Drogerie' },
-    { icon: '✈️', label: 'Flugzeug' },
-    { icon: '🎁', label: 'Geschenk' },
-    { icon: '💛', label: 'Herz' },
-    { icon: '📦', label: 'Paket' },
-    { icon: '💶', label: 'Geldschein' },
-    { icon: '🔑', label: 'Schlüssel' },
-    { icon: '🍽️', label: 'Restaurant' },
-    { icon: '🐾', label: 'Haustier' },
-    { icon: '👶', label: 'Kind' },
-    { icon: '📱', label: 'Handy' },
-];
 
 export type CategoryErrors = Record<string, string>;
 
@@ -71,11 +46,6 @@ export function checkCategory(
             errors.name = 'Eine Kategorie mit diesem Namen gibt es bereits';
         }
     }
-
-    if (!category.icon) {
-        errors.icon = 'Bitte ein Icon auswählen';
-    }
-
 
     if (!/^#[0-9a-fA-F]{6}$/.test(category.color)) {
         errors.color = 'Bitte eine gültige Farbe auswählen';

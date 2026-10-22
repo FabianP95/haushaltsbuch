@@ -5,103 +5,87 @@ export const testCategories: Category[] = [
   {
     id: '1',
     name: 'Wohnen',
-    icon: '🏠',
     color: '#185FA5',
 
   },
   {
     id: '2',
     name: 'Lebensmittel',
-    icon: '🛒',
     color: '#3B6D11',
 
   },
   {
     id: '3',
     name: 'Freizeit',
-    icon: '🎮',
     color: '#854F0B',
 
   },
   {
     id: '4',
     name: 'Mobilität',
-    icon: '🚗',
     color: '#534AB7',
 
   },
   {
     id: '5',
     name: 'Gesundheit',
-    icon: '🏥',
     color: '#A32D2D',
   },
   {
     id: '6',
     name: 'Versicherungen',
-    icon: '🛡️',
     color: '#5F5E5A',
   },
   {
     id: '7',
     name: 'Sparen & Anlegen',
-    icon: '🐷',
     color: '#993C1D',
 
   },
   {
     id: '8',
     name: 'Bildung',
-    icon: '📚',
     color: '#993556',
 
   },
   {
     id: '9',
     name: 'Shopping',
-    icon: '🛍️',
     color: '#3C3489',
   },
   {
     id: '10',
     name: 'Drogerie',
-    icon: '🧴',
     color: '#791F1F',
   },
   {
     id: '11',
     name: 'Urlaub',
-    icon: '✈️',
     color: '#712B13',
   },
   {
     id: '12',
     name: 'Geschenke',
-    icon: '🎁',
     color: '#72243E',
   },
   {
     id: '13',
     name: 'Spenden',
-    icon: '💛',
     color: '#633806',
   },
   {
     id: 'c14',
     name: 'Sonstiges',
-    icon: '📦',
     color: '#444441',
   },
   {
     id: '15',
     name: 'Gehalt & Zinsen',
-    icon: '💶',
     color: '#04342C',
   },
   {
     id: '16',
     name: 'Miete',
-    icon: '🔑',
     color: '#085041',
   },
 ];

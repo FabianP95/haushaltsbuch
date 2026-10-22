@@ -35,10 +35,10 @@ function makeTransaction(overrides: Partial<Transaction>): Transaction {
  * @returns Category data without id
  */
 function makeNewCategory(overrides: Partial<NewCategory>): NewCategory {
-  return { name: 'Haustier', icon: '🐾', color: '#3d6b8a', ...overrides };
+  return { name: 'Haustier', color: '#3d6b8a', ...overrides };
 }
 
-const existing: Category[] = [{ id: '1', name: 'Wohnen', icon: '🏠', color: '#185FA5' }];
+const existing: Category[] = [{ id: '1', name: 'Wohnen', color: '#185FA5' }];
 
 
 describe('checkCategory', () => {
@@ -61,10 +61,6 @@ describe('checkCategory', () => {
 
   it('allows keeping the own name while editing', () => {
     expect(checkCategory(makeNewCategory({ name: 'Wohnen' }), existing, '1')).toEqual({});
-  });
-
-  it('requires an icon', () => {
-    expect(checkCategory(makeNewCategory({ icon: '' }), existing)).toHaveProperty('icon');
   });
 
   it.each(['red', '#fff', '#12345g'])('rejects invalid colors ("%s")', (color) => {

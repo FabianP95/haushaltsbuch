@@ -2,12 +2,11 @@
 import { useState, SubmitEvent } from 'react';
 import Image from 'next/image';
 import type { Category, CategoryManagerProps, NewCategory } from '@/app/interfaces/interfaces';
-import { CATEGORY_ICONS, CATEGORY_NAME_MAX_LENGTH, CategoryErrors, checkCategory, parseBudgetInput } from '@/utils/category';
+import { CATEGORY_NAME_MAX_LENGTH, CategoryErrors, checkCategory, parseBudgetInput } from '@/utils/category';
 import { formatCurrency } from '@/utils/currency';
 import { ErrorMessage } from '../add-entry/error-msg/error-msg';
 import styles from './category-manager.module.scss';
 
-const DEFAULT_ICON = CATEGORY_ICONS[0].icon;
 const DEFAULT_COLOR = '#3d6b8a';
 
 /**
@@ -27,7 +26,6 @@ export default function CategoryManager({
 
     const [editingCategory, setEditingCategory] = useState<Category | null>(null);
     const [name, setName] = useState('');
-    const [icon, setIcon] = useState(DEFAULT_ICON);
     const [color, setColor] = useState(DEFAULT_COLOR);
     const [budget, setBudget] = useState('');
     const [targetCategoryId, setTargetCategoryId] = useState('');
@@ -48,7 +46,6 @@ export default function CategoryManager({
     function fillForm(category: Category | null) {
         setEditingCategory(category);
         setName(category?.name ?? '');
-        setIcon(category?.icon ?? DEFAULT_ICON);
         setColor(category?.color ?? DEFAULT_COLOR);
         setBudget(category?.monthlyBudget !== undefined ? String(category.monthlyBudget) : '');
         setTargetCategoryId(categories.find((c) => c.id !== category?.id)?.id ?? '');
@@ -76,7 +73,6 @@ export default function CategoryManager({
 
         const category: NewCategory = {
             name: name.trim(),
-            icon,
             color,
             monthlyBudget: parseBudgetInput(budget),
         };
@@ -142,7 +138,7 @@ export default function CategoryManager({
                         {categories.map((category) => (
                             <li key={category.id} className={styles.categoryItem} style={{ borderLeftColor: category.color }}>
                                 <span className={styles.categoryName}>
-                                    {category.icon} {category.name}
+                                    {category.name}
                                 </span>
                                 {category.monthlyBudget !== undefined && (
                                     <span className={styles.categoryBudget}>{formatCurrency(category.monthlyBudget)} / Monat</span>
@@ -178,27 +174,6 @@ export default function CategoryManager({
                                 <ErrorMessage key={errors.name} text={errors.name} onExpire={() => clearError('name')} />
                             )}
                         </div>
-
-                        <fieldset className={styles.iconFieldset}>
-                            <legend>Icon</legend>
-                            <div className={styles.iconGrid}>
-                                {CATEGORY_ICONS.map((option) => (
-                                    <button
-                                        key={option.icon}
-                                        type="button"
-                                        className={`${styles.iconButton} ${icon === option.icon ? styles.iconSelected : ''}`}
-                                        onClick={() => setIcon(option.icon)}
-                                        aria-pressed={icon === option.icon}
-                                        aria-label={option.label}
-                                    >
-                                        {option.icon}
-                                    </button>
-                                ))}
-                            </div>
-                            {errors.icon && (
-                                <ErrorMessage key={errors.icon} text={errors.icon} onExpire={() => clearError('icon')} />
-                            )}
-                        </fieldset>
 
                         <div className={styles.row}>
                             <div className={styles.field}>
@@ -244,7 +219,7 @@ export default function CategoryManager({
                                         onChange={(e) => setTargetCategoryId(e.target.value)}
                                     >
                                         {otherCategories.map((c) => (
-                                            <option key={c.id} value={c.id}>{c.icon} {c.name}</option>
+                                            <option key={c.id} value={c.id}>{c.name}</option>
                                         ))}
                                     </select>
                                 ) : (
