@@ -1,14 +1,43 @@
 @use '../../../styles/main' as *;
 
+// lightly tinted tool panel so the form stands apart from the white content cards
 .addEntry {
+    @include flex-center();
+    align-items: stretch;
+    width: 100%;
+    max-width: 420px;
+    background-color: $surface-tint;
+    border-radius: $radius-l;
+    font-family: $font-text;
+    color: $text-primary;
+}
+
+// clickable header that opens / closes the form (same as in the category manager)
+.toggleButton {
+    @include flex-center(row);
+    justify-content: space-between;
+    width: 100%;
+    padding: $padding-md $padding-lg;
+    background: none;
+    border: none;
+    border-radius: $radius-l;
+    color: $text-primary;
+    font-family: $font-text;
+    font-size: $text-size-l;
+    font-weight: 600;
+    cursor: pointer;
+    @include focus-ring;
+}
+
+.chevron {
+    @include icon-size($icon-md, $icon-md);
+}
+
+.form {
     @include flex-center();
     align-items: normal;
     gap: $space-md;
-    max-width: 420px;
-    padding: $padding-lg;
-    background-color: $palette-3;
-    border-radius: $radius-m;
-    font-family: $font-text;
+    padding: 0 $padding-lg $padding-lg;
 }
 
 .field {
@@ -18,24 +47,14 @@
     flex: 1;
 
     label {
-        font-size: $text-size-m;
-        color: $palette-5;
+        font-size: $text-size-sm;
+        font-weight: 500;
+        color: $text-secondary;
     }
 
     input,
     select {
-        padding: $padding-sm;
-        background-color: $palette-2;
-        border: none;
-        border-radius: $radius-sm;
-        color: $palette-5;
-        font-family: $font-text;
-        font-size: $text-size-m;
-
-        &:focus-visible {
-            outline: 2px solid $palette-4;
-            outline-offset: 1px;
-        }
+        @include input-light;
     }
 }
 
@@ -44,41 +63,43 @@
     align-items: start;
     gap: $space-md;
 
-    
+
 }
 
 .amountWrapper {
     @include flex-center(row);
-    background-color: transparent;
-    border: none;
+    padding: 0 $padding-sm;
+    background-color: $surface-card;
+    border: 1px solid $border-input;
     border-radius: $radius-sm;
     gap: $space-sm;
+
+    // highlights the whole amount box while the inner input is focused
+    &:focus-within {
+        outline: 2px solid rgba($palette-3, 0.5);
+        outline-offset: 2px;
+    }
 }
 
-.amountInput {
+// selector is doubled to win over the generic `.field input` styles
+.amountInput.amountInput {
     flex: 1;
     background: transparent;
     border: none;
     padding: $padding-sm 0;
     font-family: $font-number;
     font-size: $text-size-l;
-    color: $palette-5;
+    color: $text-primary;
 
-    &:focus {
+    &:focus,
+    &:focus-visible {
         outline: none;
     }
 }
 
 .currency {
     font-size: $text-size-l;
-    color: $palette-5;
-}
-
-
-.formTitle {
-    margin: 0;
-    font-size: $text-size-l;
-    color: $palette-5;
+    color: $text-secondary;
 }
 
 
@@ -88,34 +109,10 @@
 }
 
 .cancelButton {
+    @include ghost-btn;
     padding: $padding-sm $padding-md;
-    background-color: transparent;
-    color: $palette-5;
-    border: 1px solid $palette-4;
-    border-radius: $radius-sm;
-    font-family: $font-text;
-    font-size: $text-size-m;
-    cursor: pointer;
-
-    &:hover {
-        background-color: $palette-4;
-        color: $palette-1;
-    }
 }
 
 .submitButton {
-    padding: $padding-sm $padding-md;
-    background-color: $palette-3;
-    color: $writing-white;
-    border: none;
-    border-radius: $radius-sm;
-    font-family: $font-text;
-    font-size: $text-size-m;
-    cursor: pointer;
-    transition: background-color 0.15s ease;
-
-    &:hover {
-        background-color: $palette-4;
-        color: $palette-1;
-    }
+    @include primary-btn;
 }

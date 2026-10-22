@@ -124,11 +124,11 @@ export default function CategoryManager({
                 <span>Kategorien verwalten</span>
                 
                 <Image
-                    src={isOpen ? '/assets/icons/expand_up_light.svg' : '/assets/icons/expand_down_light.svg'}
+                    src={isOpen ? '/assets/icons/expand_up_dark.svg' : '/assets/icons/expand_down_dark.svg'}
                     alt=""
                     className={styles.chevron}
-                    width={30}
-                    height={30}
+                    width={20}
+                    height={20}
                 />
             </button>
 

@@ -15,29 +15,19 @@
 
 
 .typeButton {
-  @include no-style-btn;
-  padding: $space-xs $space-sm;
-  border: 1px solid $palette-3;
-  border-radius: $radius-sm;
+  @include ghost-btn;
   font: inherit;
   font-size: $text-size-sm;
-  background-color: white;
-
-  &:hover {
-    border-color: $palette-1;
-  }
-
-  &:focus-visible {
-    outline: $outline-sm solid $palette-1;
-  }
+  color: $text-secondary;
 }
 
 
+// active filter: soft pill instead of a dark filled button
 .activeTypeButton {
-  background-color: $palette-2;
-  border-color: $palette-2;
-  color: $writing-white;
-  font-weight: bold;
+  background-color: $surface-active;
+  border-color: transparent;
+  color: $text-primary;
+  font-weight: 600;
 }
 
 
@@ -74,16 +64,13 @@
   padding: $space-xs $space-sm;
   border-radius: $radius-sm;
   cursor: default;
-
-  &:focus-visible {
-    outline: $outline-sm solid $palette-1;
-  }
+  @include focus-ring;
 }
 
 
 .highlightedItem {
-  background-color: $palette-5;
-  font-weight: bold;
+  background-color: $surface-hover;
+  font-weight: 600;
 }
 
 
@@ -95,6 +82,7 @@
 
 .legendAmount {
   font-family: $font-number;
+  font-variant-numeric: tabular-nums;
   text-align: right;
 }
 
@@ -102,9 +90,9 @@
 .emptyState {
   @include flex-center();
   padding: $padding-xl;
-  background-color: $palette-4;
-  border-radius: $radius-sm;
-  color: $writing-muted;
+  border: 1px dashed $border-input;
+  border-radius: $radius-m;
+  color: $text-secondary;
 
   p {
     margin: 0;

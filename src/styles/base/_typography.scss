@@ -9,7 +9,8 @@
 @font-face {
   font-family: 'Source Sans 3';
   src: url('../../..//public/fonts/Source_Sans_3/SourceSans3-VariableFont_wght.ttf') format('truetype');
-  font-weight: 400;
+  // variable font: declaring the full range enables lighter/medium weights like 300, 500 and 600
+  font-weight: 200 900;
   font-style: normal;
   font-display: swap;
 }

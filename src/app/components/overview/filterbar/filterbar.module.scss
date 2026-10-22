@@ -1,49 +1,35 @@
 @use '../../../../styles/main' as *;
 
 .filterBar {
+  @include card($padding-sm $padding-md);
   @include flex-center(row);
-  @include shape-container();
   justify-content: start;
   gap: $space-md;
-  background-color: white;
-  padding: $padding-md;
- 
-  border: 1px solid $palette-1;
- 
 }
 
 .filterLabel {
-  font-size: $text-size-m;
-  font-weight: bold;
-  color: black;
+  font-size: $text-size-sm;
+  font-weight: 500;
+  color: $text-secondary;
   white-space: nowrap;
 }
 
 .filterSelect {
+  @include input-light;
   max-width: 320px;
-  @include shape-container();
-  padding: 0.5rem 0.85rem;
-  font-size: $text-size-m;
-  border: 1px solid $palette-1;
-  background-color: transparent;
-  outline: none;
+  padding: $space-xs $padding-sm;
   cursor: pointer;
 }
 
 
 .searchInput {
+  @include input-light;
   flex: 1;
   min-width: 0;
-  @include shape-container();
-  padding: 0.5rem 0.85rem;
-  font-size: $text-size-m;
-  border: 1px solid $palette-3;
-  background-color: transparent;
-  outline: none;
+  padding: $space-xs $padding-sm;
 
-
-  &:focus-visible {
-    border-color: $palette-1;
+  &::placeholder {
+    color: $text-secondary;
   }
 }
 

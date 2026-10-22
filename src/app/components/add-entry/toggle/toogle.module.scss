@@ -1,42 +1,51 @@
 @use '../../../../styles/main' as *;
 
+// segmented switch between expense and income
 .typeToggle {
     display: flex;
-    border: 1px solid $palette-1;
+    gap: 2px;
+    padding: 3px;
+    background-color: $surface-card;
+    border: 1px solid $border-input;
     border-radius: $radius-sm;
     overflow: hidden;
 }
 
 .typeOption {
     flex: 1;
-    padding: $padding-sm $padding-md;
+    padding: $space-xs $padding-md;
     background: transparent;
     border: none;
-    color: $palette-4;
+    border-radius: 4px;
+    color: $text-secondary;
     font-family: $font-text;
     font-size: $text-size-m;
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease;
+    @include focus-ring;
 
     &:hover {
-        background-color: $palette-2;
+        background-color: $surface-hover;
     }
 }
 
+// active option: soft tint of the status color instead of a full color block
 .typeOptionActiveExpense {
-    background-color: $failed;
-    color: $writing-white;
+    background-color: rgba($failed, 0.12);
+    color: $failed;
+    font-weight: 600;
 
     &:hover {
-        background-color: $failed;
+        background-color: rgba($failed, 0.12);
     }
 }
 
 .typeOptionActiveIncome {
-    background-color: $success;
-    color: $writing-white;
+    background-color: rgba($success, 0.15);
+    color: $success;
+    font-weight: 600;
 
     &:hover {
-        background-color: $success;
+        background-color: rgba($success, 0.15);
     }
 }

@@ -3,7 +3,9 @@
 
 .errorText {
     width: fit-content;
-    color: $failed-text;
+    font-size: $text-size-sm;
+    // full red is readable on the light background, the pale $failed-text was meant for dark panels
+    color: $failed;
 }
 
 .errorTextVisible {

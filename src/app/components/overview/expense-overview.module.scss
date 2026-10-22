@@ -3,15 +3,15 @@
 
 .overviewContainer {
   @include flex-center();
-  @include shape-container();
   align-items: stretch;
-  background-color: $palette-5;
+  // transparent: the cards inside carry the white surfaces
+  background-color: transparent;
   flex: 1;
   height: 100%;
   min-height: 0;
-  padding: $padding-xl;
-  gap: $space-md;
-  margin-right: $space-sm;
+  padding: 0 0 $padding-lg;
+  gap: $space-lg;
+  margin-right: $space-lg;
 }
 
 
@@ -21,9 +21,11 @@
   gap: $space-md;
   flex: 1;
   min-height: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
+  // small inner padding so the card shadows are not cut off by the scroll area
+  padding: 2px;
 
-  @include custom-scrollbar($bar-color: $palette-3,
+  @include custom-scrollbar($bar-color: rgba($palette-3, 0.3),
     $track-color: transparent,
   );
 }
@@ -31,10 +33,10 @@
 .emptyState {
   @include flex-center();
   padding: $padding-xl;
-  background-color: $palette-4;
-  border-radius: $radius-sm;
-  border: 1px solid $palette-1;
-  color: $writing-muted;
+  background-color: transparent;
+  border-radius: $radius-m;
+  border: 1px dashed $border-input;
+  color: $text-secondary;
 
   p {
     margin: 0;

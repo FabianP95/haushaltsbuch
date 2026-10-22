@@ -26,7 +26,11 @@
     align-items: stretch;
     justify-content: start;
     gap: $space-md;
+    // fixed width so the column does not jump when its panels are collapsed
+    width: 400px;
+    flex-shrink: 0;
     height: 100%;
+    padding-bottom: $padding-lg;
     overflow-y: auto;
-    @include custom-scrollbar($bar-color: $palette-4);
+    @include custom-scrollbar($bar-color: rgba($palette-3, 0.3));
 }

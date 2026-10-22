@@ -1,44 +1,54 @@
 @use '../../../styles/main' as *;
 
 .nav {
-    @include shape-container();
     @include flex-center(row);
     justify-content: space-between;
+    align-items: end;
+    gap: $space-lg;
     height: fit-content;
     width: 100%;
-    background-color: $palette-3;
-    margin: $space-sm 0 $space-sm 0;
+    // transparent: navbar shares the page background
+    background-color: transparent;
+    padding: $padding-lg $padding-lg $padding-md 0;
 }
 
+// segmented control: buttons sit together on one soft track
 .viewButtons {
     @include flex-center(row);
-    gap: $space-sm;
+    gap: 2px;
+    padding: 3px;
+    background-color: $surface-active;
+    border-radius: $radius-m;
 }
 
 .diaBtn {
     @include flex-center(row);
-    cursor: pointer;
-    font-size: $text-size-m;
-    background-color: $palette-5;
-    font-weight: bold;
+    @include no-style-btn;
+    @include focus-ring;
     gap: $space-sm;
-    border: 1px solid transparent;
+    padding: $space-xs $padding-md;
     border-radius: $radius-sm;
-    padding: $padding-sm;
-    @include hover-scale();
+    font-family: $font-text;
+    font-size: $text-size-m;
+    color: $text-secondary;
+    transition: background-color 0.15s ease, color 0.15s ease;
 
     &:hover {
-        border: 1px solid $palette-1;
-
+        color: $text-primary;
     }
 }
 
 
+// active segment is lifted out as a white button
 .activeBtn {
-    border: 1px solid $palette-1;
+    background-color: $surface-card;
+    box-shadow: $shadow-active;
+    color: $text-primary;
+    font-weight: 600;
 }
 
 
 .navIcon {
-    @include icon-size(30, 30);
+    @include icon-size($icon-md, $icon-md);
+    opacity: 0.8;
 }

@@ -99,21 +99,21 @@ export function CategoryGroupCard({
                             aria-label={`Budget für ${group.category.name} festlegen`}
                         >
                             Budget
-                            <Image className={styles.budgetBtnImg} src="/assets/icons/add.svg" alt="" width={20} height={20} />
+                            <Image className={styles.budgetBtnImg} src="/assets/icons/add.svg" alt="" width={16} height={16} />
                         </button>
                     )}
                 </div>
                 <div>
                     <button className={styles.addBtn} onClick={() => onAddToCategory(group.category.id)}>
-                        <Image className={styles.btnImg} src="/assets/icons/add.svg" alt={`Neue Buchung in ${group.category.name} anlegen`} width={30} height={30} />
+                        <Image className={styles.btnImg} src="/assets/icons/add.svg" alt={`Neue Buchung in ${group.category.name} anlegen`} width={20} height={20} />
                     </button>
                     <button className={styles.addBtn} onClick={() => setIsOpen((prev) => !prev)} aria-expanded={isOpen}>
                         <Image
                             src={isOpen ? '/assets/icons/expand_up_dark.svg' : '/assets/icons/expand_down_dark.svg'}
                             alt={isOpen ? 'Zuklappen' : 'Aufklappen'}
                             className={styles.chevron}
-                            width={30}
-                            height={30}
+                            width={20}
+                            height={20}
                         />
                     </button>
 

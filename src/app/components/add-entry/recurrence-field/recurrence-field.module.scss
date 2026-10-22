@@ -1,11 +1,11 @@
-@use '../../../../styles/main' as *; 
+@use '../../../../styles/main' as *;
 
 .recurringSection {
     @include flex-center();
     align-items: start;
     gap: $space-sm;
-    padding-top: $space-xs;
-    border-top: 1px solid $palette-1;
+    padding-top: $space-sm;
+    border-top: 1px solid $border-subtle;
 }
 
 .checkboxRow {
@@ -13,8 +13,13 @@
     align-items: center;
     gap: $space-xs;
     font-size: $text-size-m;
-     color: $palette-5;
+    color: $text-primary;
     cursor: pointer;
+
+    // checkbox uses the palette blue instead of the browser default
+    input {
+        accent-color: $palette-2;
+    }
 }
 
 .row {
@@ -31,25 +36,15 @@
     @include flex-center();
     align-items: normal;
     gap: $space-xs;
-    
+
     label {
-        font-size: $text-size-m;
-        color: $palette-5;
+        font-size: $text-size-sm;
+        font-weight: 500;
+        color: $text-secondary;
     }
 
     input,
     select {
-        padding: $padding-sm;
-        background-color: $palette-2;
-        border: 1px solid $palette-3;
-        border-radius: $radius-sm;
-        color: $palette-5;
-        font-family: $font-text;
-        font-size: $text-size-m;
-
-        &:focus-visible {
-            outline: 2px solid $palette-4;
-            outline-offset: 1px;
-        }
+        @include input-light;
     }
 }

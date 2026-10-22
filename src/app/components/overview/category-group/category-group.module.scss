@@ -1,16 +1,16 @@
 @use '../../../../styles/main' as *;
 
 .groupCard {
-  background-color: white;
-  padding: $space-sm;
-  @include shape-container();
+  @include card($space-xs);
 }
 
 .groupHeader {
   @include flex-center(row);
   justify-content: space-between;
-  padding: $space-md;
-  border-left: 4px solid;
+  padding: $space-sm $space-md;
+  // slim category color bar, color comes from the inline style
+  border-left: 2px solid;
+  border-radius: $radius-sm;
 }
 
 .groupInfo {
@@ -28,13 +28,13 @@
 .groupName {
   margin: 0;
   font-size: $text-size-m;
-  font-weight: bold;
-  color: $writing-black;
+  font-weight: 600;
+  color: $text-primary;
 }
 
 .groupCount {
-  font-size: $text-size-m;
-  color: $writing-muted;
+  font-size: $text-size-sm;
+  color: $text-secondary;
 }
 
 .groupTotal {
@@ -44,19 +44,27 @@
 }
 
 .groupTotalLabel {
-  font-size: $text-size-m;
-  color: $writing-muted;
+  font-size: $text-size-sm;
+  color: $text-secondary;
 }
 
-.groupTotalAmount {
+.groupTotalAmount,
+.totalAmountPositiv,
+.totalAmountNegativ {
+  font-family: $font-number;
   font-size: $text-size-m;
-  font-weight: bold;
-  color: $writing-black;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: $text-primary;
+}
+
+// only negative sums get a color, positive ones stay calm
+.totalAmountNegativ {
+  color: $failed;
 }
 
 .chevron {
-  @include icon-size(30, 30);
-  margin-left: $space-md;
+  @include icon-size($icon-md, $icon-md);
 }
 
 
@@ -74,17 +82,30 @@
 .transactionList {
   overflow: hidden;
   margin-left: $space-lg;
-  padding-left: $space-md;
-  border-left: 2px solid $palette-4;
+  padding-left: $space-sm;
+  border-left: 1px solid $border-subtle;
 }
 
+.noEntries {
+  padding: $space-sm $space-md;
+  font-size: $text-size-sm;
+  color: $text-secondary;
+}
+
+// round icon button that only shows a soft background on hover
 .addBtn {
   @include no-style-btn();
-  @include hover-scale();
+  @include hover-soft();
+  @include focus-ring;
+  @include flex-center(row);
+  display: inline-flex;
+  padding: $space-xs;
+  border-radius: $radius-sm;
 }
 
 .btnImg {
-  @include icon-size(30,30);
+  @include icon-size($icon-md, $icon-md);
+  opacity: 0.7;
 }
 
 
@@ -100,16 +121,18 @@
   @include flex-center(row);
   justify-content: space-between;
   font-size: $text-size-sm;
-  color: $writing-muted;
+  color: $text-secondary;
 }
 
 .budgetOverText {
   color: $failed;
+  font-weight: 600;
 }
 
 .budgetTrack {
-  height: 8px;
-  background-color: $palette-5;
+  // thin progress bar on a faint track
+  height: 4px;
+  background-color: rgba($palette-5, 0.6);
   border-radius: $radius-sm;
   overflow: hidden;
 }
@@ -136,20 +159,15 @@
 
 
 .budgetBtn {
+  @include ghost-btn;
   @include flex-center(row);
-  @include hover-scale();
   gap: $space-xs;
-  padding: $space-xs $padding-sm;
-  background-color: transparent;
-  border: 1px solid $palette-3;
-  border-radius: $radius-sm;
-  color: $writing-black;
-  font-size: $text-size-m;
-  cursor: pointer;
+  font-size: $text-size-sm;
 }
 
 .budgetBtnImg {
-  @include icon-size(20, 20);
+  @include icon-size($icon-sm, $icon-sm);
+  opacity: 0.7;
 }
 
 
@@ -159,38 +177,22 @@
   flex-wrap: wrap;
   gap: $space-sm;
   padding: 0 $space-md $space-sm;
-  font-size: $text-size-m;
+  font-size: $text-size-sm;
+  color: $text-secondary;
 
   input {
+    @include input-light;
     flex: 1;
     min-width: 160px;
     padding: $space-xs $padding-sm;
-    border: 1px solid $palette-3;
-    border-radius: $radius-sm;
-    font-size: $text-size-m;
   }
-}
-
-.budgetSaveBtn,
-.budgetCancelBtn {
-  padding: $space-xs $padding-sm;
-  border-radius: $radius-sm;
-  font-size: $text-size-m;
-  cursor: pointer;
 }
 
 .budgetSaveBtn {
-  background-color: $palette-3;
-  color: $writing-white;
-  border: none;
-
-  &:hover {
-    background-color: $palette-2;
-  }
+  @include primary-btn;
+  padding: $space-xs $padding-sm;
 }
 
 .budgetCancelBtn {
-  background-color: transparent;
-  color: $writing-black;
-  border: 1px solid $palette-3;
+  @include ghost-btn;
 }

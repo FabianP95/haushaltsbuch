@@ -65,10 +65,72 @@
     cursor: pointer;
 }
 
-@mixin hover-scale(){
-    transition: transform 0.3s ease;
+// White content card with a very soft shadow instead of a hard border
+@mixin card($pad: $padding-md) {
+    padding: $pad;
+    background-color: $surface-card;
+    border-radius: $radius-m;
+    box-shadow: $shadow-card;
+}
+
+// Calm hover: only the background gets a light tint, nothing moves or grows
+@mixin hover-soft($bg: $surface-hover) {
+    transition: background-color 0.15s ease;
 
     &:hover {
-        transform: scale(1.08);
+        background-color: $bg;
+    }
+}
+
+// Same visible keyboard focus outline for every input and button
+@mixin focus-ring {
+    &:focus-visible {
+        outline: 2px solid rgba($palette-3, 0.5);
+        outline-offset: 2px;
+    }
+}
+
+// Shared look of a light input field (white, thin border, soft focus)
+@mixin input-light {
+    padding: $padding-sm;
+    background-color: $surface-card;
+    border: 1px solid $border-input;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-family: $font-text;
+    font-size: $text-size-m;
+    @include focus-ring;
+}
+
+// Transparent button with thin border that only tints on hover
+@mixin ghost-btn {
+    padding: $space-xs $padding-sm;
+    background-color: transparent;
+    border: 1px solid $border-input;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-family: $font-text;
+    font-size: $text-size-m;
+    cursor: pointer;
+    @include hover-soft;
+    @include focus-ring;
+}
+
+// Filled main action button (e.g. "Speichern")
+@mixin primary-btn {
+    padding: $padding-sm $padding-md;
+    background-color: $palette-2;
+    color: $writing-white;
+    border: none;
+    border-radius: $radius-sm;
+    font-family: $font-text;
+    font-size: $text-size-m;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    @include focus-ring;
+
+    &:hover {
+        background-color: $palette-3;
     }
 }

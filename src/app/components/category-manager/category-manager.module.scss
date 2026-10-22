@@ -1,13 +1,15 @@
 @use '../../../styles/main' as *;
 
+// lightly tinted tool panel, same look as the entry form
 .manager {
     @include flex-center();
     align-items: stretch;
+    width: 100%;
     max-width: 420px;
-    background-color: $palette-3;
-    border-radius: $radius-m;
+    background-color: $surface-tint;
+    border-radius: $radius-l;
     font-family: $font-text;
-    color: $palette-5;
+    color: $text-primary;
 }
 
 .toggleButton {
@@ -17,16 +19,13 @@
     padding: $padding-md $padding-lg;
     background: none;
     border: none;
-    border-radius: $radius-m;
-    color: $palette-5;
+    border-radius: $radius-l;
+    color: $text-primary;
     font-family: $font-text;
     font-size: $text-size-l;
+    font-weight: 600;
     cursor: pointer;
-
-    &:focus-visible {
-        outline: 2px solid $palette-4;
-        outline-offset: -2px;
-    }
+    @include focus-ring;
 }
 
 .content {
@@ -48,16 +47,17 @@
     list-style: none;
     overflow-y: auto;
 
-    @include custom-scrollbar($bar-color: $palette-4);
+    @include custom-scrollbar($bar-color: rgba($palette-3, 0.3));
 }
 
 .categoryItem {
     @include flex-center(row);
     justify-content: space-between;
     gap: $space-sm;
-    padding: $padding-sm;
-    background-color: $palette-2;
-    border-left: 4px solid;
+    padding: $space-xs $padding-sm;
+    background-color: $surface-card;
+    // slim color bar, color comes from the inline style
+    border-left: 2px solid;
     border-radius: $radius-sm;
 }
 
@@ -72,22 +72,12 @@
 .categoryBudget {
     font-family: $font-number;
     font-size: $text-size-sm;
-    color: $palette-4;
+    color: $text-secondary;
 }
 
 .editButton {
-    padding: $space-xs $padding-sm;
-    background: transparent;
-    border: 1px solid $palette-4;
-    border-radius: $radius-sm;
-    color: $palette-5;
-    font-family: $font-text;
-    cursor: pointer;
-
-    &:hover {
-        background-color: $palette-4;
-        color: $palette-1;
-    }
+    @include ghost-btn;
+    font-size: $text-size-sm;
 }
 
 .form {
@@ -99,6 +89,7 @@
 .formTitle {
     margin: 0;
     font-size: $text-size-m;
+    font-weight: 600;
 }
 
 .field {
@@ -108,23 +99,14 @@
     flex: 1;
 
     label {
-        font-size: $text-size-m;
+        font-size: $text-size-sm;
+        font-weight: 500;
+        color: $text-secondary;
     }
 
     input,
     select {
-        padding: $padding-sm;
-        background-color: $palette-2;
-        border: none;
-        border-radius: $radius-sm;
-        color: $palette-5;
-        font-family: $font-text;
-        font-size: $text-size-m;
-
-        &:focus-visible {
-            outline: 2px solid $palette-4;
-            outline-offset: 1px;
-        }
+        @include input-light;
     }
 }
 
@@ -144,7 +126,7 @@
 .hint {
     margin: 0;
     font-size: $text-size-sm;
-    color: $failed-text;
+    color: $failed;
 }
 
 .buttonRow {
@@ -154,46 +136,24 @@
     gap: $space-sm;
 }
 
-.submitButton,
-.cancelButton,
-.deleteButton {
-    padding: $padding-sm $padding-md;
-    border-radius: $radius-sm;
-    font-family: $font-text;
-    font-size: $text-size-m;
-    cursor: pointer;
-}
-
 .submitButton {
-    background-color: $palette-2;
-    color: $writing-white;
-    border: none;
-
-    &:hover {
-        background-color: $palette-4;
-        color: $palette-1;
-    }
+    @include primary-btn;
 }
 
 .cancelButton {
-    background-color: transparent;
-    color: $palette-5;
-    border: 1px solid $palette-4;
-
-    &:hover {
-        background-color: $palette-4;
-        color: $palette-1;
-    }
+    @include ghost-btn;
+    padding: $padding-sm $padding-md;
 }
 
+// destructive action: red text, only a faint red tint on hover
 .deleteButton {
-    background-color: transparent;
-    color: $failed-text;
-    border: 1px solid $failed-border;
+    @include ghost-btn;
+    padding: $padding-sm $padding-md;
+    color: $failed;
+    border-color: rgba($failed, 0.4);
 
     &:hover:not(:disabled) {
-        background-color: $failed;
-        color: $writing-white;
+        background-color: rgba($failed, 0.1);
     }
 
     &:disabled {
@@ -203,5 +163,5 @@
 }
 
 .chevron {
-    @include icon-size(30, 30);
+    @include icon-size($icon-md, $icon-md);
 }

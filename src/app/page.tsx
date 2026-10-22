@@ -35,6 +35,9 @@ export default function Home() {
 
   const [activeView, setActiveView] = useState<MainView>('list');
 
+  // open/closed state of the entry form, kept here so it survives the form's remount
+  const [isEntryOpen, setIsEntryOpen] = useState(true);
+
   useEffect(() => {
 
 
@@ -101,7 +104,8 @@ export default function Home() {
    * @param transaction - The transaction to edit
    */
   function handleEditTransaction(transaction: Transaction) {
-
+    // expand the form, otherwise the edit would happen in a collapsed panel
+    setIsEntryOpen(true);
     setFormPreset((prev) => ({ version: prev.version + 1, editingTransaction: transaction }));
   }
 
@@ -111,6 +115,8 @@ export default function Home() {
    * @param categoryId - Id of the category to preselect
    */
   function handleAddToCategory(categoryId: string) {
+    // expand the form so the preselected category is visible right away
+    setIsEntryOpen(true);
     setFormPreset((prev) => ({ version: prev.version + 1, editingTransaction: null, categoryId }));
   }
 
@@ -277,7 +283,9 @@ export default function Home() {
               presetCategoryId={formPreset.categoryId}
               onAdd={handleAddTransaction}
               onUpdate={handleUpdateTransaction}
-              onCancel={resetForm} />
+              onCancel={resetForm}
+              isOpen={isEntryOpen}
+              onToggle={() => setIsEntryOpen((prev) => !prev)} />
 
             <CategoryManager
               categories={data.categories ?? []}

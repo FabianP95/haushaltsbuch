@@ -161,6 +161,9 @@ export interface AddEntryProps {
     onAdd: (transaction: NewTransaction) => void;
     onUpdate: (transaction: Transaction) => void;
     onCancel: () => void;
+    // open state lives in the parent, so it survives the remount via `key`
+    isOpen: boolean;
+    onToggle: () => void;
 }
 
 

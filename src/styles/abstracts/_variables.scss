@@ -37,6 +37,25 @@ $writing-white: white;
 $writing-black: black;
 $writing-muted: #6c757d;
 
+// Light theme tokens: derived from the palette via opacity, so the base colors stay untouched
+$surface-page: rgba($palette-5, 0.35); // shared app background behind all areas
+$surface-card: white; // background of content cards
+$surface-tint: rgba($palette-5, 0.5); // slightly tinted background for forms / tool panels
+$surface-hover: rgba($palette-4, 0.15); // soft background shown on hover
+$surface-active: rgba($palette-4, 0.25); // background of the currently selected item
+
+$border-subtle: rgba($palette-1, 0.08); // hairline used to separate rows and areas
+$border-input: rgba($palette-3, 0.35); // thin border around inputs and ghost buttons
+
+$text-primary: $palette-1; // main text color, softer than pure black
+$text-secondary: rgba($palette-1, 0.65); // labels, dates and other secondary info
+
+$shadow-card: 0 1px 3px rgba($palette-1, 0.06), 0 1px 2px rgba($palette-1, 0.04); // very soft card shadow
+$shadow-active: 0 1px 2px rgba($palette-1, 0.1); // small lift for the active segmented button
+
+$icon-sm: 16px; // small icon size, e.g. inside buttons with text
+$icon-md: 20px; // default icon size
+
 $text-size-sm: 0.8rem;
 $text-size-m: 1rem;
 $text-size-l: 1.2rem;
@@ -59,9 +78,9 @@ $space-lg: 1.5rem;
 $space-xl: 2.5rem;
 $space-2xl: 4rem;
 
-$radius-sm: 10px;
-$radius-m: 20px;
-$radius-l: 30px;
+$radius-sm: 6px;
+$radius-m: 10px;
+$radius-l: 14px;
 
 $outline-sm:2px;
 $outline-md:5px;

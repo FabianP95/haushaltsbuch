@@ -4,89 +4,92 @@
 
 .header {
     @include flex-center(row);
-    justify-content: space-between;
+    justify-content: start;
+    align-items: stretch;
     flex-wrap: wrap;
-    gap: 1rem;
-    background-color: $palette-1;
-    padding: $padding-sm;
-    border-radius: $radius-m;
+    gap: $space-md;
+    background-color: transparent;
 }
 
 .heading {
+    @include flex-center();
+    align-items: start;
     min-width: 150px;
+    margin-right: $space-md;
 }
 
 .title {
     margin: 0;
-    font-size: $text-size-l;
-    font-weight: 700;
-    color: $writing-white;
+    font-size: $text-size-bg;
+    font-weight: 600;
+    color: $text-primary;
 }
 
 .subtitle {
-    margin: 0.25rem 0 0 0;
-    font-size: $text-size-m;
-    color: $writing-white;
+    margin: 0;
+    font-size: $text-size-sm;
+    color: $text-secondary;
 }
 
+// neutral KPI card: white, soft shadow, color only in the number
 .totalBadge {
+    @include card($padding-sm $padding-md);
     @include flex-center();
     width: fit-content;
     min-width: 170px;
     align-items: flex-start;
-    padding: $padding-sm;
-    border-radius: $radius-m;
+    gap: 2px;
 }
 
 .totalLabel,
 .totalLabelIncome,
 .totalLabelExpense {
-    font-size: $text-size-m;
-    letter-spacing: 0.5px;
-    color: $writing-white;
-    font-weight: 600;
+    @include flex-center(row);
+    gap: $space-xs;
+    font-size: $text-size-sm;
+    color: $text-secondary;
+    font-weight: 500;
+}
+
+// small colored dot in front of the label marks income / expense
+.totalLabelIncome::before,
+.totalLabelExpense::before {
+    content: '';
+    @include icon-size(8px, 8px);
+    border-radius: 50%;
+}
+
+.totalLabelIncome::before {
+    background-color: $success;
+}
+
+.totalLabelExpense::before {
+    background-color: $failed;
 }
 
 .totalAmount,
 .totalAmountIncome,
 .totalAmountExpense {
-    font-size: $text-size-l;
-    font-weight: 400;
+    font-size: $text-size-bg;
+    font-weight: 500;
     font-family: $font-number;
-}
-
-.negativeContainer {
-    outline: 2px solid $failed-border;
-    background: linear-gradient(135deg, #802e27 0%, #581e19 100%);
-}
-
-.positiveContainer {
-    outline: 2px solid $success-border;
-    background: linear-gradient(135deg, #2d563e 0%, #1e3e2c 100%);
+    // equal digit widths so numbers do not jump when they change
+    font-variant-numeric: tabular-nums;
+    color: $text-primary;
 }
 
 .totalAmount.positive {
-    color: $success-text;
+    color: $success;
 }
 
 .totalAmount.negative {
-    color: $failed-text;
-}
-
-.incomeContainer {
-    outline: 2px solid $success-border;
-    background: linear-gradient(135deg, #2d563e 0%, #1e3e2c 100%);
+    color: $failed;
 }
 
 .totalAmountIncome {
-    color: $success-text;
-}
-
-.expenseContainer {
-    outline: 2px solid $failed-border;
-    background: linear-gradient(135deg, #802e27 0%, #581e19 100%);
+    color: $success;
 }
 
 .totalAmountExpense {
-    color: $failed-text;
+    color: $failed;
 }

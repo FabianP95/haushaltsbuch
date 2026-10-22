@@ -31,14 +31,15 @@
 
 .centerCaption {
   font-size: $text-size-sm;
-  color: $writing-muted;
+  color: $text-secondary;
 }
 
 
 .centerValue {
   font-family: $font-number;
   font-size: $text-size-l;
-  font-weight: bold;
+  font-weight: 500;
+  color: $text-primary;
 }
 
 
@@ -65,12 +66,10 @@
   font: inherit;
   text-align: left;
 
-  &:hover:not(:disabled) {
-    background-color: $palette-5;
-  }
+  @include focus-ring;
 
-  &:focus-visible {
-    outline: $outline-sm solid $palette-1;
+  &:hover:not(:disabled) {
+    background-color: $surface-hover;
   }
 
   &:disabled {
@@ -93,5 +92,5 @@
 
 
 .legendPercent {
-  color: $writing-muted;
+  color: $text-secondary;
 }

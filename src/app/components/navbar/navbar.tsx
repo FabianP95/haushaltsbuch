@@ -41,7 +41,7 @@ export default function Navbar({
             onClick={() => onSelectView(option.value)}
           >
             {option.label}
-            <Image className={styles.navIcon} src={option.icon} alt="" width={30} height={30} />
+            <Image className={styles.navIcon} src={option.icon} alt="" width={20} height={20} />
           </button>
         ))}
       </div>

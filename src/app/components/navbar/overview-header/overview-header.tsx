@@ -27,7 +27,7 @@ export function OverviewHeader({
                 </p>
             </div>
             <div className={`${styles.totalBadge} ${currentBalance < 0 ? styles.negativeContainer : styles.positiveContainer}`}>
-                <span className={styles.totalLabel}>Gesamt:</span>
+                <span className={styles.totalLabel}>Gesamt</span>
                 <span
                     className={`${styles.totalAmount} ${currentBalance < 0 ? styles.negative : styles.positive}`}
                 >
@@ -35,11 +35,11 @@ export function OverviewHeader({
                 </span>
             </div>
             <div className={`${styles.totalBadge} ${styles.incomeContainer}`}>
-                <span className={styles.totalLabelIncome}>Einnahmen:</span>
+                <span className={styles.totalLabelIncome}>Einnahmen</span>
                 <span className={styles.totalAmountIncome}>{formatCurrency(totalIncomeSum)}</span>
             </div>
             <div className={`${styles.totalBadge} ${styles.expenseContainer}`}>
-                <span className={styles.totalLabelExpense}>Ausgaben:</span>
+                <span className={styles.totalLabelExpense}>Ausgaben</span>
                 <span className={styles.totalAmountExpense}>{formatCurrency(totalExpenseSum)}</span>
             </div>
         </header>);

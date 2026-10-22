@@ -8,73 +8,74 @@
   --chart-link: #{$palette-3};
 
   @include flex-center();
-  @include shape-container();
   align-items: stretch;
   justify-content: start;
-  background-color: $palette-5;
+  // transparent: the chart cards carry the white surfaces
+  background-color: transparent;
   flex: 1;
   min-height: 0;
-  padding: $padding-xl;
-  gap: $space-md;
-  margin-right: $space-sm;
+  padding: 2px 2px $padding-lg;
+  gap: $space-lg;
+  margin-right: $space-lg;
   overflow-y: auto;
-  @include custom-scrollbar($bar-color: $palette-3);
+  @include custom-scrollbar($bar-color: rgba($palette-3, 0.3));
 }
 
 
+// segmented control, same look as the view switch in the navbar
 .chartSwitcher {
   display: flex;
   flex-wrap: wrap;
-  gap: $space-sm;
+  align-self: start;
+  gap: 2px;
+  padding: 3px;
+  background-color: $surface-active;
+  border-radius: $radius-m;
 }
 
 
 .chartButton {
   @include no-style-btn;
-  @include shape-container($pad: $padding-sm $padding-md);
+  @include focus-ring;
+  padding: $space-xs $padding-md;
+  border-radius: $radius-sm;
   font: inherit;
-  background-color: white;
-  border: 1px solid $palette-3;
+  color: $text-secondary;
+  transition: background-color 0.15s ease, color 0.15s ease;
 
   &:hover {
-    border-color: $palette-1;
-  }
-
-  &:focus-visible {
-    outline: $outline-sm solid $palette-1;
-    outline-offset: $space-xs;
+    color: $text-primary;
   }
 }
 
 
 .activeChartButton {
-  background-color: $palette-2;
-  border-color: $palette-2;
-  color: $writing-white;
-  font-weight: bold;
+  background-color: $surface-card;
+  box-shadow: $shadow-active;
+  color: $text-primary;
+  font-weight: 600;
 }
 
 
 .chartCard {
-  @include shape-container($pad: $padding-md);
-  background-color: white;
-  border: 1px solid $palette-1;
+  @include card($padding-lg);
 }
 
 
 .chartTitle {
   margin: 0 0 $space-md;
   font-size: $text-size-l;
-  color: $writing-black;
+  font-weight: 600;
+  color: $text-primary;
 }
 
 
 .emptyState {
   @include flex-center();
   padding: $padding-xl;
-  background-color: $palette-4;
-  border-radius: $radius-sm;
-  color: $writing-muted;
+  border: 1px dashed $border-input;
+  border-radius: $radius-m;
+  color: $text-secondary;
 
   p {
     margin: 0;

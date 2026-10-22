@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect, useRef, SubmitEvent } from 'react';
+import Image from 'next/image';
 import type { NewTransaction, TransactionType, RecurrenceInterval, Category, AddEntryProps } from '../../interfaces/interfaces';
 import { TypeToggle } from './toggle/toggle';
 import { RecurrenceFields } from './recurrence-field/recurrence-field';
@@ -54,6 +55,8 @@ export default function AddEntry({
     onAdd,
     onUpdate,
     onCancel,
+    isOpen,
+    onToggle,
 }: AddEntryProps) {
     const isEditMode = editingTransaction !== null;
 
@@ -84,6 +87,8 @@ export default function AddEntry({
         formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         amountRef.current?.focus({ preventScroll: true });
     }, [editingTransaction, presetCategoryId]);
+
+    const title = isEditMode ? 'Buchung bearbeiten' : 'Neue Buchung';
 
     /**
      * Removes the error message of a single form field.
@@ -140,102 +145,123 @@ export default function AddEntry({
     };
 
     return (
-        <form ref={formRef} className={styles.addEntry} onSubmit={handleSubmit} noValidate>
-           
-            <h2 className={styles.formTitle}>{isEditMode ? 'Buchung bearbeiten' : 'Neue Buchung'}</h2>
-            <TypeToggle value={type} onChange={setType} />
-
-            <div className={styles.field}>
-                <label htmlFor="amount">Betrag</label>
-                <div className={styles.amountWrapper}>
-                    <input
-                        ref={amountRef}
-                        id="amount"
-                        type="number"
-                        inputMode="decimal"
-                        step="0.5"
-                        placeholder="0,0"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        className={styles.amountInput}
-                    />
-                    <span className={styles.currency}>€</span>
-                </div>
-                {errors.amount && (
-                    <ErrorMessage key={errors.amount} text={errors.amount} onExpire={() => clearError('amount')} />
-                )}
-            </div>
-
-            <div className={styles.row}>
-                <div className={styles.field}>
-                    <label htmlFor="category">Kategorie</label>
-                    <select
-                        id="category"
-                        value={categoryId}
-                        onChange={(e) => setCategoryId(e.target.value)}
-
-                    >
-                        {categories.map((c: Category) => (
-                            <option key={c.id} value={c.id}>{c.name}</option>
-                        ))}
-                    </select>
-                    {errors.categoryId && (
-                        <ErrorMessage key={errors.categoryId} text={errors.categoryId} onExpire={() => clearError('categoryId')} />
-                    )}
-                </div>
-
-                <div className={styles.field}>
-                    <label htmlFor="date">Datum</label>
-                    <input
-                        id="date"
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                    />
-
-                    {errors.date && (
-                        <ErrorMessage key={errors.date} text={errors.date} onExpire={() => clearError('date')} />
-                    )}
-                </div>
-
-            </div>
-
-
-            <div className={styles.field}>
-                <label htmlFor="description">Beschreibung (optional)</label>
-                <input
-                    id="description"
-                    type="text"
-                    placeholder="z. B. Wocheneinkauf"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    maxLength={120}
+        <section className={styles.addEntry}>
+            {/* header button toggles the form, like in the category manager */}
+            <button
+                type="button"
+                className={styles.toggleButton}
+                onClick={onToggle}
+                aria-expanded={isOpen}
+                aria-controls="add-entry-content"
+            >
+                <span>{title}</span>
+                <Image
+                    src={isOpen ? '/assets/icons/expand_up_dark.svg' : '/assets/icons/expand_down_dark.svg'}
+                    alt=""
+                    className={styles.chevron}
+                    width={20}
+                    height={20}
                 />
-            </div>
+            </button>
 
-            <RecurrenceFields
-                isRecurring={isRecurring}
-                interval={recurrenceInterval}
-                endDate={recurrenceEndDate}
-                minDate={date}
-                onIsRecurringChange={setIsRecurring}
-                onIntervalChange={setRecurrenceInterval}
-                onEndDateChange={setRecurrenceEndDate}
-            />
-            {errors.recurrenceEndDate && (
-                <ErrorMessage key={errors.recurrenceEndDate} text={errors.recurrenceEndDate} onExpire={() => clearError('recurrenceEndDate')} />
+            {/* form is only rendered while open, so a collapsed panel takes no extra space */}
+            {isOpen && (
+                <form id="add-entry-content" ref={formRef} className={styles.form} onSubmit={handleSubmit} noValidate>
+                    <TypeToggle value={type} onChange={setType} />
+
+                    <div className={styles.field}>
+                        <label htmlFor="amount">Betrag</label>
+                        <div className={styles.amountWrapper}>
+                            <input
+                                ref={amountRef}
+                                id="amount"
+                                type="number"
+                                inputMode="decimal"
+                                step="0.5"
+                                placeholder="0,0"
+                                value={amount}
+                                onChange={(e) => setAmount(e.target.value)}
+                                className={styles.amountInput}
+                            />
+                            <span className={styles.currency}>€</span>
+                        </div>
+                        {errors.amount && (
+                            <ErrorMessage key={errors.amount} text={errors.amount} onExpire={() => clearError('amount')} />
+                        )}
+                    </div>
+
+                    <div className={styles.row}>
+                        <div className={styles.field}>
+                            <label htmlFor="category">Kategorie</label>
+                            <select
+                                id="category"
+                                value={categoryId}
+                                onChange={(e) => setCategoryId(e.target.value)}
+
+                            >
+                                {categories.map((c: Category) => (
+                                    <option key={c.id} value={c.id}>{c.name}</option>
+                                ))}
+                            </select>
+                            {errors.categoryId && (
+                                <ErrorMessage key={errors.categoryId} text={errors.categoryId} onExpire={() => clearError('categoryId')} />
+                            )}
+                        </div>
+
+                        <div className={styles.field}>
+                            <label htmlFor="date">Datum</label>
+                            <input
+                                id="date"
+                                type="date"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                            />
+
+                            {errors.date && (
+                                <ErrorMessage key={errors.date} text={errors.date} onExpire={() => clearError('date')} />
+                            )}
+                        </div>
+
+                    </div>
+
+
+                    <div className={styles.field}>
+                        <label htmlFor="description">Beschreibung (optional)</label>
+                        <input
+                            id="description"
+                            type="text"
+                            placeholder="z. B. Wocheneinkauf"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            maxLength={120}
+                        />
+                    </div>
+
+                    <RecurrenceFields
+                        isRecurring={isRecurring}
+                        interval={recurrenceInterval}
+                        endDate={recurrenceEndDate}
+                        minDate={date}
+                        onIsRecurringChange={setIsRecurring}
+                        onIntervalChange={setRecurrenceInterval}
+                        onEndDateChange={setRecurrenceEndDate}
+                    />
+                    {errors.recurrenceEndDate && (
+                        <ErrorMessage key={errors.recurrenceEndDate} text={errors.recurrenceEndDate} onExpire={() => clearError('recurrenceEndDate')} />
+                    )}
+
+                    <div className={styles.buttonRow}>
+                        <button type="submit" className={styles.submitButton}>
+                            {isEditMode ? 'Änderungen speichern' : 'Buchung hinzufügen'}
+                        </button>
+                        {(isEditMode || presetCategoryId) && (
+                            <button type="button" className={styles.cancelButton} onClick={onCancel}>
+                                Abbrechen
+                            </button>
+                        )}
+                    </div>
+                </form>
             )}
-
-            <div className={styles.buttonRow}>
-                <button type="submit" className={styles.submitButton}>
-                    {isEditMode ? 'Änderungen speichern' : 'Buchung hinzufügen'}
-                </button>
-                {(isEditMode || presetCategoryId) && (
-                    <button type="button" className={styles.cancelButton} onClick={onCancel}>
-                        Abbrechen
-                    </button>
-                )}
-            </div>
-        </form>
+        </section>
     );
 }

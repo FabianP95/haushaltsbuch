@@ -6,8 +6,11 @@
 
 body {
   @include container;
-  background: $palette-1;
+  // one light background shared by sidebar, navbar and content
+  background: $surface-page;
+  color: $text-primary;
   min-height: 100dvh;
   font-family: $font-text;
   font-size: $text-size-m;
+  line-height: 1.5;
 }

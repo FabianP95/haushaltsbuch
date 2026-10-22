@@ -3,14 +3,14 @@
 .aside {
     @include align-at-side(flex-start);
     @include flex-center();
-    @include shape-container();
-    background-color: $palette-4;
-    min-width: fit-content;
-    padding: $padding-md;
+    // same light tint as the entry form, so both tool areas look alike
+    background-color: $surface-tint;
+    min-width: 160px;
+    padding: $padding-lg $padding-md;
     height: 100vh;
     justify-content: start;
+    align-items: stretch;
     margin: 0;
-    gap: $space-md;
-    border-radius: 0;
-    margin-right: $space-sm;
+    gap: $space-lg;
+    margin-right: $space-lg;
 }
