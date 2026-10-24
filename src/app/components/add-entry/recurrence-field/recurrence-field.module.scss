@@ -48,3 +48,19 @@
         @include input-light;
     }
 }
+
+
+.field {
+    // lets both fields fit next to each other in the narrow side column
+    min-width: 0;
+
+    input,
+    select {
+        min-width: 0;
+
+        // finger-friendly height on touch screens
+        @include touch {
+            min-height: $touch-target;
+        }
+    }
+}

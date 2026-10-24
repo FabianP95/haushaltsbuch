@@ -165,3 +165,56 @@
 .chevron {
     @include icon-size($icon-md, $icon-md);
 }
+
+
+.toggleButton {
+    // less padding on tablets because the side column is narrower there
+    @include tablet-landscape {
+        padding: $padding-md;
+    }
+}
+
+.field {
+    // lets two fields share one row in the narrow side column without overflowing
+    min-width: 0;
+
+    input,
+    select {
+        min-width: 0;
+
+        // finger-friendly height on touch screens
+        @include touch {
+            min-height: $touch-target;
+        }
+    }
+}
+
+.row {
+    // smaller gap between fields side by side on tablets
+    @include tablet-landscape {
+        gap: $space-sm;
+    }
+}
+
+.submitButton,
+.cancelButton {
+    // finger-friendly height on touch screens
+    @include touch {
+        min-height: $touch-target;
+    }
+}
+
+.content {
+    // less padding on tablets because the side column is narrower there
+    @include tablet-landscape {
+        padding: 0 $padding-md $padding-md;
+    }
+}
+
+.editButton,
+.deleteButton {
+    // finger-friendly height on touch screens
+    @include touch {
+        min-height: $touch-target;
+    }
+}

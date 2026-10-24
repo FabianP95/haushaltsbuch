@@ -1,5 +1,6 @@
 'use client';
 import { useState, useMemo, useEffect } from 'react';
+import Image from 'next/image';
 
 import styles from './page.module.scss'
 
@@ -38,6 +39,10 @@ export default function Home() {
   // open/closed state of the entry form, kept here so it survives the form's remount
   const [isEntryOpen, setIsEntryOpen] = useState(true);
 
+  // collapsed state of the left sidebar and the right side column, only used on tablets to give the main view more room
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isSideColumnCollapsed, setIsSideColumnCollapsed] = useState(false);
+
   useEffect(() => {
 
 
@@ -51,6 +56,15 @@ export default function Home() {
       }
     }
     loadData();
+
+    // reload when the tab becomes visible again, so changes made on the other device show up
+    function handleVisibilityChange() {
+      if (document.visibilityState === 'visible') loadData();
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // remove the listener when the page unmounts to avoid duplicate reloads
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
 
 
@@ -106,6 +120,8 @@ export default function Home() {
   function handleEditTransaction(transaction: Transaction) {
     // expand the form, otherwise the edit would happen in a collapsed panel
     setIsEntryOpen(true);
+    // also bring back the side column on tablets so the form is visible
+    setIsSideColumnCollapsed(false);
     setFormPreset((prev) => ({ version: prev.version + 1, editingTransaction: transaction }));
   }
 
@@ -117,6 +133,8 @@ export default function Home() {
   function handleAddToCategory(categoryId: string) {
     // expand the form so the preselected category is visible right away
     setIsEntryOpen(true);
+    // also bring back the side column on tablets so the form is visible
+    setIsSideColumnCollapsed(false);
     setFormPreset((prev) => ({ version: prev.version + 1, editingTransaction: null, categoryId }));
   }
 
@@ -240,7 +258,9 @@ export default function Home() {
       <Sidebar
         years={availableYears}
         selectedPeriod={selectedPeriod}
-        onSelectPeriod={setSelectedPeriod} />
+        onSelectPeriod={setSelectedPeriod}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={() => setIsSidebarCollapsed((prev) => !prev)} />
       <div className={styles.mainContainer}>
 
         <Navbar
@@ -275,7 +295,24 @@ export default function Home() {
           )}
 
 
-          <div className={styles.sideColumn}>
+          <div className={`${styles.sideColumn} ${isSideColumnCollapsed ? styles.collapsed : ''}`}>
+
+            {/* button is hidden via CSS on desktop and only shown on tablets */}
+            <button
+              type="button"
+              className={styles.collapseButton}
+              onClick={() => setIsSideColumnCollapsed((prev) => !prev)}
+              aria-expanded={!isSideColumnCollapsed}
+              aria-label={isSideColumnCollapsed ? 'Buchung und Kategorien einblenden' : 'Buchung und Kategorien ausblenden'}
+            >
+              <Image
+                src="/assets/icons/expand_down_dark.svg"
+                alt=""
+                className={isSideColumnCollapsed ? styles.iconPointLeft : styles.iconPointRight}
+                width={20}
+                height={20}
+              />
+            </button>
             <AddEntry
               key={formPreset.version}
               categories={data.categories ?? []}

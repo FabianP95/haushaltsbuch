@@ -34,3 +34,42 @@
     overflow-y: auto;
     @include custom-scrollbar($bar-color: rgba($palette-3, 0.3));
 }
+
+
+// lets the main area shrink below its content width instead of pushing the page wider than the tablet
+.mainContainer,
+.mainView {
+    min-width: 0;
+}
+
+.sideColumn {
+    // narrower side column on tablets so the overview keeps enough room
+    @include tablet-landscape {
+        width: 320px;
+        gap: $space-sm;
+        padding-bottom: $padding-md;
+    }
+
+    @include tablet-portrait {
+        width: 270px;
+    }
+}
+
+.collapseButton {
+    @include collapse-btn;
+    // sits at the inner edge, next to the main view
+    align-self: flex-start;
+}
+
+@include chevron-sideways;
+
+.collapsed {
+    // folded side column on tablets: only the button stays, entry form and category manager are hidden
+    @include tablet-landscape {
+        width: $touch-target;
+
+        > :not(.collapseButton) {
+            display: none;
+        }
+    }
+}

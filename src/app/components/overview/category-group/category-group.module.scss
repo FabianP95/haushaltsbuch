@@ -196,3 +196,59 @@
 .budgetCancelBtn {
   @include ghost-btn;
 }
+
+
+.groupHeader {
+  // keeps a small gap between info and buttons when space gets tight
+  gap: $space-sm;
+
+  @include tablet-portrait {
+    padding: $space-sm;
+  }
+}
+
+.groupInfo {
+  // tighter spacing between name and sum on tablets
+  @include tablet-landscape {
+    gap: $space-md;
+  }
+}
+
+.groupTitleInfo {
+  // name no longer reserves 180px on tablets
+  @include tablet-landscape {
+    min-width: 0;
+    gap: $space-sm;
+  }
+}
+
+.transactionList {
+  // smaller indent so transactions keep their width on narrow screens
+  @include tablet-portrait {
+    margin-left: $space-sm;
+  }
+}
+
+.addBtn {
+  // finger-sized tap area for the plus button
+  @include touch {
+    min-width: $touch-target;
+    min-height: $touch-target;
+  }
+}
+
+.budgetBtn,
+.budgetSaveBtn,
+.budgetCancelBtn {
+  // finger-friendly height on touch screens
+  @include touch {
+    min-height: $touch-target;
+  }
+}
+
+.budgetForm input {
+  // smaller minimum width so the input and buttons still fit next to each other
+  @include tablet-portrait {
+    min-width: 120px;
+  }
+}

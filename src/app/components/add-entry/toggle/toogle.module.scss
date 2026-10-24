@@ -49,3 +49,11 @@
         background-color: rgba($success, 0.15);
     }
 }
+
+
+.typeOption {
+    // finger-friendly height on touch screens
+    @include touch {
+        min-height: $touch-target;
+    }
+}

@@ -42,3 +42,33 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+
+.filterBar {
+  // search field drops into its own line when the overview gets narrow
+  @include tablet-portrait {
+    flex-wrap: wrap;
+    gap: $space-sm;
+  }
+}
+
+.filterSelect {
+  // lets the select shrink instead of pushing the search field out of the card
+  min-width: 0;
+
+  // finger-friendly height on touch screens
+  @include touch {
+    min-height: $touch-target;
+  }
+}
+
+.searchInput {
+  @include tablet-portrait {
+    flex-basis: 100%;
+  }
+
+  // finger-friendly height on touch screens
+  @include touch {
+    min-height: $touch-target;
+  }
+}

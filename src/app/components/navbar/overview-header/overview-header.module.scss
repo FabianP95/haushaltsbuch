@@ -93,3 +93,35 @@
 .totalAmountExpense {
     color: $failed;
 }
+
+
+.header {
+    // tighter spacing so more key figure cards fit in one row on tablets
+    @include tablet-landscape {
+        gap: $space-sm;
+    }
+}
+
+.heading {
+    // title no longer reserves a fixed width on tablets
+    @include tablet-landscape {
+        min-width: 0;
+        margin-right: $space-sm;
+    }
+}
+
+.totalBadge {
+    // smaller cards so they wrap less on narrow screens
+    @include tablet-landscape {
+        min-width: 130px;
+    }
+}
+
+.totalAmount,
+.totalAmountIncome,
+.totalAmountExpense {
+    // slightly smaller numbers to keep long amounts inside the card
+    @include tablet-landscape {
+        font-size: $text-size-l;
+    }
+}

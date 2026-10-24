@@ -52,3 +52,20 @@
     @include icon-size($icon-md, $icon-md);
     opacity: 0.8;
 }
+
+
+.nav {
+    // view switch moves below the key figures if they need the full width
+    @include tablet-landscape {
+        flex-wrap: wrap;
+        gap: $space-md;
+        padding: $padding-md $padding-md $padding-sm 0;
+    }
+}
+
+.diaBtn {
+    // finger-friendly height for the view switch on touch screens
+    @include touch {
+        min-height: $touch-target;
+    }
+}

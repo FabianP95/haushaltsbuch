@@ -88,3 +88,9 @@ $outline-l:8px;
 
 $font-text: 'Source Sans 3';
 $font-number: 'Roboto Mono';
+
+// Tablet breakpoints: landscape covers iPads lying sideways, portrait covers iPads held upright
+$bp-tablet-landscape: 1200px;
+$bp-tablet-portrait: 900px;
+
+$touch-target: 44px; // minimum height of tappable controls on touch screens (Apple guideline)

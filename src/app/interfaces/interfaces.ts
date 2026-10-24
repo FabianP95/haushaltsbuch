@@ -191,6 +191,9 @@ export interface SidebarProps {
     years: number[];
     selectedPeriod: SelectedPeriod;
     onSelectPeriod: (period: SelectedPeriod) => void;
+    // collapsed state only takes effect on tablets, on desktop the sidebar always stays open
+    isCollapsed: boolean;
+    onToggleCollapse: () => void;
 }
 
 

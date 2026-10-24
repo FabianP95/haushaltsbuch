@@ -81,3 +81,29 @@
     margin: 0;
   }
 }
+
+
+.chartsContainer {
+  // allows the charts to shrink next to the side column instead of overflowing
+  min-width: 0;
+
+  // less spacing on tablets to win horizontal room
+  @include tablet-landscape {
+    gap: $space-md;
+    margin-right: $space-md;
+  }
+}
+
+.chartButton {
+  // finger-friendly height on touch screens
+  @include touch {
+    min-height: $touch-target;
+  }
+}
+
+.chartCard {
+  // smaller padding gives the chart itself more width on tablets
+  @include tablet-landscape {
+    padding: $padding-md;
+  }
+}

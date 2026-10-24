@@ -53,3 +53,11 @@
         background-color: $surface-active;
     }
 }
+
+
+.listButton {
+    // taller tap area so months and years are easy to hit with a finger
+    @include touch {
+        padding: $space-sm;
+    }
+}

@@ -96,3 +96,42 @@
     opacity: 1;
   }
 }
+
+
+.transactionItem {
+  // keeps text and amount apart when the row gets narrow
+  gap: $space-sm;
+
+  @include tablet-portrait {
+    padding: $space-sm;
+  }
+}
+
+// min-width 0 lets the text column shrink instead of pushing the amount out of the row
+.itemLeft,
+.itemMeta {
+  min-width: 0;
+}
+
+.itemDescription {
+  // long descriptions break instead of overflowing the row
+  overflow-wrap: anywhere;
+}
+
+.itemDetails {
+  // date and recurring badge wrap below each other if needed
+  flex-wrap: wrap;
+}
+
+.itemRight {
+  // amount and buttons never get squeezed
+  flex-shrink: 0;
+}
+
+.workOnBtn {
+  // bigger tap area and better visibility, because touch screens have no hover
+  @include touch {
+    padding: $space-sm;
+    opacity: 0.85;
+  }
+}

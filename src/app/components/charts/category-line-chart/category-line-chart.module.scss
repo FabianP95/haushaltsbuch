@@ -98,3 +98,18 @@
     margin: 0;
   }
 }
+
+
+.chartWrapper {
+  // smaller base width so chart and legend fit side by side on landscape tablets
+  @include tablet-landscape {
+    flex-basis: 280px;
+  }
+}
+
+.typeButton {
+  // finger-friendly height on touch screens
+  @include touch {
+    min-height: $touch-target;
+  }
+}

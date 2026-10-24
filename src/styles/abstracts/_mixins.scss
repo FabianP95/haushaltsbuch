@@ -77,8 +77,11 @@
 @mixin hover-soft($bg: $surface-hover) {
     transition: background-color 0.15s ease;
 
-    &:hover {
-        background-color: $bg;
+    // only devices with a real mouse get the hover tint, otherwise it sticks after a tap on the iPad
+    @media (hover: hover) {
+        &:hover {
+            background-color: $bg;
+        }
     }
 }
 
@@ -132,5 +135,59 @@
 
     &:hover {
         background-color: $palette-3;
+    }
+}
+
+// Styles inside apply to tablets in landscape and everything narrower
+@mixin tablet-landscape {
+    @media (max-width: $bp-tablet-landscape) {
+        @content;
+    }
+}
+
+// Styles inside apply to tablets in portrait and everything narrower
+@mixin tablet-portrait {
+    @media (max-width: $bp-tablet-portrait) {
+        @content;
+    }
+}
+
+// Styles inside apply only when the main input is a finger instead of a mouse
+@mixin touch {
+    @media (pointer: coarse) {
+        @content;
+    }
+}
+
+// Square icon button that folds a side panel in/out, hidden on desktop and only shown on tablets
+@mixin collapse-btn {
+    display: none;
+
+    @include tablet-landscape {
+        @include flex-center(row);
+        @include no-style-btn;
+        @include hover-soft;
+        @include focus-ring;
+        flex-shrink: 0;
+        width: $touch-target;
+        height: $touch-target;
+        border-radius: $radius-sm;
+    }
+}
+
+// Turns the downward chevron icon sideways, so one icon file works for both directions
+@mixin chevron-sideways {
+    .iconPointLeft,
+    .iconPointRight {
+        @include icon-size($icon-md, $icon-md);
+        transition: transform 0.2s ease;
+    }
+
+    .iconPointLeft {
+        transform: rotate(90deg);
+    }
+
+    .iconPointRight {
+        transform: rotate(-90deg);
     }
 }

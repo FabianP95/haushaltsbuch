@@ -94,3 +94,11 @@
 .legendPercent {
   color: $text-secondary;
 }
+
+
+.legendButton {
+  // finger-friendly rows, a tap on the legend filters the list
+  @include touch {
+    min-height: $touch-target;
+  }
+}

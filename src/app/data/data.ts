@@ -1,78 +1,19 @@
-import { STORAGE_KEY } from './config';
+'use server';
+// 'use server' turns every exported function into a Server Action: the client calls it, but it runs on the PC server
+
+import { getDb, toCategory, toTransaction } from './db';
 import { Category, Data, NewCategory, NewTransaction, Transaction } from '@/app/interfaces/interfaces';
-import { testCategories, testTransactions } from '@/app/data/testdata';
-
-
-const initialData: Data = {
-    categories: testCategories,
-    transactions: testTransactions
-};
 
 
 /**
- * Type guard that checks whether an unknown value has the shape of `Data`.
- * @param value - Value parsed from storage
- * @returns `true` if categories and transactions are arrays
- */
-function isValidData(value: unknown): value is Data {
-    if (typeof value !== 'object' || value === null) return false;
-    const candidate = value as Data;
-    return Array.isArray(candidate.categories) && Array.isArray(candidate.transactions);
-}
-
-
-/**
- * Reads and validates the data stored in the localStorage.
- * @returns The stored data, or `null` if nothing valid is available (or on the server)
- */
-function readStorage(): Data | null {
-    
-    if (typeof window === 'undefined') return null;
-
-    try {
-        const raw = window.localStorage.getItem(STORAGE_KEY);
-        if (!raw) return null;
-
-        
-        const parsed: unknown = JSON.parse(raw);
-        return isValidData(parsed) ? parsed : null;
-    } catch {
-        
-        return null;
-    }
-}
-
-
-/**
- * Writes the data to the localStorage and logs a warning if saving fails.
- * @param data - Complete data object to persist
- */
-function writeStorage(data: Data): void {
-    if (typeof window === 'undefined') return;
-
-    try {
-        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } catch (error) {
-        console.warn('Daten konnten nicht gespeichert werden.', error);
-    }
-}
-
-
-/**
- * Returns the stored data or falls back to the initial test data.
- * @returns The current data
- */
-function getCurrentData(): Data {
-    return readStorage() ?? initialData;
-}
-
-/**
- * Loads all categories and transactions (async to imitate a later backend call).
+ * Loads all categories and transactions from the database.
  * @returns The complete data object
  */
 export async function getAllData(): Promise<Data> {
-    return getCurrentData();
-
+    const db = getDb();
+    const categories = db.prepare('SELECT * FROM categories').all().map(toCategory);
+    const transactions = db.prepare('SELECT * FROM transactions').all().map(toTransaction);
+    return { categories, transactions };
 }
 
 
@@ -84,7 +25,6 @@ export async function getAllData(): Promise<Data> {
 export async function createTransaction(newTransaction: NewTransaction): Promise<Transaction> {
     const now = new Date().toISOString();
 
-  
     const transaction: Transaction = {
         ...newTransaction,
         id: crypto.randomUUID(),
@@ -92,9 +32,25 @@ export async function createTransaction(newTransaction: NewTransaction): Promise
         updatedAt: now
     };
 
-    const data = getCurrentData();
-    
-    writeStorage({ ...data, transactions: [...(data.transactions ?? []), transaction] });
+    // the ? placeholders are filled in order and protect against SQL injection
+    getDb().prepare(`
+        INSERT INTO transactions (id, type, amount, categoryId, description, date, isRecurring,
+            recurrenceInterval, recurrenceEndDate, recurrenceParentId, createdAt, updatedAt)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+        transaction.id,
+        transaction.type,
+        transaction.amount,
+        transaction.categoryId,
+        transaction.description ?? null,
+        transaction.date,
+        transaction.isRecurring ? 1 : 0,
+        transaction.recurrenceInterval ?? null,
+        transaction.recurrenceEndDate ?? null,
+        transaction.recurrenceParentId ?? null,
+        transaction.createdAt,
+        transaction.updatedAt
+    );
 
     return transaction;
 }
@@ -107,22 +63,35 @@ export async function createTransaction(newTransaction: NewTransaction): Promise
  */
 export async function updateTransaction(transaction: Transaction): Promise<Transaction> {
     const updated: Transaction = { ...transaction, updatedAt: new Date().toISOString() };
-    const data = getCurrentData();
-    const transactions = (data.transactions ?? []).map((t) => (t.id === updated.id ? updated : t));
-    writeStorage({ ...data, transactions });
+
+    getDb().prepare(`
+        UPDATE transactions SET type = ?, amount = ?, categoryId = ?, description = ?, date = ?, isRecurring = ?,
+            recurrenceInterval = ?, recurrenceEndDate = ?, recurrenceParentId = ?, updatedAt = ?
+        WHERE id = ?
+    `).run(
+        updated.type,
+        updated.amount,
+        updated.categoryId,
+        updated.description ?? null,
+        updated.date,
+        updated.isRecurring ? 1 : 0,
+        updated.recurrenceInterval ?? null,
+        updated.recurrenceEndDate ?? null,
+        updated.recurrenceParentId ?? null,
+        updated.updatedAt,
+        updated.id
+    );
+
     return updated;
 }
 
 
 /**
- * Removes the transaction with the given id from the storage.
+ * Removes the transaction with the given id from the database.
  * @param id - Id of the transaction to delete
  */
 export async function deleteTransaction(id: string): Promise<void> {
-    const data = getCurrentData();
-    
-    const transactions = (data.transactions ?? []).filter((t) => t.id !== id);
-    writeStorage({ ...data, transactions });
+    getDb().prepare('DELETE FROM transactions WHERE id = ?').run(id);
 }
 
 
@@ -133,8 +102,10 @@ export async function deleteTransaction(id: string): Promise<void> {
  */
 export async function createCategory(newCategory: NewCategory): Promise<Category> {
     const category: Category = { ...newCategory, id: crypto.randomUUID() };
-    const data = getCurrentData();
-    writeStorage({ ...data, categories: [...(data.categories ?? []), category] });
+
+    getDb().prepare('INSERT INTO categories (id, name, color, monthlyBudget) VALUES (?, ?, ?, ?)')
+        .run(category.id, category.name, category.color, category.monthlyBudget ?? null);
+
     return category;
 }
 
@@ -145,9 +116,9 @@ export async function createCategory(newCategory: NewCategory): Promise<Category
  * @returns The updated category
  */
 export async function updateCategory(category: Category): Promise<Category> {
-    const data = getCurrentData();
-    const categories = (data.categories ?? []).map((c) => (c.id === category.id ? category : c));
-    writeStorage({ ...data, categories });
+    getDb().prepare('UPDATE categories SET name = ?, color = ?, monthlyBudget = ? WHERE id = ?')
+        .run(category.name, category.color, category.monthlyBudget ?? null, category.id);
+
     return category;
 }
 
@@ -159,19 +130,28 @@ export async function updateCategory(category: Category): Promise<Category> {
  * @throws If the category still has transactions but no valid target category is given
  */
 export async function deleteCategory(id: string, targetCategoryId: string | null): Promise<void> {
-    const data = getCurrentData();
-    const categories = (data.categories ?? []).filter((c) => c.id !== id);
-    const hasTransactions = (data.transactions ?? []).some((t) => t.categoryId === id);
+    const db = getDb();
 
-    
-    if (hasTransactions && !categories.some((c) => c.id === targetCategoryId)) {
+    const hasTransactions = db.prepare('SELECT 1 FROM transactions WHERE categoryId = ? LIMIT 1').get(id) !== undefined;
+    // the target must exist and must not be the category that gets deleted
+    const targetExists = targetCategoryId !== null && targetCategoryId !== id
+        && db.prepare('SELECT 1 FROM categories WHERE id = ?').get(targetCategoryId) !== undefined;
+
+    if (hasTransactions && !targetExists) {
         throw new Error('Kategorie mit Buchungen braucht eine Zielkategorie.');
     }
 
-    const now = new Date().toISOString();
-    const transactions = (data.transactions ?? []).map((t) =>
-        t.categoryId === id && targetCategoryId ? { ...t, categoryId: targetCategoryId, updatedAt: now } : t
-    );
-
-    writeStorage({ ...data, categories, transactions });
+    // BEGIN/COMMIT runs both statements as one unit: either both succeed or nothing changes
+    db.exec('BEGIN');
+    try {
+        if (hasTransactions) {
+            db.prepare('UPDATE transactions SET categoryId = ?, updatedAt = ? WHERE categoryId = ?')
+                .run(targetCategoryId, new Date().toISOString(), id);
+        }
+        db.prepare('DELETE FROM categories WHERE id = ?').run(id);
+        db.exec('COMMIT');
+    } catch (error) {
+        db.exec('ROLLBACK');
+        throw error;
+    }
 }

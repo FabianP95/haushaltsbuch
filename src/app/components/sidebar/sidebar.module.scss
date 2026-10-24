@@ -7,10 +7,54 @@
     background-color: $surface-tint;
     min-width: 160px;
     padding: $padding-lg $padding-md;
-    height: 100vh;
+    // dvh follows the visible height on iPad Safari while the address bar shows or hides
+    height: 100dvh;
     justify-content: start;
     align-items: stretch;
     margin: 0;
     gap: $space-lg;
     margin-right: $space-lg;
+}
+
+
+.aside {
+    // scrolls on its own if the date list is taller than a landscape tablet screen
+    overflow-y: auto;
+
+    // slimmer sidebar on tablets, the content stays the same
+    @include tablet-landscape {
+        min-width: 130px;
+        padding: $padding-md $padding-sm;
+        gap: $space-md;
+        margin-right: $space-md;
+    }
+
+    @include tablet-portrait {
+        min-width: 110px;
+    }
+}
+
+
+.collapseButton {
+    @include collapse-btn;
+    // sits at the inner edge, next to the main view
+    align-self: flex-end;
+}
+
+@include chevron-sideways;
+
+.collapsed {
+    // folded sidebar on tablets: only the button stays, the date lists are hidden
+    @include tablet-landscape {
+        min-width: 0;
+        padding: $padding-md $space-xs;
+
+        > :not(.collapseButton) {
+            display: none;
+        }
+
+        .collapseButton {
+            align-self: center;
+        }
+    }
 }

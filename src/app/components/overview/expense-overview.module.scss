@@ -43,3 +43,15 @@
     font-size: $text-size-m;
   }
 }
+
+
+.overviewContainer {
+  // allows the list to shrink next to the side column instead of overflowing
+  min-width: 0;
+
+  // less spacing on tablets to win horizontal room
+  @include tablet-landscape {
+    gap: $space-md;
+    margin-right: $space-md;
+  }
+}
