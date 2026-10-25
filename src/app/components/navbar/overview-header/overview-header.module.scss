@@ -125,3 +125,29 @@
         font-size: $text-size-l;
     }
 }
+
+.heading {
+    // title gets its own line on phones, the key figures go below
+    @include mobile {
+        flex-basis: 100%;
+        margin-right: 0;
+    }
+}
+
+.totalBadge {
+    // two key figure cards per row on phones
+    @include mobile {
+        flex: 1 1 calc(50% - #{$space-sm});
+        min-width: 0;
+        width: auto;
+    }
+}
+
+.totalAmount,
+.totalAmountIncome,
+.totalAmountExpense {
+    // smaller numbers so long amounts fit into the half-width cards on phones
+    @include mobile {
+        font-size: $text-size-m;
+    }
+}

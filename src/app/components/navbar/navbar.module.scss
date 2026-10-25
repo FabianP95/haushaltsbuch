@@ -69,3 +69,24 @@
         min-height: $touch-target;
     }
 }
+
+.nav {
+    // less space to the right rail on phones
+    @include mobile {
+        padding-right: $padding-sm;
+    }
+}
+
+.viewButtons {
+    // view switch spans the whole width on phones so both buttons are easy to hit
+    @include mobile {
+        width: 100%;
+    }
+}
+
+.diaBtn {
+    // both segments share the width equally on phones
+    @include mobile {
+        flex: 1;
+    }
+}

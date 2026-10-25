@@ -107,3 +107,18 @@
     padding: $padding-md;
   }
 }
+
+.chartsContainer {
+  // less space to the right rail on phones
+  @include mobile {
+    gap: $space-sm;
+    margin-right: $space-sm;
+  }
+}
+
+.chartCard {
+  // the chart gets almost the full card width on phones
+  @include mobile {
+    padding: $padding-sm;
+  }
+}

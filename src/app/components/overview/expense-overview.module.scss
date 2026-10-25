@@ -55,3 +55,11 @@
     margin-right: $space-md;
   }
 }
+
+.overviewContainer {
+  // less space to the right rail on phones
+  @include mobile {
+    gap: $space-sm;
+    margin-right: $space-sm;
+  }
+}

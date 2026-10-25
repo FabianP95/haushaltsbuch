@@ -191,3 +191,48 @@
         transform: rotate(-90deg);
     }
 }
+
+// Styles inside apply to phones only
+@mixin mobile {
+    @media (max-width: $bp-mobile) {
+        @content;
+    }
+}
+
+// Turns a side panel into a drawer that lies above the main view on tablets instead of taking its own space
+// $side: screen edge the drawer is pinned to (left or right)
+@mixin drawer($side) {
+    @include tablet-landscape {
+        position: fixed;
+        top: 0;
+        #{$side}: 0;
+        z-index: $z-drawer;
+        height: 100dvh;
+        // never wider than the screen minus the opposite rail, so it still fits on phones
+        max-width: calc(100vw - #{$drawer-rail});
+        margin: 0;
+        // tint laid over white, so the panel looks like before but the content below does not shine through
+        background: linear-gradient($surface-tint, $surface-tint), $surface-card;
+        box-shadow: $shadow-drawer;
+    }
+}
+
+// Folded drawer on tablets: only a slim rail with the toggle button stays visible
+@mixin drawer-collapsed {
+    @include tablet-landscape {
+        width: $drawer-rail;
+        min-width: 0;
+        padding: $padding-md (($drawer-rail - $touch-target) * 0.5);
+        // a folded rail lies flat, the shadow is only for the unfolded panel
+        box-shadow: none;
+        overflow: hidden;
+
+        > :not(.collapseButton) {
+            display: none;
+        }
+
+        .collapseButton {
+            align-self: center;
+        }
+    }
+}

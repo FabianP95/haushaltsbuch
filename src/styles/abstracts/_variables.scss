@@ -94,3 +94,13 @@ $bp-tablet-landscape: 1200px;
 $bp-tablet-portrait: 900px;
 
 $touch-target: 44px; // minimum height of tappable controls on touch screens (Apple guideline)
+
+// Phone breakpoint: everything narrower than a small tablet in portrait
+$bp-mobile: 600px;
+
+$drawer-rail: $touch-target + 8px; // width of a folded side panel on tablets, just enough for its toggle button
+$shadow-drawer: 0 0 24px rgba($palette-1, 0.18); // shadow that lifts an unfolded side panel above the main view
+
+// Stacking order: unfolded side panels lie above the dimmed backdrop, which lies above the main view
+$z-backdrop: 90;
+$z-drawer: 100;

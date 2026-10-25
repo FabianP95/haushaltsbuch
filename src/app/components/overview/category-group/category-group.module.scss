@@ -252,3 +252,12 @@
     min-width: 120px;
   }
 }
+
+.groupInfo {
+  // name and sum stack on phones instead of squeezing next to each other
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-xs;
+  }
+}

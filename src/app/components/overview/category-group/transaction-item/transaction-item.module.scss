@@ -135,3 +135,13 @@
     opacity: 0.85;
   }
 }
+
+.itemAmount,
+.itemAmountPositiv,
+.itemAmountNegativ {
+  // slightly smaller amounts leave more room for the description on phones
+  @include mobile {
+    margin-right: 0;
+    font-size: 0.9rem;
+  }
+}

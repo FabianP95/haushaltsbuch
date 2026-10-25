@@ -21,16 +21,14 @@
     // scrolls on its own if the date list is taller than a landscape tablet screen
     overflow-y: auto;
 
-    // slimmer sidebar on tablets, the content stays the same
+    // on tablets the sidebar lies above the main view as a drawer instead of narrowing it
+    @include drawer(left);
+
     @include tablet-landscape {
-        min-width: 130px;
+        width: 220px;
+        min-width: 0;
         padding: $padding-md $padding-sm;
         gap: $space-md;
-        margin-right: $space-md;
-    }
-
-    @include tablet-portrait {
-        min-width: 110px;
     }
 }
 
@@ -44,17 +42,6 @@
 @include chevron-sideways;
 
 .collapsed {
-    // folded sidebar on tablets: only the button stays, the date lists are hidden
-    @include tablet-landscape {
-        min-width: 0;
-        padding: $padding-md $space-xs;
-
-        > :not(.collapseButton) {
-            display: none;
-        }
-
-        .collapseButton {
-            align-self: center;
-        }
-    }
+    // folded sidebar on tablets: only the rail with the button stays, the date lists are hidden
+    @include drawer-collapsed;
 }

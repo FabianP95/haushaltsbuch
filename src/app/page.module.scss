@@ -43,15 +43,13 @@
 }
 
 .sideColumn {
-    // narrower side column on tablets so the overview keeps enough room
-    @include tablet-landscape {
-        width: 320px;
-        gap: $space-sm;
-        padding-bottom: $padding-md;
-    }
+    // on tablets the entry form and category manager lie above the main view as a drawer instead of sharing the space
+    @include drawer(right);
 
-    @include tablet-portrait {
-        width: 270px;
+    @include tablet-landscape {
+        width: 360px;
+        gap: $space-sm;
+        padding: $padding-md $padding-sm;
     }
 }
 
@@ -64,12 +62,32 @@
 @include chevron-sideways;
 
 .collapsed {
-    // folded side column on tablets: only the button stays, entry form and category manager are hidden
-    @include tablet-landscape {
-        width: $touch-target;
+    // folded side column on tablets: only the rail with the button stays, entry form and category manager are hidden
+    @include drawer-collapsed;
+}
 
-        > :not(.collapseButton) {
-            display: none;
-        }
+.container {
+    // the drawers are taken out of the layout on tablets, so their folded rails get reserved space here
+    @include tablet-landscape {
+        padding-left: calc(#{$drawer-rail} + #{$space-md});
+        padding-right: $drawer-rail;
+    }
+
+    // smaller gap next to the left rail on phones
+    @include mobile {
+        padding-left: calc(#{$drawer-rail} + #{$space-sm});
+    }
+}
+
+// dims the main view while a drawer is open, a tap on it closes the drawers; only exists on tablets
+.backdrop {
+    display: none;
+
+    @include tablet-landscape {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: $z-backdrop;
+        background-color: rgba($palette-1, 0.25);
     }
 }

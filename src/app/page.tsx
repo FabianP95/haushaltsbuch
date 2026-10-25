@@ -9,6 +9,17 @@ import { Category, FinanceSummary, FormPreset, MainView, NewCategory, NewTransac
 import { Data } from './interfaces/interfaces';
 import { filterTransactions, getAvailableYears } from '@/utils/date-filter';
 
+// same width as $bp-tablet-landscape in _variables.scss, below it the side panels become drawers
+const DRAWER_MEDIA_QUERY = '(max-width: 1200px)';
+
+/**
+ * Checks whether the side panels are currently shown as drawers (tablets and phones).
+ * @returns `true` below the tablet landscape breakpoint, `false` on desktop and on the server
+ */
+function isDrawerLayout(): boolean {
+  return typeof window !== 'undefined' && window.matchMedia(DRAWER_MEDIA_QUERY).matches;
+}
+
 import ExpenseOverview from "./components/overview/expense-overview";
 import AddEntry from './components/add-entry/add-entry';
 import Sidebar from "./components/sidebar/sidebar";
@@ -39,9 +50,26 @@ export default function Home() {
   // open/closed state of the entry form, kept here so it survives the form's remount
   const [isEntryOpen, setIsEntryOpen] = useState(true);
 
-  // collapsed state of the left sidebar and the right side column, only used on tablets to give the main view more room
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [isSideColumnCollapsed, setIsSideColumnCollapsed] = useState(false);
+  // collapsed state of the left sidebar and the right side column, only used on tablets where they lie above the main view
+  // start folded on tablets, otherwise the drawers would cover the overview right after loading
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(isDrawerLayout);
+  const [isSideColumnCollapsed, setIsSideColumnCollapsed] = useState(isDrawerLayout);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(DRAWER_MEDIA_QUERY);
+
+    // fold both drawers when the window shrinks to tablet size, so they do not suddenly cover the content
+    function handleLayoutChange(event: MediaQueryListEvent) {
+      if (event.matches) {
+        setIsSidebarCollapsed(true);
+        setIsSideColumnCollapsed(true);
+      }
+    }
+    mediaQuery.addEventListener('change', handleLayoutChange);
+
+    // remove the listener when the page unmounts
+    return () => mediaQuery.removeEventListener('change', handleLayoutChange);
+  }, []);
 
   useEffect(() => {
 
@@ -209,6 +237,15 @@ export default function Home() {
 
 
 
+  /**
+   * Folds both drawers, used by the backdrop on tablets.
+   */
+  function closeDrawers() {
+    setIsSidebarCollapsed(true);
+    setIsSideColumnCollapsed(true);
+  }
+
+
   function resetForm() {
     setFormPreset((prev) => ({ version: prev.version + 1, editingTransaction: null }));
   }
@@ -255,6 +292,10 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      {/* backdrop is only rendered while a drawer is open and hidden via CSS on desktop */}
+      {(!isSidebarCollapsed || !isSideColumnCollapsed) && (
+        <div className={styles.backdrop} onClick={closeDrawers} aria-hidden="true" />
+      )}
       <Sidebar
         years={availableYears}
         selectedPeriod={selectedPeriod}
