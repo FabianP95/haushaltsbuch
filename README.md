@@ -4,7 +4,7 @@
 
 Ein digitales Haushaltsbuch als Webanwendung. Einnahmen und Ausgaben werden in Kategorien erfasst, nach Zeitraum gefiltert, als Liste oder in Diagrammen ausgewertet und mit Kennzahlen wie Einnahmen, Ausgaben und Kontostand zusammengefasst. Das Projekt basiert auf Next.js mit React, TypeScript, Sass und Recharts.
 
-Alle Daten liegen in einer lokalen SQLite-Datenbank (`data/haushaltsbuch.db`) auf dem PC, der den Server ausführt. Weitere Geräte im Heimnetz, z. B. ein iPad, öffnen die App im Browser und arbeiten mit denselben Daten. Der Zugriff läuft über Next.js Server Actions in `src/app/data/data.ts`. SQLite ist über das in Node.js eingebaute Modul `node:sqlite` angebunden, ein zusätzliches Package ist nicht nötig. Beim ersten Start wird die Datenbank automatisch angelegt und mit den Kategorien aus `src/app/data/testdata.ts` befüllt.
+Alle Daten liegen in einer lokalen SQLite-Datenbank (`data/haushaltsbuch.db`) auf dem PC, der den Server ausführt. Weitere Geräte im Heimnetz, z. B. ein iPad, öffnen die App im Browser und arbeiten mit denselben Daten. Der Zugriff läuft über Next.js Server Actions in `src/app/data/data.ts`. SQLite ist über das in Node.js eingebaute Modul `node:sqlite` angebunden, ein zusätzliches Package ist nicht nötig. Beim ersten Start wird die Datenbank automatisch angelegt und mit den Standardkategorien aus `src/app/data/db.ts` befüllt.
 
 ## Projektstruktur
 

@@ -2,12 +2,31 @@ import { DatabaseSync } from 'node:sqlite';
 import { mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { Category, RecurrenceInterval, Transaction, TransactionType } from '@/app/interfaces/interfaces';
-import { testCategories } from '@/app/data/testdata';
 
 
 // the database file lives in <project>/data and is created on first start
 const DB_DIR = path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DB_DIR, 'haushaltsbuch.db');
+
+// categories inserted into a brand-new empty database; the ids must stay stable because existing transactions reference them
+const DEFAULT_CATEGORIES: Category[] = [
+    { id: '1', name: 'Wohnen', color: '#185FA5' },
+    { id: '2', name: 'Lebensmittel', color: '#3B6D11' },
+    { id: '3', name: 'Freizeit', color: '#854F0B' },
+    { id: '4', name: 'Mobilität', color: '#534AB7' },
+    { id: '5', name: 'Gesundheit', color: '#A32D2D' },
+    { id: '6', name: 'Versicherungen', color: '#5F5E5A' },
+    { id: '7', name: 'Sparen & Anlegen', color: '#993C1D' },
+    { id: '8', name: 'Bildung', color: '#993556' },
+    { id: '9', name: 'Shopping', color: '#3C3489' },
+    { id: '10', name: 'Drogerie', color: '#791F1F' },
+    { id: '11', name: 'Urlaub', color: '#712B13' },
+    { id: '12', name: 'Geschenke', color: '#72243E' },
+    { id: '13', name: 'Spenden', color: '#633806' },
+    { id: 'c14', name: 'Sonstiges', color: '#444441' },
+    { id: '15', name: 'Gehalt & Zinsen', color: '#04342C' },
+    { id: '16', name: 'Miete', color: '#085041' }
+];
 
 // a raw row as returned by SQLite (column name -> value)
 type Row = Record<string, unknown>;
@@ -50,7 +69,7 @@ function setupDatabase(db: DatabaseSync): void {
     if (count > 0) return;
 
     const insert = db.prepare('INSERT INTO categories (id, name, color, monthlyBudget) VALUES (?, ?, ?, ?)');
-    for (const category of testCategories) {
+    for (const category of DEFAULT_CATEGORIES) {
         insert.run(category.id, category.name, category.color, category.monthlyBudget ?? null);
     }
 }
