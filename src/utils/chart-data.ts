@@ -1,5 +1,5 @@
-import { Category, CategoryTimeline, CategoryTimelinePoint, CategoryTotal, MoneyFlowData, MoneyFlowNode, MonthlyTotal, SelectedPeriod, TimelineMode, Transaction, TransactionType } from '@/app/interfaces/interfaces';
-import { MONTHS_PER_YEAR, getDayOfMonth, getDaysInMonth, getShortMonthName, getYearAndMonth, isInPeriod } from './date-filter';
+import { Category, CategoryTotal, MoneyFlowData, MoneyFlowNode, MonthlyTotal, Transaction, TransactionType } from '@/app/interfaces/interfaces';
+import { MONTHS_PER_YEAR, getShortMonthName, getYearAndMonth } from './date-filter';
 import { UNCATEGORIZED } from './category';
 
 
@@ -150,94 +150,4 @@ export function getMoneyFlow(transactions: Transaction[], categories: Category[]
     }
 
     return { nodes, links };
-}
-
-/**
- * Calculates income minus expenses per category, highest balance first.
- * Transactions whose category no longer exists are collected in "Ohne Kategorie".
- * @param transactions - Transactions to sum
- * @param categories - All categories (for name and color)
- * @returns One entry per category with bookings; `ratio` is the share of the summed absolute balances
- */
-export function getCategoryBalances(transactions: Transaction[], categories: Category[]): CategoryTotal[] {
-    const categoryMap = new Map(categories.map((c) => [c.id, c]));
-    const balances = new Map<string, number>();
-
-    transactions.forEach((t) => {
-        const categoryId = categoryMap.has(t.categoryId) ? t.categoryId : UNCATEGORIZED.id;
-        const signedAmount = t.type === 'Einnahme' ? t.amount : -t.amount;
-        balances.set(categoryId, (balances.get(categoryId) ?? 0) + signedAmount);
-    });
-
-    const absoluteTotal = [...balances.values()].reduce((sum, balance) => sum + Math.abs(balance), 0);
-
-    return [...balances.entries()]
-        .map(([categoryId, balance]) => {
-            const category = categoryMap.get(categoryId) ?? UNCATEGORIZED;
-            return {
-                categoryId,
-                name: category.name,
-                color: category.color,
-                amount: roundCents(balance),
-                ratio: absoluteTotal === 0 ? 0 : Math.abs(balance) / absoluteTotal,
-            };
-        })
-        .toSorted((a, b) => b.amount - a.amount);
-}
-
-/**
- * Builds the running sum of every category over the selected period for the line chart.
- * In "balance" mode income counts positive and expenses negative, so a category shows its complete course.
- * A single month is split into its days, a whole year into its 12 months.
- * Transactions whose category no longer exists are collected in "Ohne Kategorie".
- * @param transactions - Transactions to sum (bookings outside the period are ignored)
- * @param categories - All categories (for name and color)
- * @param period - Selected year and month (`month: null` means the whole year)
- * @param mode - 'Ausgabe' or 'Einnahme' counts only that type, 'balance' calculates income minus expenses
- * @returns One point per day / month and one series per category with bookings
- */
-export function getCategoryTimeline(
-    transactions: Transaction[],
-    categories: Category[],
-    period: SelectedPeriod,
-    mode: TimelineMode
-): CategoryTimeline {
-    const isBalance = mode === 'balance';
-    const periodTransactions = transactions.filter(
-        (t) => (isBalance || t.type === mode) && isInPeriod(t.date, period)
-    );
-
-    const series = isBalance
-        ? getCategoryBalances(periodTransactions, categories)
-        : getCategoryTotals(periodTransactions, categories, mode);
-
-    const knownCategoryIds = new Set(categories.map((c) => c.id));
-    const { year, month: selectedMonth } = period;
-    const pointCount = selectedMonth === null ? MONTHS_PER_YEAR : getDaysInMonth(year, selectedMonth);
-
-    const amountsPerPoint = Array.from({ length: pointCount }, () => new Map<string, number>());
-
-    periodTransactions.forEach((t) => {
-        const index = selectedMonth === null ? getYearAndMonth(t.date).month - 1 : getDayOfMonth(t.date) - 1;
-        const categoryId = knownCategoryIds.has(t.categoryId) ? t.categoryId : UNCATEGORIZED.id;
-        const amounts = amountsPerPoint[index];
-        const signedAmount = isBalance && t.type === 'Ausgabe' ? -t.amount : t.amount;
-        amounts.set(categoryId, (amounts.get(categoryId) ?? 0) + signedAmount);
-    });
-
-    const runningSums = new Map<string, number>();
-
-    const points: CategoryTimelinePoint[] = amountsPerPoint.map((amounts, index) => {
-        const values: Record<string, number> = {};
-        series.forEach(({ categoryId }) => {
-            const sum = (runningSums.get(categoryId) ?? 0) + (amounts.get(categoryId) ?? 0);
-            runningSums.set(categoryId, sum);
-            values[categoryId] = roundCents(sum);
-        });
-
-        const label = selectedMonth === null ? getShortMonthName(index + 1) : String(index + 1);
-        return { label, values };
-    });
-
-    return { points, series };
 }

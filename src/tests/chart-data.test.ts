@@ -5,8 +5,6 @@ import {
   DEFICIT_NODE_NAME,
   SURPLUS_NODE_NAME,
   formatPercent,
-  getCategoryBalances,
-  getCategoryTimeline,
   getCategoryTotals,
   getMoneyFlow,
   getMonthlyTotals,
@@ -176,99 +174,5 @@ describe('getMoneyFlow', () => {
 
     const { incoming, outgoing } = getBudgetFlows(flow);
     expect(roundCents(incoming)).toBe(roundCents(outgoing));
-  });
-});
-
-
-describe('getCategoryTimeline', () => {
-  it('builds one point per day for a month, February 2028 has 29', () => {
-    const { points } = getCategoryTimeline([], categories, { year: 2028, month: 2 }, 'Ausgabe');
-    expect(points).toHaveLength(29);
-    expect(points[0].label).toBe('1');
-    expect(points[28].label).toBe('29');
-  });
-
-  it('builds 12 points for a whole year', () => {
-    const { points } = getCategoryTimeline([], categories, { year: 2026, month: null }, 'Ausgabe');
-    expect(points).toHaveLength(12);
-  });
-
-  it('sums the amounts cumulatively per day', () => {
-    const { points } = getCategoryTimeline([
-      makeTransaction({ categoryId: 'food', amount: 10, date: '2026-03-02' }),
-      makeTransaction({ categoryId: 'food', amount: 0.1, date: '2026-03-02' }),
-      makeTransaction({ categoryId: 'food', amount: 0.2, date: '2026-03-05' }),
-    ], categories, { year: 2026, month: 3 }, 'Ausgabe');
-
-    expect(points[0].values.food).toBe(0);
-    expect(points[1].values.food).toBe(10.1);
-    expect(points[4].values.food).toBe(10.3);
-    expect(points[30].values.food).toBe(10.3);
-  });
-
-  it('sums the amounts cumulatively per month for a whole year', () => {
-    const { points } = getCategoryTimeline([
-      makeTransaction({ categoryId: 'home', amount: 500, date: '2026-01-01' }),
-      makeTransaction({ categoryId: 'home', amount: 500, date: '2026-03-01' }),
-    ], categories, { year: 2026, month: null }, 'Ausgabe');
-
-    expect(points.map((p) => p.values.home)).toEqual([500, 500, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]);
-  });
-
-  it('ignores other types and bookings outside the period', () => {
-    const { series } = getCategoryTimeline([
-      makeTransaction({ categoryId: 'food', date: '2026-03-02' }),
-      makeTransaction({ categoryId: 'salary', type: 'Einnahme', date: '2026-03-02' }),
-      makeTransaction({ categoryId: 'home', date: '2026-04-02' }),
-    ], categories, { year: 2026, month: 3 }, 'Ausgabe');
-
-    expect(series.map((s) => s.categoryId)).toEqual(['food']);
-  });
-
-  it('collects unknown categories in "Ohne Kategorie"', () => {
-    const { points, series } = getCategoryTimeline([
-      makeTransaction({ categoryId: 'deleted', amount: 25, date: '2026-03-02' }),
-    ], categories, { year: 2026, month: 3 }, 'Ausgabe');
-
-    expect(series[0].categoryId).toBe(UNCATEGORIZED.id);
-    expect(points[1].values[UNCATEGORIZED.id]).toBe(25);
-  });
-});
-
-
-describe('getCategoryBalances', () => {
-  it('subtracts expenses from income per category, highest balance first', () => {
-    const balances = getCategoryBalances([
-      makeTransaction({ categoryId: 'home', type: 'Einnahme', amount: 100 }),
-      makeTransaction({ categoryId: 'home', amount: 40.3 }),
-      makeTransaction({ categoryId: 'food', amount: 20 }),
-    ], categories);
-
-    expect(balances.map((b) => [b.categoryId, b.amount])).toEqual([['home', 59.7], ['food', -20]]);
-  });
-
-  it('keeps categories whose income and expenses cancel out', () => {
-    const balances = getCategoryBalances([
-      makeTransaction({ categoryId: 'food', type: 'Einnahme', amount: 15 }),
-      makeTransaction({ categoryId: 'food', amount: 15 }),
-    ], categories);
-
-    expect(balances).toHaveLength(1);
-    expect(balances[0].amount).toBe(0);
-    expect(balances[0].ratio).toBe(0);
-  });
-});
-
-
-describe('getCategoryTimeline in balance mode', () => {
-  it('lets income raise and expenses lower the running sum', () => {
-    const { points, series } = getCategoryTimeline([
-      makeTransaction({ categoryId: 'food', amount: 30, date: '2026-03-02' }),
-      makeTransaction({ categoryId: 'food', type: 'Einnahme', amount: 50, date: '2026-03-04' }),
-    ], categories, { year: 2026, month: 3 }, 'balance');
-
-    expect(series.map((s) => s.categoryId)).toEqual(['food']);
-    expect(points[1].values.food).toBe(-30);
-    expect(points[3].values.food).toBe(20);
   });
 });

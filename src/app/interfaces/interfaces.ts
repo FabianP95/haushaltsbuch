@@ -216,7 +216,7 @@ export interface NavbarProps extends FinanceSummary {
 }
 
 
-export type ChartType = 'bar' | 'pie' | 'sankey' | 'line';
+export type ChartType = 'bar' | 'pie' | 'sankey';
 
 
 export interface ChartTypeOption {
@@ -304,33 +304,4 @@ export interface CategoryLegendProps {
 
 export interface MoneyFlowSankeyProps {
     data: MoneyFlowData;
-}
-
-
-export interface CategoryTimelinePoint {
-    label: string;
-    values: Record<string, number>;
-}
-
-
-export interface CategoryTimeline {
-    points: CategoryTimelinePoint[];
-    series: CategoryTotal[];
-}
-
-
-export type TimelineMode = TransactionType | 'balance';
-
-
-export interface CategoryLineChartProps {
-    transactions: Transaction[];
-    categories: Category[];
-    period: SelectedPeriod;
-}
-
-
-export interface CategoryLineLegendProps {
-    series: CategoryTotal[];
-    highlightedId: string | null;
-    onHighlight: (categoryId: string | null) => void;
 }

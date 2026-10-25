@@ -13,25 +13,6 @@ export function getYearAndMonth(date: string): { year: number; month: number } {
 }
 
 /**
- * Reads the day of the month directly from the ISO string "YYYY-MM-DD".
- * @param date - ISO date string, e.g. "2026-03-15"
- * @returns The day of the month, e.g. 15
- */
-export function getDayOfMonth(date: string): number {
-    return Number(date.split('-')[2]);
-}
-
-/**
- * Returns how many days a month has, leap years included.
- * @param year - Full year, e.g. 2026
- * @param month - 1-based month number (1-12)
- * @returns Number of days, e.g. 28, 29, 30 or 31
- */
-export function getDaysInMonth(year: number, month: number): number {
-    return new Date(year, month, 0).getDate();
-}
-
-/**
  * Collects every year that has bookings plus the current year, without duplicates, newest first.
  * @param transactions - All transactions to scan for years
  * @param currentYear - Year that is always included, even without bookings
